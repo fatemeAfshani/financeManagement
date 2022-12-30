@@ -1,8 +1,8 @@
 export type Product = {
     id?: number,
     name: string,
-    sellPrice: number,
-    buyPrice:number,
+    price:number,
     amount: number,
-    color?: string
 }
+
+export const enum ProductMethod {ADD}

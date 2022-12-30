@@ -2,17 +2,26 @@ import { Product } from '../../types'
 import {db} from '../db'
 
 
-const get = (): Promise<Product[]> => {
-    return db.table<Product>("products").select("*");
+const getAll = (): Promise<Product[]> => {
+    return db.table<Product>("product").select("*");
 
 }
+
+const getOne = (name: string): Promise<Product[]> => {
+    return db.table<Product>("product").select("*").where({name});
+
+}
+
 
 const add = (product : Product):  Promise<object> => {
-    return db.table<Product>('products').insert(product)
+    return db.table<Product>('product').insert(product)
 }
+
+
 
 
 export default {
-    get,
+    getAll,
+    getOne,
     add
 }
