@@ -1,14 +1,15 @@
-import {NextFunction, Request, Response, Router} from 'express'
+import { NextFunction, Request, Response, Router } from 'express'
 
-import { addProduct } from '../../controllers/products/addProduct'
+import addProduct from '../../controllers/products/addProduct'
 import { ProductMethod } from '../../types'
-import { productValitate } from './validate'
+import productValitate from './validate'
 
+const productRouter = Router()
 
-export const productRouter = Router()
-
-productRouter.get('/', (req: Request, res: Response , next: NextFunction) => {
-    
+productRouter.get('/', (req: Request, res: Response, next: NextFunction) => {
+  // todo
 })
 
 productRouter.post('/', productValitate(ProductMethod.ADD), addProduct)
+
+export default productRouter

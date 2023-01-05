@@ -1,20 +1,20 @@
-import type { Knex } from "knex";
+// eslint-disable-next-line import/no-import-module-exports
+import type { Knex } from 'knex'
 
 const knexConfig: { [key: string]: Knex.Config } = {
   development: {
-    client: "postgresql",
+    client: 'postgresql',
     connection: {
-      database: "finance",
-      host: "127.0.0.1",
+      database: 'finance',
+      host: '127.0.0.1',
       port: 5432,
-      user: "fateme",
-      password: "aztprsst",
-  },
+      user: 'fateme',
+      password: 'aztprsst',
+    },
     migrations: {
-      tableName: "knex_migrations",
-      directory: "./migrations"
-
-    }
+      tableName: 'knex_migrations',
+      directory: './migrations',
+    },
   },
 
   // production: {
@@ -32,7 +32,6 @@ const knexConfig: { [key: string]: Knex.Config } = {
   //     tableName: "knex_migrations"
   //   }
   // }
+}
 
-};
-
-module.exports = knexConfig;
+module.exports = knexConfig

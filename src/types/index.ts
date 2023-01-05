@@ -1,8 +1,11 @@
 export type Product = {
-    id?: number,
-    name: string,
-    price:number,
-    amount: number,
+  id?: number
+  name: string
+  price: number
+  amount: number
 }
 
-export const enum ProductMethod {ADD}
+// eslint-disable-next-line no-shadow
+export const enum ProductMethod {
+  ADD = 1,
+}

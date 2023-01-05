@@ -1,20 +1,28 @@
-import { body } from 'express-validator';
+import { body } from 'express-validator'
 
-import { ProductMethod } from '../../types';
+import { ProductMethod } from '../../types'
 import productDB from '../../database/products'
 
-export const productValitate = (method : ProductMethod) => {
+const productValitate = (method: ProductMethod) => {
   switch (method) {
     case ProductMethod.ADD: {
-     return [ 
-        body('name', 'invalid name').notEmpty()
-        .custom( async productName => {
+      return [
+        body('name', 'invalid name')
+          .notEmpty()
+          .custom(async (productName) => {
             const product = await productDB.getOne(productName)
-            if(product?.[0]) return Promise.reject('product with this name already exit');
-}),
-        body('price', "invalid price").isInt(),
-        body('amount', "invalid amount").isInt()
-       ]   
+            if (product?.[0]) {
+              return Promise.reject('product with this name already exit')
+            }
+          }),
+        body('price', 'invalid price').isInt(),
+        body('amount', 'invalid amount').isInt(),
+      ]
+    }
+    default: {
+      return []
     }
   }
 }
+
+export default productValitate
