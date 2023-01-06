@@ -1,0 +1,9 @@
+{
+  "name": "Finance management",
+  "version": "0.1.0",
+  "description": "Finance management for retails",
+  "title": "Doc",
+  "template": {
+    "withCompare": false
+  }
+}
