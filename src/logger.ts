@@ -6,7 +6,7 @@ const logger = createLogger({
   format: format.combine(
     format.colorize(),
     format.timestamp({
-      format: moment().format('jYYYY/jMM/jDD HH:mm:ss'), // 2022-01-25 03:23:10.350 PM
+      format: moment().format('jYYYY/jMM/jDD HH:mm:ss'),
     }),
     // format.json()
     format.printf(

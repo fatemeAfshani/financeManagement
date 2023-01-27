@@ -12,7 +12,7 @@ const productValitate = (method: ProductMethod) => {
           .custom(async (productName) => {
             const product = await productDB.getOne(productName)
             if (product?.[0]) {
-              return Promise.reject('product with this name already exit')
+              return Promise.reject('product with this name already exist')
             }
           }),
         body('price', 'invalid price').isInt(),

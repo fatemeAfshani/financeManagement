@@ -1,18 +1,22 @@
 import { NextFunction, Request, Response } from 'express'
 import { validationResult } from 'express-validator'
 import productDB from '../../database/products'
+import logger from '../../logger'
+import { translateErrorMessage } from '../../utils'
 
 const addProduct = async (req: Request, res: Response, _: NextFunction) => {
   const errors = validationResult(req)
   if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() })
+    return res
+      .status(400)
+      .json({ error: translateErrorMessage(errors.array()) })
   }
   try {
     await productDB.add(req.body)
-    res.send('successful')
+    res.status(200)
   } catch (e) {
-    console.log('#### error', e)
-    res.send('error')
+    logger.error(`error happend in add Product: ${e}`)
+    res.status(500).send({ error: ['خطایی رخ داده است'] })
   }
 }
 
