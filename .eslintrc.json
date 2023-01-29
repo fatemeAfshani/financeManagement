@@ -35,7 +35,8 @@
     "consistent-return": "warn",
     "object-curly-newline": "off",
     "implicit-arrow-linebreak": "off",
-    "comma-dangle": "off"
+    "comma-dangle": "off",
+    "node/no-unpublished-import": "off"
   },
   "settings": {
     "import/resolver": {

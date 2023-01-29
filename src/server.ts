@@ -1,6 +1,9 @@
-import config from 'config'
+import * as dotenv from 'dotenv'
+import path from 'path'
 import app from './app'
 
-app.listen(config.get('port'), () => {
-  console.log(`app is up and running on port ${config.get('port')}`)
+dotenv.config({ path: path.resolve(__dirname, '../development.env') })
+
+app.listen(process.env.PORT, () => {
+  console.log(`app is up and running on port ${process.env.PORT}`)
 })

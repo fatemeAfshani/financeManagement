@@ -1,5 +1,5 @@
 dist
 node_modules
-config/development.json
+development.env
 personalReadMe.md
 coverage

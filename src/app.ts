@@ -1,3 +1,4 @@
+import './config'
 import express, { Request } from 'express'
 import morgan from 'morgan'
 
