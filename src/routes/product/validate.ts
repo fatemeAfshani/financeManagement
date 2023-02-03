@@ -1,4 +1,4 @@
-import { body } from 'express-validator'
+import { body, query } from 'express-validator'
 
 import { ProductMethod } from '../../types'
 import productDB from '../../database/products'
@@ -18,6 +18,12 @@ const productValitate = (method: ProductMethod) => {
           }),
         body('price', 'invalid price').isInt(),
         body('amount', 'invalid amount').isInt(),
+      ]
+    }
+    case ProductMethod.GETALL: {
+      return [
+        query('limit', 'invalid limit').optional().isInt(),
+        query('offset', 'invalid offset').optional().isInt(),
       ]
     }
     default: {

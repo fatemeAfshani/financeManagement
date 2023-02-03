@@ -7,5 +7,6 @@ export type Product = {
 
 // eslint-disable-next-line no-shadow
 export const enum ProductMethod {
-  ADD = 1,
+  ADD,
+  GETALL,
 }
