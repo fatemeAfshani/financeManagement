@@ -9,6 +9,7 @@ const productValitate = (method: ProductMethod) => {
       return [
         body('name', 'invalid name')
           .notEmpty()
+          .isString()
           .custom(async (productName) => {
             const product = await productDB.getOne(productName)
             if (product?.[0]) {
