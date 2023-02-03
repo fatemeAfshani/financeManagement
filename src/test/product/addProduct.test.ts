@@ -1,30 +1,36 @@
 import { afterAll, beforeAll, describe, expect, test } from '@jest/globals'
 
-import postRequest from './util'
-import db from '../database/db'
-import { Product } from '../types'
+import { postRequest } from '../util'
+import db from '../../database/db'
+import { Product } from '../../types'
+
+const addProductSample = { name: 'addProduct', amount: 1, price: 1 }
 
 beforeAll(async () => {
-  await db.table<Product>('product').where({ name: 'test' }).del()
+  await db
+    .table<Product>('product')
+    .where({ name: addProductSample.name })
+    .del()
 })
 
 afterAll(async () => {
-  await db.table<Product>('product').where({ name: 'test' }).del()
+  await db
+    .table<Product>('product')
+    .where({ name: addProductSample.name })
+    .del()
 })
 
 describe('add new product POST /products', () => {
   describe('successful test cases', () => {
     test('should add new product', async () => {
-      const requestBody = { name: 'test', amount: 1, price: 1 }
-      const response = await postRequest('/products', requestBody)
+      const response = await postRequest('/products', addProductSample)
 
       expect(response.statusCode).toBe(200)
     })
   })
   describe('failure test cases', () => {
     test('should error if product with this name already exist', async () => {
-      const requestBody = { name: 'test', amount: 1, price: 1 }
-      const response = await postRequest('/products', requestBody)
+      const response = await postRequest('/products', addProductSample)
       expect(response.statusCode).toBe(400)
       expect(response.text).toContain('نام محصول تکراری است')
     })

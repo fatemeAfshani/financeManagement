@@ -1,15 +1,18 @@
-// eslint-disable-next-line import/no-import-module-exports
+/* eslint-disable import/no-import-module-exports */
+import '../config'
 import type { Knex } from 'knex'
+
+const { DB_CLIENT, DB_HOST, DB_USER, DB_PASSWORD, DB_NAME } = process.env
 
 const knexConfig: { [key: string]: Knex.Config } = {
   development: {
-    client: 'postgresql',
+    client: DB_CLIENT,
     connection: {
-      database: 'finance',
-      host: '127.0.0.1',
+      host: DB_HOST,
       port: 5432,
-      user: 'fateme',
-      password: 'aztprsst',
+      user: DB_USER,
+      password: DB_PASSWORD,
+      database: DB_NAME,
     },
     migrations: {
       tableName: 'knex_migrations',
@@ -17,21 +20,21 @@ const knexConfig: { [key: string]: Knex.Config } = {
     },
   },
 
-  // production: {
-  //   client: "postgresql",
-  //   connection: {
-  //     database: "my_db",
-  //     user: "username",
-  //     password: "password"
-  //   },
-  //   pool: {
-  //     min: 2,
-  //     max: 10
-  //   },
-  //   migrations: {
-  //     tableName: "knex_migrations"
-  //   }
-  // }
+  test: {
+    client: DB_CLIENT,
+    connection: {
+      database: 'test_finance',
+      host: DB_HOST,
+      port: 5432,
+      user: DB_USER,
+      password: DB_PASSWORD,
+    },
+
+    migrations: {
+      tableName: 'knex_migrations',
+      directory: './migrations',
+    },
+  },
 }
 
 module.exports = knexConfig
