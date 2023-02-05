@@ -13,11 +13,6 @@
     "test": "NODE_ENV=test && jest",
     "test2": "NODE_ENV=test && jest --coverage"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run test"
-    }
-  },
   "author": "fateme afshani",
   "license": "ISC",
   "devDependencies": {
