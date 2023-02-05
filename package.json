@@ -11,7 +11,12 @@
     "lint": "eslint --fix --ext .js,.ts ./src",
     "doc": " apidoc -i ./src/ -o doc/",
     "test": "NODE_ENV=test && jest",
-    "test2": "jest --coverage"
+    "test2": "NODE_ENV=test && jest --coverage"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run test"
+    }
   },
   "author": "fateme afshani",
   "license": "ISC",
@@ -35,6 +40,8 @@
     "eslint-plugin-jest": "^27.2.1",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-security": "^1.7.1",
+    "husky": "^8.0.3",
     "jest": "^29.3.1",
     "prettier": "^2.8.1",
     "supertest": "^6.3.3",
@@ -47,7 +54,9 @@
     "@jest/globals": "^29.4.1",
     "dotenv": "^16.0.3",
     "express": "^4.18.1",
+    "express-rate-limit": "^6.7.0",
     "express-validator": "^6.14.2",
+    "helmet": "^6.0.1",
     "jalali-moment": "^3.3.11",
     "knex": "^2.3.0",
     "morgan": "^1.10.0",

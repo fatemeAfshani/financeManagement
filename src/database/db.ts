@@ -2,7 +2,6 @@ import '../config'
 import knex, { Knex } from 'knex'
 
 const { DB_CLIENT, DB_HOST, DB_USER, DB_PASSWORD, DB_NAME } = process.env
-console.log(process.env.NODE_ENV)
 
 const db = knex({
   client: DB_CLIENT,

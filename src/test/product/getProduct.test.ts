@@ -17,7 +17,6 @@ describe('get products get /products', () => {
     describe('empty table', () => {
       test('should return empty array when there is no product', async () => {
         const response = await getRequest('/products', {})
-        console.log('### response', response.body)
         expect(response.status).toBe(200)
         expect(response.body).toHaveLength(0)
       })

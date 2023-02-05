@@ -1,6 +1,8 @@
 import './config'
 import express, { Request } from 'express'
 import morgan from 'morgan'
+import rateLimit from 'express-rate-limit'
+import helmet from 'helmet'
 
 import productRouter from './routes/product'
 
@@ -14,6 +16,16 @@ app.use(
     '[:date] ":method :url HTTP/:http-version" :body :status  - :response-time ms -  :remote-addr - :res[content-length] '
   )
 )
+
+const limiter = rateLimit({
+  windowMs: 30 * 60 * 1000, // 30 minutes
+  max: 100, // Limit each IP to 100 requests
+  standardHeaders: true,
+  legacyHeaders: false,
+})
+
+if (process.env.NODE_ENV !== 'test') app.use(limiter)
+app.use(helmet())
 
 app.use('/products', productRouter)
 

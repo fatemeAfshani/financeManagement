@@ -2,6 +2,7 @@
   "parser": "@typescript-eslint/parser",
   "extends": [
     "plugin:@typescript-eslint/recommended",
+    "plugin:security/recommended",
     "prettier",
     "eslint-config-airbnb-base",
     "plugin:node/recommended"

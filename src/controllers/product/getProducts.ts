@@ -8,7 +8,7 @@ const getProducts = async (req: Request, res: Response) => {
     const products = await productDB.getAll(+limit, +offset * +limit)
     res.status(200).send(products)
   } catch (e) {
-    logger.error(`error happend in add Product: ${e}`)
+    logger.error(`error happend in get Products: ${e}`)
     res.status(500).send({ error: ['خطایی رخ داده است'] })
   }
 }
