@@ -16,12 +16,17 @@ export const getRequest = async (
   let queryString = ''
   for (const key in query) {
     if (Object.prototype.hasOwnProperty.call(query, key)) {
-      console.log('key', key, query[key as keyof object])
       queryString = `${queryString}${key}=${query[key as keyof object]}&`
     }
   }
   queryString = queryString.substring(0, queryString.length - 1)
-  console.log('### query string', queryString)
   const response = await request(app).get(`${route}?${queryString}`)
+  return response
+}
+
+export const deleteRequest = async (
+  route: string
+): Promise<request.Response> => {
+  const response = await request(app).delete(route)
   return response
 }

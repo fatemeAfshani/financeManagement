@@ -2,7 +2,7 @@ import { Request, Response } from 'express'
 import productDB from '../../database/products'
 import logger from '../../logger'
 
-const getProducts = async (req: Request, res: Response) => {
+export const getProducts = async (req: Request, res: Response) => {
   try {
     const { limit = '10', offset = '0' } = req.query
     const products = await productDB.getAll(+limit, +offset * +limit)
@@ -13,4 +13,17 @@ const getProducts = async (req: Request, res: Response) => {
   }
 }
 
-export default getProducts
+export const getProduct = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params
+    const product = await productDB.getOne({ id: +id })
+    if (product?.[0]) {
+      res.status(200).send(product?.[0])
+    } else {
+      res.status(404).send({ error: ['محصولی یافت نشد'] })
+    }
+  } catch (e) {
+    logger.error(`error happend in get one Product: ${e}`)
+    res.status(500).send({ error: ['خطایی رخ داده است'] })
+  }
+}

@@ -1,16 +1,8 @@
-import { NextFunction, Request, Response } from 'express'
-import { validationResult } from 'express-validator'
+import { Request, Response } from 'express'
 import productDB from '../../database/products'
 import logger from '../../logger'
-import { translateErrorMessage } from '../../utils'
 
-const addProduct = async (req: Request, res: Response, _: NextFunction) => {
-  const errors = validationResult(req)
-  if (!errors.isEmpty()) {
-    return res
-      .status(400)
-      .json({ error: translateErrorMessage(errors.array()) })
-  }
+const addProduct = async (req: Request, res: Response) => {
   try {
     await productDB.add(req.body)
     res.sendStatus(200)
