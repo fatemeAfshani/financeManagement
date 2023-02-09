@@ -6,6 +6,9 @@ const translateMessage: object = {
   'invalid offset': 'offset معتبر نیست',
   'invalid product id': 'شناسه محصول معتبر نیست',
   'product with this name already exist': 'نام محصول تکراری است',
+  'error happened': 'خطایی رخ داده است',
+  'product is already deleted': 'محصول قبلا حذف شده است',
+  'product not found': 'محصولی یافت نشد',
 }
 
 export default translateMessage

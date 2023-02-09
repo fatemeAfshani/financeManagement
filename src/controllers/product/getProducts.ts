@@ -1,6 +1,7 @@
 import { Request, Response } from 'express'
 import productDB from '../../database/products'
 import logger from '../../logger'
+import { translateErrorMessage } from '../../utils'
 
 export const getProducts = async (req: Request, res: Response) => {
   try {
@@ -9,7 +10,7 @@ export const getProducts = async (req: Request, res: Response) => {
     res.status(200).send(products)
   } catch (e) {
     logger.error(`error happend in get Products: ${e}`)
-    res.status(500).send({ error: ['خطایی رخ داده است'] })
+    res.status(500).send({ error: translateErrorMessage('error happened') })
   }
 }
 
@@ -20,10 +21,12 @@ export const getProduct = async (req: Request, res: Response) => {
     if (product?.[0]) {
       res.status(200).send(product?.[0])
     } else {
-      res.status(404).send({ error: ['محصولی یافت نشد'] })
+      res
+        .status(404)
+        .send({ error: translateErrorMessage('product not found') })
     }
   } catch (e) {
     logger.error(`error happend in get one Product: ${e}`)
-    res.status(500).send({ error: ['خطایی رخ داده است'] })
+    res.status(500).send({ error: translateErrorMessage('error happened') })
   }
 }

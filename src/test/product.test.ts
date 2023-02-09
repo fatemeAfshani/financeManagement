@@ -1,10 +1,18 @@
-import { afterAll, beforeAll, describe, expect, test } from '@jest/globals'
+import {
+  afterAll,
+  beforeAll,
+  beforeEach,
+  describe,
+  expect,
+  test,
+} from '@jest/globals'
 
 import { deleteRequest, getRequest, postRequest } from './util'
 import db from '../database/db'
 import { Product } from '../types'
 
 const addProductSample = { name: 'addProduct', amount: 1, price: 1 }
+const updateProductSample = { name: 'updateProduct', amount: 1, price: 1 }
 const getOneProductSample = { name: 'getProduct', amount: 1, price: 1 }
 const deleteProductSample = { name: 'deleteProduct', amount: 1, price: 1 }
 
@@ -204,6 +212,105 @@ describe('delete product delete /products/:id', () => {
 
       expect(response.statusCode).toBe(400)
       expect(response.text).toContain('شناسه محصول معتبر نیست')
+    })
+  })
+})
+
+describe('update product POST /products/:id', () => {
+  beforeEach(async () => {
+    await db
+      .table<Product>('product')
+      .where({ name: updateProductSample.name })
+      .del()
+  })
+
+  describe('successful test cases', () => {
+    test('should update an existing product', async () => {
+      const product = await db
+        .table<Product>('product')
+        .insert(updateProductSample, ['id'])
+      const response = await postRequest(`/products/${product?.[0].id}`, {
+        name: 'new updated name',
+        amount: 2,
+        price: 2,
+      })
+      expect(response.statusCode).toBe(200)
+    })
+    test('should should update if we send two variable1', async () => {
+      const product = await db
+        .table<Product>('product')
+        .insert(updateProductSample, ['id'])
+
+      const response = await postRequest(`/products/${product?.[0]?.id}`, {
+        name: 'some thing new',
+        price: 3,
+      })
+      expect(response.statusCode).toBe(200)
+    })
+    test('should should update if we send two variable2', async () => {
+      const product = await db
+        .table<Product>('product')
+        .insert(updateProductSample, ['id'])
+
+      const response = await postRequest(`/products/${product?.[0]?.id}`, {
+        name: 'some thing new2',
+        amount: 3,
+      })
+      expect(response.statusCode).toBe(200)
+    })
+
+    test('should should update if we send two variable3', async () => {
+      const product = await db
+        .table<Product>('product')
+        .insert(updateProductSample, ['id'])
+
+      const response = await postRequest(`/products/${product?.[0]?.id}`, {
+        price: 4,
+        amount: 4,
+      })
+      expect(response.statusCode).toBe(200)
+    })
+  })
+  describe('failure test cases', () => {
+    test('should error if product with new name already exist', async () => {
+      const product = await db
+        .table<Product>('product')
+        .insert(updateProductSample, ['id'])
+      console.log('### product id', product[0].id)
+      const response = await postRequest(
+        `/products/${product?.[0].id}`,
+        updateProductSample
+      )
+      expect(response.statusCode).toBe(400)
+      expect(response.text).toContain('نام محصول تکراری است')
+    })
+
+    test('should error if body is not sent or is invalid', async () => {
+      const sampleData = [
+        { body: { name: 1, amount: 1, price: 1 }, message: 'نام معتبر نیست' },
+        {
+          body: { name: 'test', amount: 1, price: 'random' },
+          message: 'مبلغ معتبر نیست',
+        },
+        {
+          body: { name: 'test', price: 1, amount: 'random' },
+          message: 'تعداد معتبر نیست',
+        },
+      ]
+
+      Promise.all(
+        sampleData.map(async (data) => {
+          const response = await postRequest('/products/1', data.body)
+          expect(response.statusCode).toBe(400)
+          expect(response.text).toContain(data.message)
+        })
+      )
+    })
+
+    test('should error if product does not exist', async () => {
+      const response = await postRequest('/products/1', updateProductSample)
+      expect(response.statusCode).toBe(404)
+      expect(response.text).toContain('محصولی یافت نشد')
     })
   })
 })

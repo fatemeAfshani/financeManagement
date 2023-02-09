@@ -34,6 +34,25 @@ const productValitate = (method: ProductMethod) => {
     case ProductMethod.Delete: {
       return [param('id', 'invalid product id').isInt()]
     }
+    case ProductMethod.Update: {
+      return [
+        param('id', 'invalid product id').isInt(),
+        body('name', 'invalid name')
+          .notEmpty()
+          .isString()
+          .optional()
+          .custom(async (productName) => {
+            const product = await productDB.getOne({ name: productName })
+            console.log('### product', product)
+            if (product?.[0]) {
+              console.log('### here')
+              return Promise.reject('product with this name already exist')
+            }
+          }),
+        body('price', 'invalid price').optional().isInt(),
+        body('amount', 'invalid amount').optional().isInt(),
+      ]
+    }
     default: {
       return []
     }

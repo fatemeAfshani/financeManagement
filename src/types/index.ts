@@ -11,4 +11,5 @@ export const enum ProductMethod {
   GetAll = 'GETALL',
   GetOne = 'GETONE',
   Delete = 'DELETE',
+  Update = 'UPDATE',
 }

@@ -2,12 +2,18 @@ import { NextFunction, Request, Response } from 'express'
 import { ValidationError, validationResult } from 'express-validator'
 import translateMessage from './translateMessage'
 
-export const translateErrorMessage = (errors: ValidationError[]): string[] => {
+const translateValidationErrorMessage = (
+  errors: ValidationError[]
+): string[] => {
   const errorMessages = errors.map(
     (err) => translateMessage[err.msg as keyof object] || err.msg
   )
   return errorMessages
 }
+
+export const translateErrorMessage = (error: string): string[] => [
+  translateMessage[error as keyof object] || error,
+]
 
 export const errorHandler = (
   req: Request,
@@ -15,10 +21,11 @@ export const errorHandler = (
   next: NextFunction
 ) => {
   const errors = validationResult(req)
+  console.log('### errors', errors)
   if (!errors.isEmpty()) {
     return res
       .status(400)
-      .json({ error: translateErrorMessage(errors.array()) })
+      .json({ error: translateValidationErrorMessage(errors.array()) })
   }
   next()
 }
