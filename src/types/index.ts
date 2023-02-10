@@ -5,8 +5,17 @@ export type Product = {
   amount: number
 }
 
+export type Invoice = {
+  id?: number
+  productId: number
+  amount: number
+  pricePerOne: number
+  date: string
+  remaining: number
+}
+
 // eslint-disable-next-line no-shadow
-export const enum ProductMethod {
+export const enum Methods {
   Add = 'ADD',
   GetAll = 'GETALL',
   GetOne = 'GETONE',

@@ -21,7 +21,6 @@ export const errorHandler = (
   next: NextFunction
 ) => {
   const errors = validationResult(req)
-  console.log('### errors', errors)
   if (!errors.isEmpty()) {
     return res
       .status(400)

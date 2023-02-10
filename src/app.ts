@@ -5,6 +5,7 @@ import rateLimit from 'express-rate-limit'
 import helmet from 'helmet'
 
 import productRouter from './routes/product'
+import invoiceRouter from './routes/invoice'
 
 const app = express()
 
@@ -28,5 +29,6 @@ if (process.env.NODE_ENV !== 'test') app.use(limiter)
 app.use(helmet())
 
 app.use('/products', productRouter)
+app.use('/invoice', invoiceRouter)
 
 export default app

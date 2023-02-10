@@ -1,11 +1,11 @@
 import { body, param, query } from 'express-validator'
 
-import { ProductMethod } from '../../types'
+import { Methods } from '../../types'
 import productDB from '../../database/products'
 
-const productValitate = (method: ProductMethod) => {
+const productValitate = (method: Methods) => {
   switch (method) {
-    case ProductMethod.Add: {
+    case Methods.Add: {
       return [
         body('name', 'invalid name')
           .notEmpty()
@@ -20,21 +20,21 @@ const productValitate = (method: ProductMethod) => {
         body('amount', 'invalid amount').isInt(),
       ]
     }
-    case ProductMethod.GetAll: {
+    case Methods.GetAll: {
       return [
         query('limit', 'invalid limit').optional().isInt(),
         query('offset', 'invalid offset').optional().isInt(),
       ]
     }
 
-    case ProductMethod.GetOne: {
+    case Methods.GetOne: {
       return [param('id', 'invalid product id').isInt()]
     }
 
-    case ProductMethod.Delete: {
+    case Methods.Delete: {
       return [param('id', 'invalid product id').isInt()]
     }
-    case ProductMethod.Update: {
+    case Methods.Update: {
       return [
         param('id', 'invalid product id').isInt(),
         body('name', 'invalid name')
@@ -43,9 +43,7 @@ const productValitate = (method: ProductMethod) => {
           .optional()
           .custom(async (productName) => {
             const product = await productDB.getOne({ name: productName })
-            console.log('### product', product)
             if (product?.[0]) {
-              console.log('### here')
               return Promise.reject('product with this name already exist')
             }
           }),

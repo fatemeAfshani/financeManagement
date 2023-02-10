@@ -9,6 +9,8 @@ const translateMessage: object = {
   'error happened': 'خطایی رخ داده است',
   'product is already deleted': 'محصول قبلا حذف شده است',
   'product not found': 'محصولی یافت نشد',
+  'invoice not found': 'فاکتور یافت نشد',
+  'no invoice found for this product id': 'فاکتوری برای این محصول یافت نشد',
 }
 
 export default translateMessage

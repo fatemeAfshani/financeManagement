@@ -73,9 +73,9 @@ describe('get products get /products', () => {
     await db.table<Product>('product').del()
   })
 
-  afterAll(async () => {
-    await db.table<Product>('product').del()
-  })
+  // afterAll(async () => {
+  //   await db.table<Product>('product').del()
+  // })
 
   describe('successful test cases', () => {
     describe('empty table', () => {
@@ -276,7 +276,6 @@ describe('update product POST /products/:id', () => {
       const product = await db
         .table<Product>('product')
         .insert(updateProductSample, ['id'])
-      console.log('### product id', product[0].id)
       const response = await postRequest(
         `/products/${product?.[0].id}`,
         updateProductSample
