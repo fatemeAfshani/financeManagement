@@ -20,9 +20,23 @@ const getOne = (data: InvoiceInput): Promise<Invoice[]> => {
   return query
 }
 
-const add = (invoice: Invoice): Promise<object> =>
-  db.table<Invoice>('product_invoice').insert(invoice)
-
+const add = (invoice: Invoice): Promise<object | undefined> =>
+  db.transaction(
+    (trx) =>
+      trx('product')
+        .forUpdate()
+        .select('*')
+        .where({ id: invoice.productId })
+        .then((result) => {
+          if (result?.[0]) {
+            return trx('product')
+              .update({ amount: result[0].amount + invoice.amount })
+              .where({ id: invoice.productId })
+              .then(() => trx.insert(invoice).into('product_invoice'))
+          }
+        })
+    // eslint-disable-next-line function-paren-newline
+  )
 // const update = (
 //   product: Partial<Omit<Product, 'id'>>,
 //   id: number
