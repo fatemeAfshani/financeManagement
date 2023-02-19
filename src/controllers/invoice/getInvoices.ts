@@ -35,7 +35,6 @@ export const getInvoicesOfOneProduct = async (req: Request, res: Response) => {
   try {
     const { id } = req.params
     const invoices = await invoiceDB.getOne({ productId: +id })
-    console.log('### invoices', invoices)
     if (invoices?.[0]) {
       res.status(200).send(invoices)
     } else {

@@ -193,7 +193,6 @@ describe('get invoices of one product get /invoices/product/:id', () => {
         .insert({ ...addInvoiceSample, productId })
 
       const response = await getRequest(`/invoices/product/${productId}`, {})
-      console.log('response.body', response.body)
       expect(response.status).toBe(200)
     })
   })
