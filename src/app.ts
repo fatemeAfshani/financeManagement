@@ -1,11 +1,13 @@
 import './config'
-import express, { Request } from 'express'
+import express, { Errback, NextFunction, Request, Response } from 'express'
 import morgan from 'morgan'
 import rateLimit from 'express-rate-limit'
 import helmet from 'helmet'
 
 import productRouter from './routes/product'
 import invoiceRouter from './routes/invoice'
+import logger from './logger'
+import { translateErrorMessage } from './utils'
 
 const app = express()
 
@@ -29,6 +31,11 @@ if (process.env.NODE_ENV !== 'test') app.use(limiter)
 app.use(helmet())
 
 app.use('/products', productRouter)
-app.use('/invoice', invoiceRouter)
+app.use('/invoices', invoiceRouter)
+
+app.use((err: Errback, req: Request, res: Response, _: NextFunction) => {
+  logger.error(`error handler: ${err}`)
+  res.status(500).send({ error: translateErrorMessage('error happened') })
+})
 
 export default app

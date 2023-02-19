@@ -35,18 +35,4 @@ invoiceRouter.get(
 
 invoiceRouter.post('/', invoiceValitate(Methods.Add), errorHandler, addInvoice)
 
-// productRouter.delete(
-//   '/:id',
-//   productValitate(Methods.Delete),
-//   errorHandler,
-//   deleteProduct
-// )
-
-// productRouter.post(
-//   '/:id',
-//   productValitate(Methods.Update),
-//   errorHandler,
-//   updateProduct
-// )
-
 export default invoiceRouter

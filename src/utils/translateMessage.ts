@@ -11,6 +11,7 @@ const translateMessage: object = {
   'product not found': 'محصولی یافت نشد',
   'invoice not found': 'فاکتور یافت نشد',
   'no invoice found for this product id': 'فاکتوری برای این محصول یافت نشد',
+  'invalid id': 'شناسه ارسالی معتبر نیست ',
 }
 
 export default translateMessage

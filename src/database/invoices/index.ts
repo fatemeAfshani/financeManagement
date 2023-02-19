@@ -37,25 +37,9 @@ const add = (invoice: Invoice): Promise<object | undefined> =>
         })
     // eslint-disable-next-line function-paren-newline
   )
-// const update = (
-//   product: Partial<Omit<Product, 'id'>>,
-//   id: number
-// ): Promise<number> => db.table<Product>('product').update(product).where({ id })
-
-// const deleteOne = (id: number): Promise<number> =>
-//   db.table<Product>('product').where({ id }).del()
-
-// const deleteMany = (id: number[]): Promise<object> =>
-//   db.table<Product>('product').whereIn('name', id).del()
-
-// const deleteAll = (): Promise<object> => db.table<Product>('product').del()
 
 export default {
   getAll,
   getOne,
   add,
-  //   update,
-  //   deleteOne,
-  //   deleteMany,
-  //   deleteAll,
 }

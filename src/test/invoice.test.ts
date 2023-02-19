@@ -1,13 +1,6 @@
-import {
-  afterAll,
-  beforeAll,
-  beforeEach,
-  describe,
-  expect,
-  test,
-} from '@jest/globals'
+import { beforeAll, describe, expect, test } from '@jest/globals'
 
-import { deleteRequest, getRequest, postRequest } from './util'
+import { getRequest, postRequest } from './util'
 import db from '../database/db'
 import { Invoice, Product } from '../types'
 
@@ -25,10 +18,10 @@ beforeAll(async () => {
   productId = product?.[0]?.id
 })
 
-describe('add new invoice POST /invoice', () => {
+describe('add new invoice POST /invoices', () => {
   describe('successful test cases', () => {
     test('should add new invoice', async () => {
-      const response = await postRequest('/invoice', {
+      const response = await postRequest('/invoices', {
         ...addInvoiceSample,
         productId,
       })
@@ -41,7 +34,7 @@ describe('add new invoice POST /invoice', () => {
   })
   describe('failure test cases', () => {
     test('should error if product with this id does not exist', async () => {
-      const response = await postRequest('/invoice', {
+      const response = await postRequest('/invoices', {
         ...addInvoiceSample,
         productId: 1,
       })
@@ -72,7 +65,7 @@ describe('add new invoice POST /invoice', () => {
 
       Promise.all(
         sampleData.map(async (data) => {
-          const response = await postRequest('/invoice', data.body)
+          const response = await postRequest('/invoices', data.body)
           expect(response.statusCode).toBe(400)
           expect(response.text).toContain(data.message)
         })
@@ -81,116 +74,141 @@ describe('add new invoice POST /invoice', () => {
   })
 })
 
-// describe('get products get /products', () => {
-//   beforeAll(async () => {
-//     await db.table<Product>('product').del()
-//   })
+describe('get invoices get /invoices', () => {
+  beforeAll(async () => {
+    await db.table<Invoice>('product_invoice').del()
+  })
 
-//   // afterAll(async () => {
-//   //   await db.table<Product>('product').del()
-//   // })
+  // afterAll(async () => {
+  //   await db.table<Product>('product').del()
+  // })
 
-//   describe('successful test cases', () => {
-//     describe('empty table', () => {
-//       test('should return empty array when there is no product', async () => {
-//         const response = await getRequest('/products', {})
-//         expect(response.status).toBe(200)
-//         expect(response.body).toHaveLength(0)
-//       })
-//     })
-//     describe('table has data', () => {
-//       beforeAll(async () => {
-//         await db.table<Product>('product').insert([
-//           { name: 'getProduct1', amount: 1, price: 1 },
-//           { name: 'getProduct2', amount: 1, price: 1 },
-//           { name: 'getProduct3', amount: 1, price: 1 },
-//           { name: 'getProduct4', amount: 1, price: 1 },
-//           { name: 'getProduct5', amount: 1, price: 1 },
-//           { name: 'getProduct6', amount: 1, price: 1 },
-//           { name: 'getProduct7', amount: 1, price: 1 },
-//           { name: 'getProduct8', amount: 1, price: 1 },
-//           { name: 'getProduct9', amount: 1, price: 1 },
-//           { name: 'getProduct10', amount: 1, price: 1 },
-//           { name: 'getProduct11', amount: 1, price: 1 },
-//         ])
-//       })
+  describe('successful test cases', () => {
+    describe('empty table', () => {
+      test('should return empty array when there is no invoice', async () => {
+        const response = await getRequest('/invoices', {})
+        expect(response.status).toBe(200)
+        expect(response.body).toHaveLength(0)
+      })
+    })
+    describe('table has data', () => {
+      beforeAll(async () => {
+        await db.table<Invoice>('product_invoice').insert([
+          { productId, amount: 1, pricePerOne: 1 },
+          { productId, amount: 1, pricePerOne: 2 },
+          { productId, amount: 1, pricePerOne: 3 },
+          { productId, amount: 1, pricePerOne: 4 },
+          { productId, amount: 1, pricePerOne: 5 },
+          { productId, amount: 1, pricePerOne: 6 },
+          { productId, amount: 1, pricePerOne: 7 },
+          { productId, amount: 1, pricePerOne: 8 },
+          { productId, amount: 1, pricePerOne: 9 },
+          { productId, amount: 1, pricePerOne: 10 },
+          { productId, amount: 1, pricePerOne: 11 },
+        ])
+      })
 
-// test('should return products where there is no limit and offset <default first 10>', async () => {
-//         const response = await getRequest('/products', {})
+      test('should return invoices where there is no limit and offset <default first 10>', async () => {
+        const response = await getRequest('/invoices', {})
 
-//         expect(response.status).toBe(200)
-//         expect(response.body).toHaveLength(10)
-//       })
-//       test('should return products where there is  limit and offset 1', async () => {
-//         const response = await getRequest('/products', { limit: 5, offset: 1 })
+        expect(response.status).toBe(200)
+        expect(response.body).toHaveLength(10)
+      })
+      test('should return invoices where there is  limit and offset 1', async () => {
+        const response = await getRequest('/invoices', { limit: 5, offset: 1 })
 
-//         expect(response.status).toBe(200)
-//         expect(response.body).toHaveLength(5)
-//       })
-//       test('should return products where there is  limit and offset 2', async () => {
-//         const response = await getRequest('/products', { limit: 1, offset: 1 })
+        expect(response.status).toBe(200)
+        expect(response.body).toHaveLength(5)
+      })
+      test('should return invoices where there is  limit and offset 2', async () => {
+        const response = await getRequest('/invoices', { limit: 1, offset: 1 })
 
-//         expect(response.status).toBe(200)
-//         expect(response.body).toHaveLength(1)
-//       })
-//       test('should return products where there is  limit and offset 3', async () => {
-//         const response = await getRequest('/products', { limit: 5, offset: 3 })
+        expect(response.status).toBe(200)
+        expect(response.body).toHaveLength(1)
+      })
+      test('should return invoices where there is limit of 5 and offset 3', async () => {
+        const response = await getRequest('/invoices', { limit: 5, offset: 3 })
 
-//         expect(response.status).toBe(200)
-//         expect(response.body).toHaveLength(0)
-//       })
-//     })
-//   })
-//   describe('failure test cases', () => {
-//     test('should error if offset and limit are string', async () => {
-//       const sampleData = [
-//         { query: { limit: 'random' }, message: 'limit معتبر نیست' },
-//         { query: { offset: 'random' }, message: 'offset معتبر نیست' },
-//       ]
+        expect(response.status).toBe(200)
+        expect(response.body).toHaveLength(0)
+      })
+    })
+  })
+  describe('failure test cases', () => {
+    test('should error if offset and limit are string', async () => {
+      const sampleData = [
+        { query: { limit: 'random' }, message: 'limit معتبر نیست' },
+        { query: { offset: 'random' }, message: 'offset معتبر نیست' },
+      ]
 
-//       Promise.all(
-//         sampleData.map(async (data) => {
-//           const response = await getRequest('/products', data.query)
+      Promise.all(
+        sampleData.map(async (data) => {
+          const response = await getRequest('/invoices', data.query)
 
-//           expect(response.statusCode).toBe(400)
-//           expect(response.text).toContain(data.message)
-//         })
-//       )
-//     })
-//   })
-// })
+          expect(response.statusCode).toBe(400)
+          expect(response.text).toContain(data.message)
+        })
+      )
+    })
+  })
+})
 
-// describe('get one product get /products/:id', () => {
-//   describe('successful test cases', () => {
-//     test('should return product if it exists', async () => {
-//       await db
-//         .table<Product>('product')
-//         .where({ name: getOneProductSample.name })
-//         .del()
-//       const product = await db
-//         .table<Product>('product')
-//         .insert(getOneProductSample, ['id'])
+describe('get one invoice get /invoices/:id', () => {
+  describe('successful test cases', () => {
+    test('should return invoice if it exists', async () => {
+      await db.table<Invoice>('product_invoice').where({ productId }).del()
+      const invoice = await db
+        .table<Invoice>('product_invoice')
+        .insert({ ...addInvoiceSample, productId }, ['id'])
 
-//       const response = await getRequest(`/products/${product?.[0].id}`, {})
+      const response = await getRequest(`/invoices/${invoice?.[0].id}`, {})
 
-//       expect(response.status).toBe(200)
-//       expect(response.body.name).toBe('getProduct')
-//     })
-//   })
-//   describe('failure test cases', () => {
-//     test('should error if product does not exits', async () => {
-//       await db.table<Product>('product').where({ id: 1 }).del()
+      expect(response.status).toBe(200)
+      expect(response.body.amount).toBe(1)
+      expect(response.body.pricePerOne).toBe(1)
+    })
+  })
+  describe('failure test cases', () => {
+    test('should error if invoice does not exits', async () => {
+      const response = await getRequest(`/invoices/${1}`, {})
 
-//       const response = await getRequest(`/products/${1}`, {})
+      expect(response.statusCode).toBe(404)
+      expect(response.text).toContain('فاکتور یافت نشد')
+    })
+    test('should error if id is not valid', async () => {
+      const response = await getRequest('/invoices/sample', {})
 
-//       expect(response.statusCode).toBe(404)
-//       expect(response.text).toContain('محصولی یافت نشد')
-//     })
-//     test('should error if id is not valid', async () => {
-//       const response = await getRequest('/products/sample', {})
+      expect(response.statusCode).toBe(400)
+      expect(response.text).toContain('شناسه ارسالی معتبر نیست')
+    })
+  })
+})
 
-//       expect(response.statusCode).toBe(400)
-//       expect(response.text).toContain('شناسه محصول معتبر نیست')
-//     })
-//   })
-// })
+describe('get invoices of one product get /invoices/product/:id', () => {
+  describe('successful test cases', () => {
+    test('should return invoices if it exists', async () => {
+      await db.table<Invoice>('product_invoice').where({ productId }).del()
+      await db
+        .table<Invoice>('product_invoice')
+        .insert({ ...addInvoiceSample, productId })
+
+      const response = await getRequest(`/invoices/product/${productId}`, {})
+      console.log('response.body', response.body)
+      expect(response.status).toBe(200)
+    })
+  })
+  describe('failure test cases', () => {
+    test('should error if invoice does not exits', async () => {
+      const response = await getRequest(`/invoices/product/${1}`, {})
+
+      expect(response.statusCode).toBe(404)
+      expect(response.text).toContain('فاکتوری برای این محصول یافت نشد')
+    })
+    test('should error if id is not valid', async () => {
+      const response = await getRequest('/invoices/sample', {})
+
+      expect(response.statusCode).toBe(400)
+      expect(response.text).toContain('شناسه ارسالی معتبر نیست')
+    })
+  })
+})
