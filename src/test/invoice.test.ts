@@ -4,7 +4,7 @@ import { getRequest, postRequest } from './util'
 import db from '../database/db'
 import { Invoice, Product } from '../types'
 
-const productSample = { name: 'addProductForInvoice', amount: 1, price: 1 }
+const productSample = { name: 'addProductForInvoice1', amount: 1, price: 1 }
 const addInvoiceSample = { amount: 1, pricePerOne: 1 }
 
 let productId: number
