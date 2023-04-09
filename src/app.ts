@@ -3,14 +3,15 @@ import express, { Errback, NextFunction, Request, Response } from 'express'
 import morgan from 'morgan'
 import rateLimit from 'express-rate-limit'
 import helmet from 'helmet'
+import swaggerUi from 'swagger-ui-express'
 
+import openapiSpecification from './swagger'
 import productRouter from './routes/product'
 import invoiceRouter from './routes/invoice'
 import logger from './logger'
 import { translateErrorMessage } from './utils'
 
 const app = express()
-
 app.use(express.json())
 
 morgan.token('body', (req: Request) => JSON.stringify(req.body))
@@ -29,6 +30,14 @@ const limiter = rateLimit({
 
 if (process.env.NODE_ENV !== 'test') app.use(limiter)
 app.use(helmet())
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openapiSpecification))
+
+// we import json response of this route to postman
+app.get('/docs/json', (req: Request, res: Response) => {
+  res.setHeader('Content-Type', 'application/json')
+  res.send(openapiSpecification)
+})
 
 app.use('/products', productRouter)
 app.use('/invoices', invoiceRouter)
