@@ -10,25 +10,29 @@
  *       example:
  *         error: error happened
  *
- *     Subscription:
+ *     Product:
  *       type: object
  *       properties:
  *         name:
  *           type: string
  *         price:
  *           type: number
+ *         amount:
+ *           type: number
+ *         id:
+ *           type: number
  *       example:
- *         name: "vm1"
- *         price: 2000
- */
-
-/**
- * @swagger
+ *         name: "cloth1"
+ *         price: 20.00
+ *         amount: 10
+ *         id: 1
+ *
+ *
  *   parameters:
  *     idParam:
  *       name: id
  *       in: path
- *       description:  Numberic id of subscription
+ *       description:  Numberic id
  *       required: true
  *       schema:
  *         type: integer
@@ -51,14 +55,6 @@
  *       schema:
  *         type: integer
  *         minimum: 0
- *
- *     isActiveQuery:
- *       name: isActive
- *       in: query
- *       description: only return active/deactive customer subscriptions
- *       required: false
- *       schema:
- *         type: boolean
  */
 
 /**
@@ -80,11 +76,11 @@
 
 /**
  * @swagger
- * /customer/register:
+ * /products:
  *   post:
- *     tags: [Customers]
- *     summary: Returns username and credit
- *     description: Customer registration
+ *     tags: [Products]
+ *     summary: new product
+ *     description: Make new Product
  *     requestBody:
  *       required: true
  *       content:
@@ -92,36 +88,24 @@
  *           schema:
  *             type: object
  *             properties:
- *               username:
+ *               name:
  *                 type: string
- *               password:
- *                 type: string
- *                 description: password must be min 3 character
- *               credit:
+ *               price:
  *                 type: number
- *                 description: initial customer credit
+ *               amount:
+ *                 type: number
  *             required:
- *               - username
- *               - password
+ *               - name
+ *               - price
+ *               - amount
  *           example:
- *             username: "fateme"
- *             password: "123"
- *             credit: 20
+ *             name: "cloth 1"
+ *             price: 30
+ *             amount: 20
  *     responses:
  *       200:
- *         description: Successful registration
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 username:
- *                   type: string
- *                 credit:
- *                   type: number
- *             example:
- *               username: "fateme"
- *               credit: 20
+ *         description: Successful
+
  *
  *       400:
  *         description: Bad Request
@@ -140,44 +124,21 @@
 
 /**
  * @swagger
- * /customer/login:
- *   post:
- *     tags: [Customers]
- *     summary: Returns username and token
- *     description: Customer login
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               username:
- *                 type: string
- *               password:
- *                 type: string
- *                 description: password must be min 3 character
- *             required:
- *               - username
- *               - password
- *           example:
- *             username: "fateme"
- *             password: "123"
+ * /products:
+ *   get:
+ *     tags: [Products]
+ *     summary: Returns all of products
+ *     description: Returns all of products
+ *     parameters:
+ *       - $ref: "#/components/parameters/limitQuery"
+ *       - $ref: "#/components/parameters/offsetQuery"
  *     responses:
  *       200:
- *         description: Successful login
+ *         description: Successful
  *         content:
  *           application/json:
  *             schema:
- *               type: object
- *               properties:
- *                 username:
- *                   type: string
- *                 token:
- *                   type: string
- *             example:
- *               username: "fateme"
- *               token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXV..."
+ *               $ref: "#/components/schemas/Product"
  *
  *       400:
  *         description: Bad Request
@@ -186,17 +147,39 @@
  *             schema:
  *               $ref: "#/components/schemas/GeneralError"
  *
- *       401:
- *         description: Authorization information is missing or invalid.
+ *       500:
+ *         description: Unexpected error
  *         content:
  *           application/json:
  *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *             example:
- *               message: "invalid login"
+ *               $ref: "#/components/schemas/GeneralError"
+ *
+ */
+
+/**
+ * @swagger
+ * /products/{id}:
+ *   get:
+ *     tags: [Products]
+ *     summary: Returns a product
+ *     description: Returns data of one product
+ *     parameters:
+ *       - $ref: "#/components/parameters/idParam"
+ *     responses:
+ *       200:
+ *         description: Successful
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: "#/components/schemas/Product"
+ *
+ *       400:
+ *         description: Bad Request
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: "#/components/schemas/GeneralError"
+ *
  *       500:
  *         description: Unexpected error
  *         content:

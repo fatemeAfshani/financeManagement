@@ -165,7 +165,7 @@ describe('get one invoice get /invoices/:id', () => {
 
       expect(response.status).toBe(200)
       expect(response.body.amount).toBe(1)
-      expect(response.body.pricePerOne).toBe(1)
+      expect(response.body.pricePerOne).toBe('1.00')
     })
   })
   describe('failure test cases', () => {

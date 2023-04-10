@@ -9,7 +9,6 @@ const addInvoice = async (req: Request, res: Response) => {
   try {
     const data = {
       ...req.body,
-      remaining: req.body.amount,
       date: moment().format('jYYYY/jMM/jDD HH:mm:ss'),
     }
     await invoiceDB.add(data)

@@ -16,7 +16,7 @@ const productValitate = (method: Methods) => {
               return Promise.reject('product with this name already exist')
             }
           }),
-        body('price', 'invalid price').isInt(),
+        body('price', 'invalid price').isFloat(),
         body('amount', 'invalid amount').isInt(),
       ]
     }
@@ -47,7 +47,7 @@ const productValitate = (method: Methods) => {
               return Promise.reject('product with this name already exist')
             }
           }),
-        body('price', 'invalid price').optional().isInt(),
+        body('price', 'invalid price').optional().isFloat(),
         body('amount', 'invalid amount').optional().isInt(),
       ]
     }
