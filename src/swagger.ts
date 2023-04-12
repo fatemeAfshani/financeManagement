@@ -11,8 +11,8 @@ const options: swaggerJsdoc.OAS3Options = {
   },
   apis: [
     './src/routes/product/docs.ts',
-    // './src/routes/subscription/*.js',
-    // './src/routes/invoice/*.js',
+    './src/routes/invoice/docs.ts',
+    './src/routes/user/docs.ts',
   ],
 }
 

@@ -1,30 +1,15 @@
-import { NextFunction, Request, Response } from 'express'
-import { ValidationError, validationResult } from 'express-validator'
-import translateMessage from './translateMessage'
+import bcrypt from 'bcrypt'
 
-const translateValidationErrorMessage = (
-  errors: ValidationError[]
-): string[] => {
-  const errorMessages = errors.map(
-    (err) => translateMessage[err.msg as keyof object] || err.msg
-  )
-  return errorMessages
-}
+import translateMessage from './translateMessage'
 
 export const translateErrorMessage = (error: string): string[] => [
   translateMessage[error as keyof object] || error,
 ]
 
-export const errorHandler = (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  const errors = validationResult(req)
-  if (!errors.isEmpty()) {
-    return res
-      .status(400)
-      .json({ error: translateValidationErrorMessage(errors.array()) })
-  }
-  next()
-}
+export const enCodePassword = (password: string): string =>
+  bcrypt.hashSync(password, 8)
+
+export const checkPassword = async (
+  password: string,
+  hashedPassword: string
+): Promise<boolean> => bcrypt.compare(password, hashedPassword)

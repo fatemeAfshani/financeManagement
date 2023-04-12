@@ -3,6 +3,8 @@ export type Product = {
   name: string
   price: number
   amount: number
+  companyId: number
+  isDeleted?: boolean
 }
 
 export type Invoice = {
@@ -14,6 +16,20 @@ export type Invoice = {
   remaining: number
 }
 
+export type User = {
+  id?: number
+  username: string
+  password: string
+  role: string
+  companyId?: number
+}
+
+export type Company = {
+  id?: number
+  name: string
+  createdAt: string
+}
+
 // eslint-disable-next-line no-shadow
 export const enum Methods {
   Add = 'ADD',
@@ -21,4 +37,12 @@ export const enum Methods {
   GetOne = 'GETONE',
   Delete = 'DELETE',
   Update = 'UPDATE',
+  Register = 'REGISTER',
+  Login = 'LOGIN',
+}
+
+// eslint-disable-next-line no-shadow
+export enum Roles {
+  ADMIN = 'admin',
+  VIEWER = 'viewer',
 }

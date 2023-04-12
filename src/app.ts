@@ -8,6 +8,8 @@ import swaggerUi from 'swagger-ui-express'
 import openapiSpecification from './swagger'
 import productRouter from './routes/product'
 import invoiceRouter from './routes/invoice'
+import userRouter from './routes/user'
+
 import logger from './logger'
 import { translateErrorMessage } from './utils'
 
@@ -41,8 +43,9 @@ app.get('/docs/json', (req: Request, res: Response) => {
 
 app.use('/products', productRouter)
 app.use('/invoices', invoiceRouter)
+app.use('/users', userRouter)
 
-app.use((err: Errback, req: Request, res: Response, _: NextFunction) => {
+app.use((err: Errback, req: Request, res: Response) => {
   logger.error(`error handler: ${err}`)
   res.status(500).send({ error: translateErrorMessage('error happened') })
 })
