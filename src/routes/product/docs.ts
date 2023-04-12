@@ -21,11 +21,17 @@
  *           type: number
  *         id:
  *           type: number
+ *         companyId:
+ *           type: number
+ *         isDeleted:
+ *           type: boolean
  *       example:
  *         name: "cloth1"
  *         price: 20.00
  *         amount: 10
  *         id: 1
+ *         companyId: 1
+ *         isDeleted: false
  *
  *
  *   parameters:
@@ -55,10 +61,9 @@
  *       schema:
  *         type: integer
  *         minimum: 0
- */
-
-/**
- * @swagger
+ *
+ *
+ *
  *   securitySchemes:
  *     bearerAuth:
  *       type: http
@@ -81,6 +86,8 @@
  *     tags: [Products]
  *     summary: new product
  *     description: Make new Product
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -105,7 +112,9 @@
  *     responses:
  *       200:
  *         description: Successful
-
+ *
+ *       401:
+ *         description: unAuthorized
  *
  *       400:
  *         description: Bad Request
@@ -129,6 +138,8 @@
  *     tags: [Products]
  *     summary: Returns all of products
  *     description: Returns all of products
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - $ref: "#/components/parameters/limitQuery"
  *       - $ref: "#/components/parameters/offsetQuery"
@@ -147,6 +158,9 @@
  *             schema:
  *               $ref: "#/components/schemas/GeneralError"
  *
+ *       401:
+ *         description: unAuthorized
+ *
  *       500:
  *         description: Unexpected error
  *         content:
@@ -163,6 +177,8 @@
  *     tags: [Products]
  *     summary: Returns a product
  *     description: Returns data of one product
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - $ref: "#/components/parameters/idParam"
  *     responses:
@@ -175,6 +191,109 @@
  *
  *       400:
  *         description: Bad Request
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: "#/components/schemas/GeneralError"
+ *
+ *       401:
+ *         description: unAuthorized
+ *
+ *       500:
+ *         description: Unexpected error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: "#/components/schemas/GeneralError"
+ *
+ */
+
+/**
+ * @swagger
+ * /products/{id}:
+ *   post:
+ *     tags: [Products]
+ *     summary: update product
+ *     description: update a Product
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - $ref: "#/components/parameters/idParam"
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               price:
+ *                 type: number
+ *               amount:
+ *                 type: number
+ *
+ *           example:
+ *             name: "cloth 1"
+ *             price: 30
+ *             amount: 20
+ *     responses:
+ *       200:
+ *         description: Successful
+ *
+ *       400:
+ *         description: Bad Request
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: "#/components/schemas/GeneralError"
+ *
+ *       401:
+ *         description: unAuthorized
+ *
+ *       404:
+ *         description: Not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: "#/components/schemas/GeneralError"
+ *
+ *       500:
+ *         description: Unexpected error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: "#/components/schemas/GeneralError"
+ *
+ */
+
+/**
+ * @swagger
+ * /products/{id}:
+ *   delete:
+ *     tags: [Products]
+ *     summary: delete product
+ *     description: delete a Product
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - $ref: "#/components/parameters/idParam"
+ *     responses:
+ *       200:
+ *         description: Successful
+ *
+ *       400:
+ *         description: Bad Request
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: "#/components/schemas/GeneralError"
+ *
+ *       401:
+ *         description: unAuthorized
+ *
+ *       404:
+ *         description: Not found
  *         content:
  *           application/json:
  *             schema:

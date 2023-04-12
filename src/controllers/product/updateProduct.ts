@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import productDB from '../../database/products'
+import productDB from '../../database/product'
 import logger from '../../logger'
 import { translateErrorMessage } from '../../utils'
 

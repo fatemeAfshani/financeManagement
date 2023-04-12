@@ -7,11 +7,12 @@ import {
   getInvoicesOfOneProduct,
 } from '../../controllers/invoice/getInvoices'
 import { Methods } from '../../types'
-import { errorHandler } from '../../utils'
+import errorHandler from '../../utils/middlewares/errorHandler'
 import invoiceValitate from './validate'
 
 const invoiceRouter = Router()
 
+// must change
 invoiceRouter.get(
   '/',
   invoiceValitate(Methods.GetAll),
@@ -32,7 +33,7 @@ invoiceRouter.get(
   errorHandler,
   getInvoicesOfOneProduct
 )
-
+// must change
 invoiceRouter.post('/', invoiceValitate(Methods.Add), errorHandler, addInvoice)
 
 export default invoiceRouter

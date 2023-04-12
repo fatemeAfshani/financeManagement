@@ -1,7 +1,7 @@
 import { body, param, query } from 'express-validator'
 
 import { Methods } from '../../types'
-import productDB from '../../database/products'
+import productDB from '../../database/product'
 
 const productValitate = (method: Methods) => {
   switch (method) {
@@ -10,8 +10,11 @@ const productValitate = (method: Methods) => {
         body('name', 'invalid name')
           .notEmpty()
           .isString()
-          .custom(async (productName) => {
-            const product = await productDB.getOne({ name: productName })
+          .custom(async (productName, { req }) => {
+            const product = await productDB.getOne({
+              name: productName,
+              companyId: req.user.companyId,
+            })
             if (product?.[0]) {
               return Promise.reject('product with this name already exist')
             }
@@ -41,8 +44,11 @@ const productValitate = (method: Methods) => {
           .notEmpty()
           .isString()
           .optional()
-          .custom(async (productName) => {
-            const product = await productDB.getOne({ name: productName })
+          .custom(async (productName, { req }) => {
+            const product = await productDB.getOne({
+              name: productName,
+              companyId: req.user.companyId,
+            })
             if (product?.[0]) {
               return Promise.reject('product with this name already exist')
             }

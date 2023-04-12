@@ -1,7 +1,7 @@
 import { body, param, query } from 'express-validator'
 
 import { Methods } from '../../types'
-import productDB from '../../database/products'
+import productDB from '../../database/product'
 
 const invoiceValitate = (method: Methods) => {
   switch (method) {
