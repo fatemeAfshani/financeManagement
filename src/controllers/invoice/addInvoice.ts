@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 import moment from 'jalali-moment'
 
-import invoiceDB from '../../database/invoices'
+import invoiceDB from '../../database/invoice'
 import logger from '../../logger'
 import { translateErrorMessage } from '../../utils'
 

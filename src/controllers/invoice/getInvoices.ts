@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import invoiceDB from '../../database/invoices'
+import invoiceDB from '../../database/invoice'
 import logger from '../../logger'
 import { translateErrorMessage } from '../../utils'
 
