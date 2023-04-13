@@ -21,7 +21,6 @@ export const isAuth = async (
     const user = (
       await userDB.get({ username: data.username, id: data.id })
     )?.[0]
-    console.log('user', user)
     if (!user) return res.sendStatus(401)
 
     req.token = authorization

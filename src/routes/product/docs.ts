@@ -17,8 +17,6 @@
  *           type: string
  *         price:
  *           type: number
- *         amount:
- *           type: number
  *         id:
  *           type: number
  *         companyId:
@@ -28,7 +26,6 @@
  *       example:
  *         name: "cloth1"
  *         price: 20.00
- *         amount: 10
  *         id: 1
  *         companyId: 1
  *         isDeleted: false
@@ -99,16 +96,12 @@
  *                 type: string
  *               price:
  *                 type: number
- *               amount:
- *                 type: number
  *             required:
  *               - name
  *               - price
- *               - amount
  *           example:
  *             name: "cloth 1"
  *             price: 30
- *             amount: 20
  *     responses:
  *       200:
  *         description: Successful
@@ -230,13 +223,10 @@
  *                 type: string
  *               price:
  *                 type: number
- *               amount:
- *                 type: number
  *
  *           example:
  *             name: "cloth 1"
  *             price: 30
- *             amount: 20
  *     responses:
  *       200:
  *         description: Successful

@@ -20,7 +20,6 @@ const productValitate = (method: Methods) => {
             }
           }),
         body('price', 'invalid price').isFloat(),
-        body('amount', 'invalid amount').isInt(),
       ]
     }
     case Methods.GetAll: {
@@ -54,7 +53,6 @@ const productValitate = (method: Methods) => {
             }
           }),
         body('price', 'invalid price').optional().isFloat(),
-        body('amount', 'invalid amount').optional().isInt(),
       ]
     }
     default: {

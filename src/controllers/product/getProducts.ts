@@ -12,6 +12,7 @@ export const getProducts = async (req: Request, res: Response) => {
     const products = await productDB.getAll(
       +limit,
       +offset * +limit,
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       companyId!
     )
     res.status(200).send(products)
