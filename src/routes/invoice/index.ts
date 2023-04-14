@@ -7,6 +7,11 @@ import {
   getInvoicesOfOneProduct,
 } from '../../controllers/invoice/getInvoices'
 import { Methods } from '../../types'
+import {
+  hasAdminAccess,
+  hasViewerAccess,
+  isAuth,
+} from '../../utils/middlewares/auth'
 import errorHandler from '../../utils/middlewares/errorHandler'
 import invoiceValitate from './validate'
 
@@ -15,6 +20,8 @@ const invoiceRouter = Router()
 // must change
 invoiceRouter.get(
   '/',
+  isAuth,
+  hasViewerAccess,
   invoiceValitate(Methods.GetAll),
   errorHandler,
   getInvoices
@@ -22,6 +29,8 @@ invoiceRouter.get(
 
 invoiceRouter.get(
   '/:id',
+  isAuth,
+  hasViewerAccess,
   invoiceValitate(Methods.GetOne),
   errorHandler,
   getInvoice
@@ -29,11 +38,20 @@ invoiceRouter.get(
 
 invoiceRouter.get(
   '/product/:id',
-  invoiceValitate(Methods.GetOne),
+  isAuth,
+  hasViewerAccess,
+  invoiceValitate(Methods.GetAllOfOneType),
   errorHandler,
   getInvoicesOfOneProduct
 )
-// must change
-invoiceRouter.post('/', invoiceValitate(Methods.Add), errorHandler, addInvoice)
+
+invoiceRouter.post(
+  '/',
+  isAuth,
+  hasAdminAccess,
+  invoiceValitate(Methods.Add),
+  errorHandler,
+  addInvoice
+)
 
 export default invoiceRouter

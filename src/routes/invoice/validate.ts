@@ -9,8 +9,11 @@ const invoiceValitate = (method: Methods) => {
       return [
         body('productId', 'invalid product id')
           .isInt()
-          .custom(async (productId) => {
-            const product = await productDB.getOne({ id: productId })
+          .custom(async (productId, { req }) => {
+            const product = await productDB.getOne({
+              id: productId,
+              companyId: req.user.companyId,
+            })
             if (!product?.[0]) {
               return Promise.reject('product not found')
             }
@@ -21,6 +24,14 @@ const invoiceValitate = (method: Methods) => {
     }
     case Methods.GetAll: {
       return [
+        query('limit', 'invalid limit').optional().isInt(),
+        query('offset', 'invalid offset').optional().isInt(),
+      ]
+    }
+
+    case Methods.GetAllOfOneType: {
+      return [
+        param('id', 'invalid id').isInt(),
         query('limit', 'invalid limit').optional().isInt(),
         query('offset', 'invalid offset').optional().isInt(),
       ]

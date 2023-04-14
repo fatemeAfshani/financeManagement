@@ -6,13 +6,20 @@ export type Product = {
   isDeleted?: boolean
 }
 
-export type Invoice = {
+export type ProductInvoice = {
   id?: number
   productId: number
   amount: number
   pricePerOne: number
   date: string
-  remaining: number
+  companyId: number
+}
+
+export type ProductStock = {
+  id?: number
+  productId: number
+  amount: number
+  buyPrice: number
 }
 
 export type User = {
@@ -38,6 +45,7 @@ export const enum Methods {
   Update = 'UPDATE',
   Register = 'REGISTER',
   Login = 'LOGIN',
+  GetAllOfOneType = 'GETALLOFONETYPE',
 }
 
 // eslint-disable-next-line no-shadow

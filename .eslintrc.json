@@ -39,7 +39,8 @@
     "implicit-arrow-linebreak": "off",
     "comma-dangle": "off",
     "node/no-unpublished-import": "off",
-    "no-restricted-syntax": "off"
+    "no-restricted-syntax": "off",
+    "function-paren-newline": "off"
   },
   "settings": {
     "import/resolver": {

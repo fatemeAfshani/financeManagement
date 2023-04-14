@@ -15,7 +15,7 @@ export async function up(knex: Knex): Promise<void> {
       table.boolean('isDeleted').defaultTo(false)
       table.integer('companyId', 255).notNullable()
       table.foreign('companyId').references('id').inTable('company')
-      table.index('companyId')
+      table.index(['companyId'])
     })
     .createTable('product_invoice', (table) => {
       table.increments('id').primary()
@@ -26,13 +26,15 @@ export async function up(knex: Knex): Promise<void> {
       table.integer('companyId', 255).notNullable()
       table.foreign('companyId').references('id').inTable('company')
       table.foreign('productId').references('id').inTable('product')
+      table.index(['companyId', 'productId'])
     })
-    .createTable('product-stock', (table) => {
+    .createTable('product_stock', (table) => {
       table.increments('id').primary()
       table.integer('productId', 255).notNullable()
       table.integer('amount', 10).notNullable()
       table.decimal('buyPrice', 10).notNullable()
       table.foreign('productId').references('id').inTable('product')
+      table.index('productId')
     })
     .createTable('order', (table) => {
       table.increments('id').primary()
@@ -75,7 +77,7 @@ export async function up(knex: Knex): Promise<void> {
 
 export async function down(knex: Knex): Promise<void> {
   return knex.schema
-    .dropTable('product-stock')
+    .dropTable('product_stock')
     .dropTable('order_product')
     .dropTable('product_invoice')
     .dropTable('product')

@@ -10,7 +10,7 @@ const translateMessage: object = {
   'product is already deleted': 'محصول قبلا حذف شده است',
   'product not found': 'محصولی یافت نشد',
   'invoice not found': 'فاکتور یافت نشد',
-  'no invoice found for this product id': 'فاکتوری برای این محصول یافت نشد',
+  'no invoice found for this product': 'فاکتوری برای این محصول یافت نشد',
   'invalid id': 'شناسه ارسالی معتبر نیست ',
   'customer already exist with this username':
     'کاربر با این نام کاربری وجود دارد',
