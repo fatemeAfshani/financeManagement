@@ -65,7 +65,7 @@
  *               - role
  *           example:
  *             username: "fateme"
- *             password: "123dddd"
+ *             password: "123456"
  *             role: admin
  *             companyName: "sample name"
  *     responses:
@@ -123,7 +123,7 @@
  *               - password
  *           example:
  *             username: "fateme"
- *             password: "123dddd"
+ *             password: "123456"
  *     responses:
  *       200:
  *         description: Successful login
