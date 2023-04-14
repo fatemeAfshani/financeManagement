@@ -1,5 +1,5 @@
 import './config'
-import express, { Errback, NextFunction, Request, Response } from 'express'
+import express, { Errback, Request, Response } from 'express'
 import morgan from 'morgan'
 import rateLimit from 'express-rate-limit'
 import helmet from 'helmet'
@@ -12,6 +12,7 @@ import userRouter from './routes/user'
 
 import logger from './logger'
 import { translateErrorMessage } from './utils'
+import stockRouter from './routes/stock'
 
 const app = express()
 app.use(express.json())
@@ -44,6 +45,7 @@ app.get('/docs/json', (req: Request, res: Response) => {
 app.use('/products', productRouter)
 app.use('/invoices', invoiceRouter)
 app.use('/users', userRouter)
+app.use('/stocks', stockRouter)
 
 app.use((err: Errback, req: Request, res: Response) => {
   logger.error(`error handler: ${err}`)

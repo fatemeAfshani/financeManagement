@@ -17,7 +17,6 @@ import invoiceValitate from './validate'
 
 const invoiceRouter = Router()
 
-// must change
 invoiceRouter.get(
   '/',
   isAuth,

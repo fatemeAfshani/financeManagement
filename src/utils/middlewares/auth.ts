@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express'
 
-import jwt, { JwtPayload } from 'jsonwebtoken'
+import jwt from 'jsonwebtoken'
 import logger from '../../logger'
 import userDB from '../../database/user'
 import { Roles, User } from '../../types'
