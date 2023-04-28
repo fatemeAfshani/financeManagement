@@ -12,6 +12,20 @@ type OrderProductInput = {
   amount: number
 }
 
+const getAllWithArrayInput = (
+  limit: number,
+  offset: number,
+  orderIds: number[],
+  companyId?: number
+): Promise<Order[]> =>
+  db
+    .table<Order>('order')
+    .select('*')
+    .whereIn('id', orderIds)
+    .andWhere({ companyId })
+    .limit(limit)
+    .offset(offset)
+
 const getAll = (
   limit: number,
   offset: number,
@@ -99,4 +113,5 @@ export default {
   getAll,
   getOne,
   add,
+  getAllWithArrayInput,
 }

@@ -240,3 +240,43 @@
  *               $ref: "#/components/schemas/GeneralError"
  *
  */
+
+/**
+ * @swagger
+ * /orders/product/{id}:
+ *   get:
+ *     tags: [Orders]
+ *     summary: Returns orders of one product
+ *     description: Returns all of orders for one product
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - $ref: "#/components/parameters/limitQuery"
+ *       - $ref: "#/components/parameters/offsetQuery"
+ *       - $ref: "#/components/parameters/idParam"
+ *     responses:
+ *       200:
+ *         description: Successful
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: "#/components/schemas/Order"
+ *
+ *       400:
+ *         description: Bad Request
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: "#/components/schemas/GeneralError"
+ *
+ *       401:
+ *         description: unAuthorized
+ *
+ *       500:
+ *         description: Unexpected error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: "#/components/schemas/GeneralError"
+ *
+ */

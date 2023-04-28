@@ -41,3 +41,30 @@ export const getOrder = async (req: Request, res: Response) => {
     res.status(500).send({ error: translateErrorMessage('error happened') })
   }
 }
+
+export const getOrdersOfOneProduct = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params
+    const { limit = '10', offset = '0' } = req.query
+
+    const { companyId } = req.user as User
+    const productOrders = await orderProductDB.getAllForOneProduct(+id)
+    const orderIds = productOrders.map((productOrder) => productOrder.orderId!)
+    const orders = await orderDB.getAllWithArrayInput(
+      +limit,
+      +limit * +offset,
+      orderIds,
+      companyId
+    )
+    orders.forEach((order) => {
+      // eslint-disable-next-line no-param-reassign
+      order.products = productOrders.filter(
+        (product) => product.orderId === order.id
+      )
+    })
+    res.status(200).send(orders)
+  } catch (e) {
+    logger.error(`error happend in get one invoice: ${e}`)
+    res.status(500).send({ error: translateErrorMessage('error happened') })
+  }
+}

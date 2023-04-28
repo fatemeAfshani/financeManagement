@@ -75,7 +75,13 @@ const orderValitate = (method: Methods) => {
         query('offset', 'invalid offset').optional().isInt(),
       ]
     }
-
+    case Methods.GetAllOfOneType: {
+      return [
+        param('id', 'invalid id').isInt(),
+        query('limit', 'invalid limit').optional().isInt(),
+        query('offset', 'invalid offset').optional().isInt(),
+      ]
+    }
     default: {
       return []
     }
