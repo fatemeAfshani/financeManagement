@@ -36,6 +36,33 @@ export type Company = {
   createdAt: string
 }
 
+export type OrderProduct = {
+  id?: number
+  orderId?: number
+  productId: number
+  sellPrice: number
+  buyPrice?: number
+  amount: number
+}
+
+export type Order = {
+  id?: number
+  name: string
+  address: string
+  phone: string
+  postalCode: string
+  trackingCode: string
+  orderDate: string
+  shippingDate: string
+  shippingPriceCustomer: number
+  shippingPriceSeller: number
+  discount: number
+  totalProfit?: number
+  sellFrom: string
+  companyId: number
+  products?: OrderProduct[]
+}
+
 // eslint-disable-next-line no-shadow
 export const enum Methods {
   Add = 'ADD',
@@ -52,4 +79,10 @@ export const enum Methods {
 export enum Roles {
   ADMIN = 'admin',
   VIEWER = 'viewer',
+}
+
+// eslint-disable-next-line no-shadow
+export enum SellFrom {
+  SITE = 'site',
+  INSTAGRAM = 'instagram',
 }

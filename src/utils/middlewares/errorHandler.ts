@@ -3,7 +3,7 @@ import { ValidationError, validationResult } from 'express-validator'
 import translateMessage from '../translateMessage'
 
 const translateValidationErrorMessage = (errors: ValidationError[]): string =>
-  translateMessage[errors[0].msg as keyof object] || errors[0].msg
+  translateMessage[errors[0].msg as keyof object] || 'خطایی رخ داده است'
 
 const errorHandler = (req: Request, res: Response, next: NextFunction) => {
   const errors = validationResult(req)

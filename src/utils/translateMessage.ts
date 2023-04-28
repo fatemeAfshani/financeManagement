@@ -27,6 +27,23 @@ const translateMessage: object = {
   'invalid login': 'نام کاربری یا رمز عبور نادرست است',
   'you dont have access to do this operation':
     'شما دسترسی لازم برای انجام این عملیات را ندارید',
+  'invalid customer name': 'نام مشتری نامعتبر است',
+  'invalid address': 'آدرس نامعتبر است',
+  'invalid phone': 'شماره موبایل نامعتبر است',
+  'invalid postal code': 'کد پستی نامعتبر است',
+  'invalid tracking code': 'کد پیگیری مرسوله نامعتیر است',
+  'invalid order date': 'تاریخ ثبت سفارش نامعتبر است',
+  'invalid shipping date': 'تاریخ ارسال نامعتبر است',
+  'invalid shipping price for customer':
+    'هزینه ارسال پستی برای مشتری نامعتبر است',
+  'invalid shipping price for seller':
+    'هزینه ارسال پستی برای فروشنده نامعتبر است',
+  'invalid discount': 'مبلغ تخفیف نامعتبر است',
+  'invalid source of sell': 'نوع فروش نامعتبر است',
+  'invalid products': 'محصولات وارد شده برای سفارش نامعتبر هستند',
+  'there is no enough product in stock':
+    'به اندازه کافی محصول در انبار موجود نیست',
+  'order not found': 'سفارش مورد نظر یافت نشد',
 }
 
 export default translateMessage
