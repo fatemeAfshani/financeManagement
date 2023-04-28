@@ -201,3 +201,42 @@
  *               $ref: "#/components/schemas/GeneralError"
  *
  */
+
+/**
+ * @swagger
+ * /orders:
+ *   get:
+ *     tags: [Orders]
+ *     summary: Returns all of orders
+ *     description: Returns all orders of a company
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - $ref: "#/components/parameters/limitQuery"
+ *       - $ref: "#/components/parameters/offsetQuery"
+ *     responses:
+ *       200:
+ *         description: Successful
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: "#/components/schemas/Order"
+ *
+ *       400:
+ *         description: Bad Request
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: "#/components/schemas/GeneralError"
+ *
+ *       401:
+ *         description: unAuthorized
+ *
+ *       500:
+ *         description: Unexpected error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: "#/components/schemas/GeneralError"
+ *
+ */

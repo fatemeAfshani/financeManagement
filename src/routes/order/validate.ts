@@ -1,4 +1,4 @@
-import { body, param } from 'express-validator'
+import { body, param, query } from 'express-validator'
 
 import { Methods, OrderProduct, SellFrom } from '../../types'
 import productDB from '../../database/product'
@@ -67,6 +67,13 @@ const orderValitate = (method: Methods) => {
 
     case Methods.GetOne: {
       return [param('id', 'invalid id').isInt()]
+    }
+
+    case Methods.GetAll: {
+      return [
+        query('limit', 'invalid limit').optional().isInt(),
+        query('offset', 'invalid offset').optional().isInt(),
+      ]
     }
 
     default: {

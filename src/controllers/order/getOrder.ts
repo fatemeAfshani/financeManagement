@@ -1,7 +1,6 @@
 import { Request, Response } from 'express'
 import orderDB from '../../database/order'
 import orderProductDB from '../../database/order-product'
-import invoiceDB from '../../database/product-invoice'
 import logger from '../../logger'
 import { User } from '../../types'
 import { translateErrorMessage } from '../../utils'
@@ -10,12 +9,16 @@ export const getOrders = async (req: Request, res: Response) => {
   try {
     const { limit = '10', offset = '0' } = req.query
     const { companyId } = req.user as User
-    const invoices = await invoiceDB.getAll(
-      +limit,
-      +offset * +limit,
-      companyId!
-    )
-    res.status(200).send(invoices)
+    const orders = await orderDB.getAll(+limit, +offset * +limit, companyId!)
+    const orderIds = orders.map((order) => order.id!)
+    const orderProducts = await orderProductDB.getAll(orderIds)
+    orders.forEach((order) => {
+      // eslint-disable-next-line no-param-reassign
+      order.products = orderProducts.filter(
+        (product) => product.orderId === order.id
+      )
+    })
+    res.status(200).send(orders)
   } catch (e) {
     logger.error(`error happend in get invoices: ${e}`)
     res.status(500).send({ error: translateErrorMessage('error happened') })

@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import addOrder from '../../controllers/order/addOrder'
-import { getOrder } from '../../controllers/order/getOrder'
+import { getOrder, getOrders } from '../../controllers/order/getOrder'
 
 import { Methods } from '../../types'
 import {
@@ -20,6 +20,15 @@ orderRouter.get(
   orderValitate(Methods.GetOne),
   errorHandler,
   getOrder
+)
+
+orderRouter.get(
+  '/',
+  isAuth,
+  hasViewerAccess,
+  orderValitate(Methods.GetAll),
+  errorHandler,
+  getOrders
 )
 
 orderRouter.post(

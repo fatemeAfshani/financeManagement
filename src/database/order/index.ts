@@ -12,6 +12,18 @@ type OrderProductInput = {
   amount: number
 }
 
+const getAll = (
+  limit: number,
+  offset: number,
+  companyId: number
+): Promise<Order[]> =>
+  db
+    .table<Order>('order')
+    .select('*')
+    .where({ companyId })
+    .limit(limit)
+    .offset(offset)
+
 const getOne = (data: OrderInput): Promise<Order[]> =>
   db
     .table<Order>('order')
@@ -84,6 +96,7 @@ const add = (
 }
 
 export default {
+  getAll,
   getOne,
   add,
 }
