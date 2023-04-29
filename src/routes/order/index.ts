@@ -5,6 +5,7 @@ import {
   getOrders,
   getOrdersOfOneProduct,
 } from '../../controllers/order/getOrders'
+import updateOrder from '../../controllers/order/updateOrder'
 
 import { Methods } from '../../types'
 import {
@@ -51,6 +52,15 @@ orderRouter.post(
   orderValitate(Methods.Add),
   errorHandler,
   addOrder
+)
+
+orderRouter.post(
+  '/:id',
+  isAuth,
+  hasAdminAccess,
+  orderValitate(Methods.Update),
+  errorHandler,
+  updateOrder
 )
 
 export default orderRouter

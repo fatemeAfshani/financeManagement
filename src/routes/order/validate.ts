@@ -82,6 +82,39 @@ const orderValitate = (method: Methods) => {
         query('offset', 'invalid offset').optional().isInt(),
       ]
     }
+    case Methods.Update: {
+      return [
+        param('id', 'invalid id').isInt(),
+        body('name', 'invalid customer name').isString().optional(),
+        body('address', 'invalid address').isString().optional(),
+        body('phone', 'invalid phone').isString().optional(),
+        body('postalCode', 'invalid postal code').isString().optional(),
+        body('trackingCode', 'invalid tracking code').isString().optional(),
+        body('orderDate', 'invalid order date')
+          .isString()
+          .isLength({ min: 6, max: 6 })
+          .optional(),
+        body('shippingDate', 'invalid shipping date')
+          .isString()
+          .isLength({ min: 6, max: 6 })
+          .optional(),
+        body('shippingPriceCustomer', 'invalid shipping price for customer')
+          .isFloat()
+          .optional(),
+        body('shippingPriceSeller', 'invalid shipping price for seller')
+          .isFloat()
+          .optional(),
+        body('discount', 'invalid discount').isFloat().optional(),
+        body('sellFrom', 'invalid source of sell')
+          .isString()
+          .optional()
+          .custom(async (sellFrom) => {
+            if (sellFrom && !Object.values(SellFrom).includes(sellFrom)) {
+              return Promise.reject('invalid source of sell')
+            }
+          }),
+      ]
+    }
     default: {
       return []
     }

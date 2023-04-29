@@ -12,6 +12,20 @@ type OrderProductInput = {
   amount: number
 }
 
+type OrderUpdateInput = {
+  name?: string
+  address?: string
+  phone?: string
+  postalCode?: string
+  trackingCode?: string
+  orderDate?: string
+  shippingDate?: string
+  shippingPriceCustomer?: number
+  shippingPriceSeller?: number
+  discount?: number
+  sellFrom?: string
+}
+
 const getAllWithArrayInput = (
   limit: number,
   offset: number,
@@ -43,6 +57,51 @@ const getOne = (data: OrderInput): Promise<Order[]> =>
     .table<Order>('order')
     .select('*')
     .where({ ...data })
+
+const update = (
+  updatedOrder: OrderUpdateInput,
+  id: number,
+  companyId: number
+): Promise<number | Order[] | undefined> =>
+  db.transaction((trx) =>
+    trx
+      .table<Order>('order')
+      .forUpdate()
+      .select('*')
+      .where({
+        id,
+        companyId,
+      })
+      .then((res) => {
+        const order = res?.[0]
+        if (!order) throw new Error('order not found')
+        let totalProfit = order.totalProfit || 0
+
+        if (updatedOrder.discount !== undefined) {
+          totalProfit = +totalProfit + +order.discount - +updatedOrder.discount
+        }
+        if (
+          updatedOrder.shippingPriceCustomer !== undefined ||
+          updatedOrder.shippingPriceSeller !== undefined
+        ) {
+          const pastShippingDifference =
+            order.shippingPriceCustomer - order.shippingPriceSeller
+          const newShippingDifference =
+            (updatedOrder.shippingPriceCustomer ||
+              order.shippingPriceCustomer) -
+            (updatedOrder.shippingPriceSeller || order.shippingPriceCustomer)
+          totalProfit =
+            +totalProfit - +pastShippingDifference + +newShippingDifference
+        }
+        return trx
+          .table<Order>('order')
+          .update({
+            ...updatedOrder,
+            totalProfit,
+          })
+          .where({ id })
+      })
+  )
 
 const add = (
   order: Order,
@@ -114,4 +173,5 @@ export default {
   getOne,
   add,
   getAllWithArrayInput,
+  update,
 }
