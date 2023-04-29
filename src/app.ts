@@ -1,9 +1,10 @@
 import './config'
-import express, { Errback, NextFunction, Request, Response } from 'express'
+import express, { NextFunction, Request, Response } from 'express'
 import morgan from 'morgan'
 import rateLimit from 'express-rate-limit'
 import helmet from 'helmet'
 import swaggerUi from 'swagger-ui-express'
+import moment from 'jalali-moment'
 
 import openapiSpecification from './swagger'
 import productRouter from './routes/product'
@@ -19,6 +20,10 @@ const app = express()
 app.use(express.json())
 
 morgan.token('body', (req: Request) => JSON.stringify(req.body))
+morgan.token('date', (req: Request) =>
+  moment().format('jYYYY/jMM/jDD HH:mm:ss')
+)
+
 app.use(
   morgan(
     '[:date] ":method :url HTTP/:http-version" :body :status  - :response-time ms -  :remote-addr - :res[content-length] '
