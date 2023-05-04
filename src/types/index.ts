@@ -28,12 +28,21 @@ export type User = {
   password: string
   role: string
   companyId?: number
+  isShareHolder: boolean
+  sharePercent: number
+}
+
+export type ShareHolderUser = {
+  id: number
+  isShareHolder: boolean
+  sharePercent: number
 }
 
 export type Company = {
   id?: number
   name: string
   createdAt: string
+  sharePercent?: number
 }
 
 export type OrderProduct = {

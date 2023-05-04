@@ -15,14 +15,13 @@ import logger from './logger'
 import { translateErrorMessage } from './utils'
 import stockRouter from './routes/stock'
 import orderRouter from './routes/order'
+import shareHolderRouter from './routes/shareHolder'
 
 const app = express()
 app.use(express.json())
 
 morgan.token('body', (req: Request) => JSON.stringify(req.body))
-morgan.token('date', (req: Request) =>
-  moment().format('jYYYY/jMM/jDD HH:mm:ss')
-)
+morgan.token('date', () => moment().format('jYYYY/jMM/jDD HH:mm:ss'))
 
 app.use(
   morgan(
@@ -53,6 +52,7 @@ app.use('/invoices', invoiceRouter)
 app.use('/users', userRouter)
 app.use('/stocks', stockRouter)
 app.use('/orders', orderRouter)
+app.use('/shareHolders', shareHolderRouter)
 
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   logger.error(`error handler: ${err}`)

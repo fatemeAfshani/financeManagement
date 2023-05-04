@@ -44,6 +44,12 @@ const translateMessage: object = {
   'there is no enough product in stock':
     'به اندازه کافی محصول در انبار موجود نیست',
   'order not found': 'سفارش مورد نظر یافت نشد',
+  'invalid boolean': 'مقدار ورودی نامعتبر است',
+  'invalid users': 'ورودی نامعتبر است',
+  'user not found': 'کاربر یافت نشد',
+  'invalid share percent': 'درصد سهام کاربر نامعتبر است',
+  'total share percents must be 100':
+    'مجموع درصد سهام کاربران باید صد درصد شود',
 }
 
 export default translateMessage
