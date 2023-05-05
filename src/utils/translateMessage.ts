@@ -50,6 +50,7 @@ const translateMessage: object = {
   'invalid share percent': 'درصد سهام کاربر نامعتبر است',
   'total share percents must be 100':
     'مجموع درصد سهام کاربران باید صد درصد شود',
+  'you dont have access to this data': 'شما به این اطلاعات دسترسی ندارید',
 }
 
 export default translateMessage

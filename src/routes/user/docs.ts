@@ -166,3 +166,39 @@
  *               $ref: "#/components/schemas/GeneralError"
  *
  */
+
+/**
+ * @swagger
+ * /users/company/{id}:
+ *   get:
+ *     tags: [Users]
+ *     summary: Returns all users of a company
+ *     description: Returns all users of a company
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Successful
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: "#/components/schemas/User"
+ *
+ *       400:
+ *         description: Bad Request
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: "#/components/schemas/GeneralError"
+ *
+ *       401:
+ *         description: unAuthorized
+ *
+ *       500:
+ *         description: Unexpected error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: "#/components/schemas/GeneralError"
+ *
+ */
