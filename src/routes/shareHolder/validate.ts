@@ -1,4 +1,4 @@
-import { body } from 'express-validator'
+import { body, param, query } from 'express-validator'
 
 import { Methods, ShareHolderUser } from '../../types'
 import userDB from '../../database/user'
@@ -34,6 +34,17 @@ const shareHolderValitate = (method: Methods) => {
           )
         }),
       ]
+    }
+
+    case Methods.GetAll: {
+      return [
+        query('limit', 'invalid limit').optional().isInt(),
+        query('offset', 'invalid offset').optional().isInt(),
+      ]
+    }
+
+    case Methods.GetAllOfOneType: {
+      return [param('id', 'invalid id').isInt()]
     }
 
     default: {

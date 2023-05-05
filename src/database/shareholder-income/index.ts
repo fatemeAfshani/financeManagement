@@ -2,6 +2,11 @@ import moment from 'jalali-moment'
 import { Company, ShareHolderIncome, User } from '../../types'
 import db from '../db'
 
+type ShareHolderIncomeInput = {
+  orderId: number
+  companyId: number
+}
+
 const add = async (
   orderId: number,
   totalProfit: number,
@@ -37,6 +42,10 @@ const add = async (
     await trx.table<ShareHolderIncome>('shareholder_income').insert(shares)
   })
 
+const getAll = (params: ShareHolderIncomeInput): Promise<ShareHolderIncome[]> =>
+  db.table<ShareHolderIncome>('shareholder_income').select('*').where(params)
+
 export default {
   add,
+  getAll,
 }
