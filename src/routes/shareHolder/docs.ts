@@ -139,11 +139,11 @@
 
 /**
  * @swagger
- * /orders:
+ * /shareHolders:
  *   get:
- *     tags: [Orders]
- *     summary: Returns all of orders
- *     description: Returns all orders of a company
+ *     tags: [ShareHolders]
+ *     summary: Returns all incomes of users for a company
+ *     description: Returns all incomes of users for a company
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -155,7 +155,7 @@
  *         content:
  *           application/json:
  *             schema:
- *               $ref: "#/components/schemas/Order"
+ *               $ref: "#/components/schemas/ShareHolderIncome"
  *
  *       400:
  *         description: Bad Request

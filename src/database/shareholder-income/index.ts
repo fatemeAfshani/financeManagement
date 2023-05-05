@@ -3,7 +3,7 @@ import { Company, ShareHolderIncome, User } from '../../types'
 import db from '../db'
 
 type ShareHolderIncomeInput = {
-  orderId: number
+  orderId?: number
   companyId: number
 }
 
@@ -45,7 +45,20 @@ const add = async (
 const getAll = (params: ShareHolderIncomeInput): Promise<ShareHolderIncome[]> =>
   db.table<ShareHolderIncome>('shareholder_income').select('*').where(params)
 
+const getAllWithLimit = (
+  params: ShareHolderIncomeInput,
+  limit: number,
+  offset: number
+): Promise<ShareHolderIncome[]> =>
+  db
+    .table<ShareHolderIncome>('shareholder_income')
+    .select('*')
+    .where(params)
+    .limit(limit)
+    .offset(offset)
+
 export default {
   add,
   getAll,
+  getAllWithLimit,
 }
