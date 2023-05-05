@@ -147,6 +147,15 @@
  *     responses:
  *       200:
  *         description: Successful
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 orderId:
+ *                   type: number
+ *             example:
+ *               orderId: 1
  *       401:
  *         description: unAuthorized
  *       400:

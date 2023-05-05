@@ -1,4 +1,4 @@
-import { ProductInvoice, ProductStock } from '../../types'
+import { ProductStock } from '../../types'
 import db from '../db'
 
 type StockInput = {

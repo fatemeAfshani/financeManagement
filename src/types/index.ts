@@ -72,6 +72,20 @@ export type Order = {
   products?: OrderProduct[]
 }
 
+export type ShareHolderIncome = {
+  id?: number
+  amount: number
+  sharePercent: number
+  date: string
+  orderId: number
+  isSettled?: boolean
+  checkoutDate?: string
+  checkoutId?: string
+  isCompanyIncome?: boolean
+  userId?: number
+  companyId: number
+}
+
 // eslint-disable-next-line no-shadow
 export const enum Methods {
   Add = 'ADD',
