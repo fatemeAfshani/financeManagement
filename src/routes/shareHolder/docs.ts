@@ -178,24 +178,24 @@
 
 /**
  * @swagger
- * /orders/product/{id}:
+ * /shareHolders/user:
  *   get:
- *     tags: [Orders]
- *     summary: Returns orders of one product
- *     description: Returns all of orders for one product
+ *     tags: [ShareHolders]
+ *     summary: Returns all incomes of a company or user
+ *     description: Returns all incomes of a company or user
  *     security:
  *       - bearerAuth: []
  *     parameters:
  *       - $ref: "#/components/parameters/limitQuery"
  *       - $ref: "#/components/parameters/offsetQuery"
- *       - $ref: "#/components/parameters/idParam"
+ *       - $ref: "#/components/parameters/forUserQuery"
  *     responses:
  *       200:
  *         description: Successful
  *         content:
  *           application/json:
  *             schema:
- *               $ref: "#/components/schemas/Order"
+ *               $ref: "#/components/schemas/ShareHolderIncome"
  *
  *       400:
  *         description: Bad Request

@@ -52,6 +52,7 @@ const translateMessage: object = {
     'مجموع درصد سهام کاربران باید صد درصد شود',
   'you dont have access to this data': 'شما به این اطلاعات دسترسی ندارید',
   'no data found': 'اطلاعاتی یافت نشد',
+  'invalid input': 'ورودی نامعتبر است',
 }
 
 export default translateMessage

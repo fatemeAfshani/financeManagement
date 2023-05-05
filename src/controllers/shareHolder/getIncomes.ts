@@ -21,14 +21,15 @@ export const getIncomesOfOneOrder = async (req: Request, res: Response) => {
   } catch (e: any) {
     logger.error(`error happend in get incomes of one order: ${e}`)
     res.status(500).send({
-      error: e.message
-        ? translateErrorMessage(e.message)
-        : translateErrorMessage('error happened'),
+      error: translateErrorMessage('error happened'),
     })
   }
 }
 
-export const getIncomesOfACompany = async (req: Request, res: Response) => {
+export const getIncomesOfAllUsersOfACompany = async (
+  req: Request,
+  res: Response
+) => {
   try {
     const { limit = '10', offset = '0' } = req.query
     const { companyId } = req.user as User
@@ -41,9 +42,41 @@ export const getIncomesOfACompany = async (req: Request, res: Response) => {
   } catch (e: any) {
     logger.error(`error happend in get incomes of all users of a company: ${e}`)
     res.status(500).send({
-      error: e.message
-        ? translateErrorMessage(e.message)
-        : translateErrorMessage('error happened'),
+      error: translateErrorMessage('error happened'),
+    })
+  }
+}
+
+export const getIncomesOfAUserOrACompany = async (
+  req: Request,
+  res: Response
+) => {
+  try {
+    const { limit = '10', offset = '0', forUser } = req.query
+    const { id, companyId } = req.user as User
+
+    const params: {
+      userId?: number
+      companyId?: number
+      isCompanyIncome?: boolean
+    } = {}
+
+    if (forUser === 'true') {
+      params.userId = id
+    } else {
+      params.companyId = companyId
+      params.isCompanyIncome = true
+    }
+    const incomes = await shareHolderIncomeDB.getAllWithLimit(
+      params,
+      +limit,
+      +offset * +limit
+    )
+    res.status(200).send(incomes)
+  } catch (e: any) {
+    logger.error(`error happend in get incomes of a user: ${e}`)
+    res.status(500).send({
+      error: translateErrorMessage('error happened'),
     })
   }
 }

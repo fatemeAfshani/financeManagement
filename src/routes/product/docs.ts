@@ -59,6 +59,14 @@
  *         type: integer
  *         minimum: 0
  *
+ *     forUserQuery:
+ *       name: forUser
+ *       in: query
+ *       description: if true returns incomes of user otherwise it returns incomes of company
+ *       required: false
+ *       schema:
+ *         type: boolean
+ *
  *
  *
  *   securitySchemes:

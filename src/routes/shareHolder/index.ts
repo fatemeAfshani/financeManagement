@@ -2,11 +2,16 @@ import { Router } from 'express'
 
 import addOrUpdateShareHolders from '../../controllers/shareHolder/addOrUpdateShareHolders'
 import { Methods } from '../../types'
-import { hasAdminAccess, isAuth } from '../../utils/middlewares/auth'
+import {
+  hasAdminAccess,
+  hasViewerAccess,
+  isAuth,
+} from '../../utils/middlewares/auth'
 import errorHandler from '../../utils/middlewares/errorHandler'
 import shareHolderValitate from './validate'
 import {
-  getIncomesOfACompany,
+  getIncomesOfAllUsersOfACompany,
+  getIncomesOfAUserOrACompany,
   getIncomesOfOneOrder,
 } from '../../controllers/shareHolder/getIncomes'
 
@@ -23,13 +28,14 @@ shareHolderRouter.post(
   addOrUpdateShareHolders
 )
 
+// for a company
 shareHolderRouter.get(
   '/',
   isAuth,
   hasAdminAccess,
   shareHolderValitate(Methods.GetAll),
   errorHandler,
-  getIncomesOfACompany
+  getIncomesOfAllUsersOfACompany
 )
 
 shareHolderRouter.get(
@@ -39,6 +45,15 @@ shareHolderRouter.get(
   shareHolderValitate(Methods.GetAllOfOneType),
   errorHandler,
   getIncomesOfOneOrder
+)
+
+shareHolderRouter.get(
+  '/user',
+  isAuth,
+  hasViewerAccess,
+  shareHolderValitate(Methods.GetOne),
+  errorHandler,
+  getIncomesOfAUserOrACompany
 )
 
 export default shareHolderRouter

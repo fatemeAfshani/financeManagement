@@ -4,7 +4,9 @@ import db from '../db'
 
 type ShareHolderIncomeInput = {
   orderId?: number
-  companyId: number
+  companyId?: number
+  userId?: number
+  isCompanyIncome?: boolean
 }
 
 const add = async (

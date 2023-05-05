@@ -47,6 +47,14 @@ const shareHolderValitate = (method: Methods) => {
       return [param('id', 'invalid id').isInt()]
     }
 
+    case Methods.GetOne: {
+      return [
+        query('limit', 'invalid limit').optional().isInt(),
+        query('offset', 'invalid offset').optional().isInt(),
+        query('forUser', 'invalid input').optional().isBoolean(),
+      ]
+    }
+
     default: {
       return []
     }
