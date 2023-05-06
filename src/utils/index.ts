@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt'
 import translateMessage from './translateMessage'
 
 export const translateErrorMessage = (error: string): string[] => [
-  translateMessage[error as keyof object] || error,
+  translateMessage[error as keyof object] || ' خطایی رخ داده است',
 ]
 
 export const enCodePassword = (password: string): string =>

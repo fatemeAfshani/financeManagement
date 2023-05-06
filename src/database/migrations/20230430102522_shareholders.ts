@@ -23,7 +23,6 @@ export async function up(knex: Knex): Promise<void> {
     table.string('date', 6).notNullable()
     table.boolean('isCompanyIncome').defaultTo(false)
     table.boolean('isSettled').defaultTo(false)
-    table.string('checkoutDate')
     table.integer('checkoutId', 255)
     table.foreign('companyId').references('id').inTable('company')
     table.foreign('orderId').references('id').inTable('order')

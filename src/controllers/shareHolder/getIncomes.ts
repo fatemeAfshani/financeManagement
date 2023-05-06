@@ -10,14 +10,14 @@ export const getIncomesOfOneOrder = async (req: Request, res: Response) => {
     const { id } = req.params
     const { companyId } = req.user as User
 
-    const incomes = await shareHolderIncomeDB.getAll({
+    const incomes = await shareHolderIncomeDB.get({
       orderId: +id,
       companyId: companyId!,
     })
     if (incomes.length > 0) {
       return res.status(200).send(incomes)
     }
-    res.status(400).send({ error: translateErrorMessage('no data found') })
+    res.status(400).send({ error: translateErrorMessage('data not found') })
   } catch (e: any) {
     logger.error(`error happend in get incomes of one order: ${e}`)
     res.status(500).send({

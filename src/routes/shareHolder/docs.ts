@@ -23,8 +23,6 @@
  *           type: boolean
  *         isSettled:
  *           type: boolean
- *         checkoutDate:
- *           type: string
  *         checkoutId:
  *           type: number
  *

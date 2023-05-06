@@ -6,16 +6,17 @@ import helmet from 'helmet'
 import swaggerUi from 'swagger-ui-express'
 import moment from 'jalali-moment'
 
+import logger from './logger'
+import { translateErrorMessage } from './utils'
 import openapiSpecification from './swagger'
+
 import productRouter from './routes/product'
 import invoiceRouter from './routes/invoice'
 import userRouter from './routes/user'
-
-import logger from './logger'
-import { translateErrorMessage } from './utils'
 import stockRouter from './routes/stock'
 import orderRouter from './routes/order'
 import shareHolderRouter from './routes/shareHolder'
+import checkoutRouter from './routes/checkout'
 
 const app = express()
 app.use(express.json())
@@ -53,6 +54,7 @@ app.use('/users', userRouter)
 app.use('/stocks', stockRouter)
 app.use('/orders', orderRouter)
 app.use('/shareHolders', shareHolderRouter)
+app.use('/checkouts', checkoutRouter)
 
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   logger.error(`error handler: ${err}`)

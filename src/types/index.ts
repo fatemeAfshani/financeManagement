@@ -79,11 +79,18 @@ export type ShareHolderIncome = {
   date: string
   orderId: number
   isSettled?: boolean
-  checkoutDate?: string
   checkoutId?: string
   isCompanyIncome?: boolean
   userId?: number
   companyId: number
+}
+
+export type ShareHolderCheckout = {
+  companyId: number
+  amount: number
+  description?: string
+  userId?: number
+  date: string
 }
 
 // eslint-disable-next-line no-shadow

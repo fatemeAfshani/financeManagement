@@ -50,8 +50,12 @@ const translateMessage: object = {
   'invalid share percent': 'درصد سهام کاربر نامعتبر است',
   'total share percents must be 100':
     'مجموع درصد سهام کاربران باید صد درصد شود',
+  'invalid checkout amount': 'مبلغ تسویه حساب نامعتبر است',
+  'invalid description': 'توضیحات نامعتبر است',
+  'atleast one of incomes is already settled':
+    'حداقل یکی از درآمد ها قبلا تسویه حساب شده است',
   'you dont have access to this data': 'شما به این اطلاعات دسترسی ندارید',
-  'no data found': 'اطلاعاتی یافت نشد',
+  'data not found': 'اطلاعات یافت نشد',
   'invalid input': 'ورودی نامعتبر است',
 }
 

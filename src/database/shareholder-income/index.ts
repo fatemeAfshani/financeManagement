@@ -44,7 +44,7 @@ const add = async (
     await trx.table<ShareHolderIncome>('shareholder_income').insert(shares)
   })
 
-const getAll = (params: ShareHolderIncomeInput): Promise<ShareHolderIncome[]> =>
+const get = (params: ShareHolderIncomeInput): Promise<ShareHolderIncome[]> =>
   db.table<ShareHolderIncome>('shareholder_income').select('*').where(params)
 
 const getAllWithLimit = (
@@ -59,8 +59,15 @@ const getAllWithLimit = (
     .limit(limit)
     .offset(offset)
 
+const getAll = (ids: number[]): Promise<ShareHolderIncome[]> =>
+  db
+    .table<ShareHolderIncome>('shareholder_income')
+    .select('*')
+    .whereIn('id', ids)
+
 export default {
   add,
   getAll,
   getAllWithLimit,
+  get,
 }
