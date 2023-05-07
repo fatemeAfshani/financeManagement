@@ -1,6 +1,12 @@
 import { ShareHolderIncome, ShareHolderCheckout } from '../../types'
 import db from '../db'
 
+type ShareHolderCheckoutInput = {
+  id?: number
+  userId?: number | null
+  companyId?: number
+}
+
 const add = async (
   checkout: ShareHolderCheckout,
   incomeIds: number[]
@@ -49,6 +55,28 @@ const add = async (
       .whereIn('id', incomeIds)
   })
 
+const get = (
+  params: ShareHolderCheckoutInput
+): Promise<ShareHolderCheckout[]> =>
+  db
+    .table<ShareHolderCheckout>('shareholder_checkout')
+    .select('*')
+    .where(params)
+
+const getAllWithLimit = (
+  params: ShareHolderCheckoutInput,
+  limit: number,
+  offset: number
+): Promise<ShareHolderCheckout[]> =>
+  db
+    .table<ShareHolderCheckout>('shareholder_checkout')
+    .select('*')
+    .where(params)
+    .limit(limit)
+    .offset(offset)
+
 export default {
   add,
+  get,
+  getAllWithLimit,
 }

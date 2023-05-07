@@ -54,6 +54,7 @@ const translateMessage: object = {
   'invalid description': 'توضیحات نامعتبر است',
   'atleast one of incomes is already settled':
     'حداقل یکی از درآمد ها قبلا تسویه حساب شده است',
+  'checkout not found': 'اطلاعات تسویه حساب یافت نشد',
   'you dont have access to this data': 'شما به این اطلاعات دسترسی ندارید',
   'data not found': 'اطلاعات یافت نشد',
   'invalid input': 'ورودی نامعتبر است',

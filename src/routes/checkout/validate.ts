@@ -32,6 +32,24 @@ const checkoutValitate = (method: Methods) => {
       ]
     }
 
+    case Methods.GetAll: {
+      return [
+        query('limit', 'invalid limit').optional().isInt(),
+        query('offset', 'invalid offset').optional().isInt(),
+      ]
+    }
+
+    case Methods.GetOne: {
+      return [param('id', 'invalid id').isInt()]
+    }
+
+    case Methods.GetAllOfOneType: {
+      return [
+        query('limit', 'invalid limit').optional().isInt(),
+        query('offset', 'invalid offset').optional().isInt(),
+        param('id', 'invalid id').isInt(),
+      ]
+    }
     default: {
       return []
     }
