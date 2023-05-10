@@ -15,7 +15,7 @@ import invoiceRouter from './routes/invoice'
 import userRouter from './routes/user'
 import stockRouter from './routes/stock'
 import orderRouter from './routes/order'
-import shareHolderRouter from './routes/shareHolder'
+import shareHolderIncomeRouter from './routes/income'
 import checkoutRouter from './routes/checkout'
 
 const app = express()
@@ -53,7 +53,7 @@ app.use('/invoices', invoiceRouter)
 app.use('/users', userRouter)
 app.use('/stocks', stockRouter)
 app.use('/orders', orderRouter)
-app.use('/shareHolders', shareHolderRouter)
+app.use('/incomes', shareHolderIncomeRouter)
 app.use('/checkouts', checkoutRouter)
 
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {

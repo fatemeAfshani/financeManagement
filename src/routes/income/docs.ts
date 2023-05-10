@@ -41,67 +41,15 @@
 /**
  * @swagger
  * tags:
- *   - name: ShareHolders
- *     description: Share holders Related Apis
+ *   - name: Incomes
+ *     description: income Related Apis
  */
 
 /**
  * @swagger
- * /shareHolders:
- *   post:
- *     tags: [ShareHolders]
- *     summary: add or update shareHolders
- *     description: add or update shareHolders
- *     security:
- *       - bearerAuth: []
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             users:
- *               type: array
- *               items:
- *                 type: object
- *                 properties:
- *                   id:
- *                     type: number
- *                   isShareHolder:
- *                     type: boolean
- *                   sharePercent:
- *                     type: number
- *
- *             required:
- *               - users
- *
- *             example:
- *               users: [{id: 1 , isShareHolder: true , sharePercent: 20}]
- *
- *     responses:
- *       200:
- *         description: Successful
- *       401:
- *         description: unAuthorized
- *       400:
- *         description: Bad Request
- *         content:
- *           application/json:
- *             schema:
- *               $ref: "#/components/schemas/GeneralError"
- *       500:
- *         description: Unexpected error
- *         content:
- *           application/json:
- *             schema:
- *               $ref: "#/components/schemas/GeneralError"
- *
- */
-
-/**
- * @swagger
- * /shareHolders/order/{id}:
+ * /incomes/order/{id}:
  *   get:
- *     tags: [ShareHolders]
+ *     tags: [Incomes]
  *     summary: Returns incomes of users for one order
  *     description: Returns incomes of users for one order
  *     security:
@@ -137,9 +85,9 @@
 
 /**
  * @swagger
- * /shareHolders:
+ * /incomes:
  *   get:
- *     tags: [ShareHolders]
+ *     tags: [Incomes]
  *     summary: Returns all incomes of users for a company
  *     description: Returns all incomes of users for a company
  *     security:
@@ -176,9 +124,9 @@
 
 /**
  * @swagger
- * /shareHolders/user:
+ * /incomes/user:
  *   get:
- *     tags: [ShareHolders]
+ *     tags: [Incomes]
  *     summary: Returns all incomes of a company or user
  *     description: Returns all incomes of a company or user
  *     security:
