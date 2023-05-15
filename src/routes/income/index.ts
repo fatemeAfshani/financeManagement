@@ -13,7 +13,10 @@ import {
   getIncomesOfAUserOrACompany,
   getIncomesOfOneOrder,
 } from '../../controllers/income/getIncomes'
-import { getTotalIncomesOfAllUsersOfACompany } from '../../controllers/income/getTotalIncomes'
+import {
+  getTotalIncomesOfAllUsersOfACompany,
+  getTotalIncomesOfAUserOrACompany,
+} from '../../controllers/income/getTotalIncomes'
 
 const shareHolderIncomeRouter = Router()
 
@@ -52,6 +55,14 @@ shareHolderIncomeRouter.get(
   shareHolderValidate(Methods.GetOne),
   errorHandler,
   getIncomesOfAUserOrACompany
+)
+shareHolderIncomeRouter.get(
+  '/user/total',
+  isAuth,
+  hasViewerAccess,
+  shareHolderValidate(Methods.GetTotalUser),
+  errorHandler,
+  getTotalIncomesOfAUserOrACompany
 )
 
 export default shareHolderIncomeRouter

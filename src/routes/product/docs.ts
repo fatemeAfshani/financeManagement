@@ -84,6 +84,14 @@
  *         type: string
  *
  *
+ *     onlyNotSettledQuery:
+ *       name: onlyNotSettled
+ *       in: query
+ *       description: return only if income is not settled
+ *       required: false
+ *       schema:
+ *         type: boolean
+ *
  *   securitySchemes:
  *     bearerAuth:
  *       type: http

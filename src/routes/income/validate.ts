@@ -38,6 +38,21 @@ const shareHolderValidate = (method: Methods) => {
       ]
     }
 
+    case Methods.GetTotalUser: {
+      return [
+        query('fromDate', 'invalid from date')
+          .optional()
+          .isString()
+          .isLength({ min: 6, max: 6 }),
+
+        query('toDate', 'invalid to date')
+          .optional()
+          .isString()
+          .isLength({ min: 6, max: 6 }),
+        query('onlyNotSettled', 'invalid input').optional().isBoolean(),
+        query('forUser', 'invalid input').optional().isBoolean(),
+      ]
+    }
     default: {
       return []
     }

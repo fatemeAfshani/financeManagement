@@ -2,11 +2,12 @@ import moment from 'jalali-moment'
 import { Company, ShareHolderIncome, User } from '../../types'
 import db from '../db'
 
-type ShareHolderIncomeInput = {
+export type ShareHolderIncomeInput = {
   orderId?: number
   companyId?: number
   userId?: number
   isCompanyIncome?: boolean
+  isSettled?: boolean
 }
 
 type DateInput = string | undefined

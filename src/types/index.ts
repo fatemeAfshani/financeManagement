@@ -104,6 +104,7 @@ export const enum Methods {
   Login = 'LOGIN',
   GetAllOfOneType = 'GETALLOFONETYPE',
   GetTotal = 'GETTOTAL',
+  GetTotalUser = 'GETTOTALUSER',
 }
 
 // eslint-disable-next-line no-shadow
