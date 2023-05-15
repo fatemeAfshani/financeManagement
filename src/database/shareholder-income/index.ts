@@ -16,7 +16,7 @@ const add = async (
   orderId: number,
   totalProfit: number,
   companyId: number
-): Promise<void> =>
+): Promise<User[]> =>
   db.transaction(async (trx) => {
     const users = await trx
       .table<User>('user')
@@ -45,6 +45,7 @@ const add = async (
       amount: (company.sharePercent * totalProfit) / 100,
     })
     await trx.table<ShareHolderIncome>('shareholder_income').insert(shares)
+    return users
   })
 
 const get = (params: ShareHolderIncomeInput): Promise<ShareHolderIncome[]> =>

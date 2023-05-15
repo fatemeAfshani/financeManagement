@@ -5,7 +5,7 @@ import orderDB from '../../database/order'
 import shareHOlderIncomeDB from '../../database/shareholder-income'
 import logger from '../../logger'
 import { User } from '../../types'
-import { translateErrorMessage } from '../../utils'
+import { deleteRedisData, translateErrorMessage } from '../../utils'
 
 const addOrder = async (req: Request, res: Response) => {
   try {
@@ -20,8 +20,12 @@ const addOrder = async (req: Request, res: Response) => {
         .sendStatus(500)
         .send({ error: translateErrorMessage('error happened') })
     }
-    await shareHOlderIncomeDB.add(orderId, totalProfit, companyId!)
-    await redisClient.del(`company:${companyId}-income-all`)
+    const users = await shareHOlderIncomeDB.add(
+      orderId,
+      totalProfit,
+      companyId!
+    )
+    await deleteRedisData(companyId!, users)
     res.status(200).send({ orderId })
   } catch (e: any) {
     logger.error(`error happend in add order: ${e}`)
