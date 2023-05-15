@@ -1,4 +1,9 @@
-import { Order, OrderProduct, ProductStock } from '../../types'
+import {
+  Order,
+  OrderProduct,
+  ProductStock,
+  ShareHolderIncome,
+} from '../../types'
 import db from '../db'
 
 type OrderInput = {
@@ -62,46 +67,46 @@ const update = (
   updatedOrder: OrderUpdateInput,
   id: number,
   companyId: number
-): Promise<number | Order[] | undefined> =>
-  db.transaction((trx) =>
-    trx
-      .table<Order>('order')
-      .forUpdate()
-      .select('*')
-      .where({
-        id,
-        companyId,
-      })
-      .then((res) => {
-        const order = res?.[0]
-        if (!order) throw new Error('order not found')
-        let totalProfit = order.totalProfit || 0
+): Promise<{ totalProfit: number }> =>
+  db.transaction(async (trx) => {
+    const res = await trx.table<Order>('order').forUpdate().select('*').where({
+      id,
+      companyId,
+    })
+    const order = res?.[0]
+    if (!order) throw new Error('order not found')
+    let totalProfit = order.totalProfit || 0
 
-        if (updatedOrder.discount !== undefined) {
-          totalProfit = +totalProfit + +order.discount - +updatedOrder.discount
-        }
-        if (
-          updatedOrder.shippingPriceCustomer !== undefined ||
-          updatedOrder.shippingPriceSeller !== undefined
-        ) {
-          const pastShippingDifference =
-            order.shippingPriceCustomer - order.shippingPriceSeller
-          const newShippingDifference =
-            (updatedOrder.shippingPriceCustomer ||
-              order.shippingPriceCustomer) -
-            (updatedOrder.shippingPriceSeller || order.shippingPriceCustomer)
-          totalProfit =
-            +totalProfit - +pastShippingDifference + +newShippingDifference
-        }
-        return trx
-          .table<Order>('order')
-          .update({
-            ...updatedOrder,
-            totalProfit,
-          })
-          .where({ id })
+    if (updatedOrder.discount !== undefined) {
+      totalProfit = +totalProfit + +order.discount - +updatedOrder.discount
+    }
+    if (
+      updatedOrder.shippingPriceCustomer !== undefined ||
+      updatedOrder.shippingPriceSeller !== undefined
+    ) {
+      const pastShippingDifference =
+        order.shippingPriceCustomer - order.shippingPriceSeller
+      const newShippingDifference =
+        (updatedOrder.shippingPriceCustomer || order.shippingPriceCustomer) -
+        (updatedOrder.shippingPriceSeller || order.shippingPriceCustomer)
+      totalProfit =
+        +totalProfit - +pastShippingDifference + +newShippingDifference
+    }
+    await trx
+      .table<Order>('order')
+      .update({
+        ...updatedOrder,
+        totalProfit,
       })
-  )
+      .where({ id })
+
+    await trx
+      .table<ShareHolderIncome>('shareholder_income')
+      .where({ orderId: id })
+      .del()
+
+    return { totalProfit }
+  })
 
 const add = (
   order: Order,
