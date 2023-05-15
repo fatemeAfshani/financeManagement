@@ -67,6 +67,21 @@
  *       schema:
  *         type: boolean
  *
+ *     fromDateQuery:
+ *       name: fromDate
+ *       in: query
+ *       description: from whitch date you want data to be returned
+ *       required: false
+ *       schema:
+ *         type: string
+ *
+ *     toDateQuery:
+ *       name: toDate
+ *       in: query
+ *       description: to whitch date you want data to be returned
+ *       required: false
+ *       schema:
+ *         type: string
  *
  *
  *   securitySchemes:

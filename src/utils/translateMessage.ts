@@ -58,6 +58,8 @@ const translateMessage: object = {
   'you dont have access to this data': 'شما به این اطلاعات دسترسی ندارید',
   'data not found': 'اطلاعات یافت نشد',
   'invalid input': 'ورودی نامعتبر است',
+  'invalid from date': 'تاریخ شروع نامعتبر است',
+  'invalid to date': 'تاریخ پایان نامعتبر است',
 }
 
 export default translateMessage

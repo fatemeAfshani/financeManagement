@@ -24,6 +24,20 @@ const shareHolderValidate = (method: Methods) => {
       ]
     }
 
+    case Methods.GetTotal: {
+      return [
+        query('fromDate', 'invalid from date')
+          .optional()
+          .isString()
+          .isLength({ min: 6, max: 6 }),
+
+        query('toDate', 'invalid to date')
+          .optional()
+          .isString()
+          .isLength({ min: 6, max: 6 }),
+      ]
+    }
+
     default: {
       return []
     }

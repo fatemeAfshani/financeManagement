@@ -103,6 +103,7 @@ export const enum Methods {
   Register = 'REGISTER',
   Login = 'LOGIN',
   GetAllOfOneType = 'GETALLOFONETYPE',
+  GetTotal = 'GETTOTAL',
 }
 
 // eslint-disable-next-line no-shadow

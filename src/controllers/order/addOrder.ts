@@ -1,4 +1,5 @@
 import { Request, Response } from 'express'
+import redisClient from '../../redis'
 
 import orderDB from '../../database/order'
 import shareHOlderIncomeDB from '../../database/shareholder-income'
@@ -20,6 +21,7 @@ const addOrder = async (req: Request, res: Response) => {
         .send({ error: translateErrorMessage('error happened') })
     }
     await shareHOlderIncomeDB.add(orderId, totalProfit, companyId!)
+    await redisClient.del(`company:${companyId}-income-all`)
     res.status(200).send({ orderId })
   } catch (e: any) {
     logger.error(`error happend in add order: ${e}`)

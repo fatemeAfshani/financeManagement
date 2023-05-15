@@ -9,6 +9,8 @@ type ShareHolderIncomeInput = {
   isCompanyIncome?: boolean
 }
 
+type DateInput = string | undefined
+
 const add = async (
   orderId: number,
   totalProfit: number,
@@ -65,9 +67,28 @@ const getAll = (ids: number[]): Promise<ShareHolderIncome[]> =>
     .select('*')
     .whereIn('id', ids)
 
+const getSum = (
+  params: ShareHolderIncomeInput,
+  fromDate: DateInput,
+  toDate: DateInput
+): Promise<{ sum: number }[]> => {
+  const query = db
+    .table<ShareHolderIncome>('shareholder_income')
+    .sum('amount')
+    .where(params)
+  if (fromDate) {
+    query.andWhere('date', '>=', fromDate)
+  }
+  if (toDate) {
+    query.andWhere('date', '<=', toDate)
+  }
+  return query
+}
+
 export default {
   add,
   getAll,
   getAllWithLimit,
   get,
+  getSum,
 }
