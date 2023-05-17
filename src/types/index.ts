@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 export type Product = {
   id?: number
   name: string
@@ -107,14 +108,17 @@ export const enum Methods {
   GetTotalUser = 'GETTOTALUSER',
 }
 
-// eslint-disable-next-line no-shadow
 export enum Roles {
   ADMIN = 'admin',
   VIEWER = 'viewer',
 }
 
-// eslint-disable-next-line no-shadow
 export enum SellFrom {
   SITE = 'site',
   INSTAGRAM = 'instagram',
+}
+
+export enum Language {
+  FA = 'fa',
+  EN = 'en',
 }

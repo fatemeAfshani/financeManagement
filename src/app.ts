@@ -5,6 +5,7 @@ import rateLimit from 'express-rate-limit'
 import helmet from 'helmet'
 import swaggerUi from 'swagger-ui-express'
 import moment from 'jalali-moment'
+import cookieParser from 'cookie-parser'
 
 import logger from './logger'
 import { translateErrorMessage } from './utils'
@@ -17,6 +18,7 @@ import stockRouter from './routes/stock'
 import orderRouter from './routes/order'
 import shareHolderIncomeRouter from './routes/income'
 import checkoutRouter from './routes/checkout'
+import cookieRouter from './routes/cookie'
 
 const app = express()
 app.use(express.json())
@@ -38,11 +40,13 @@ const limiter = rateLimit({
 })
 
 if (process.env.NODE_ENV !== 'test') app.use(limiter)
+
 app.use(helmet())
+app.use(cookieParser())
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openapiSpecification))
 
-// we import json response of this route to postman
+// we can import json response of this route in postman
 app.get('/docs/json', (req: Request, res: Response) => {
   res.setHeader('Content-Type', 'application/json')
   res.send(openapiSpecification)
@@ -55,10 +59,13 @@ app.use('/stocks', stockRouter)
 app.use('/orders', orderRouter)
 app.use('/incomes', shareHolderIncomeRouter)
 app.use('/checkouts', checkoutRouter)
+app.use('/cookies', cookieRouter)
 
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   logger.error(`error handler: ${err}`)
-  res.send({ error: translateErrorMessage('error happened') })
+  res.send({
+    error: translateErrorMessage(req.cookies?.language, 'error happened'),
+  })
 })
 
 export default app

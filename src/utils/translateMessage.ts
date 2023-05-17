@@ -62,6 +62,7 @@ const translateMessage: object = {
   'invalid to date': 'تاریخ پایان نامعتبر است',
   'incomes of this order is already settled, can not update':
     'تسویه حساب درآمد های حاصل از این سفارش انجام شده است، امکان به روز رسانی وجود ندارد ',
+  'invalid language': 'زبان نامعتبر است',
 }
 
 export default translateMessage
