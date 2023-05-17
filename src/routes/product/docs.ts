@@ -83,7 +83,6 @@
  *       schema:
  *         type: string
  *
- *
  *     onlyNotSettledQuery:
  *       name: onlyNotSettled
  *       in: query

@@ -22,8 +22,8 @@ const addCheckout = async (req: Request, res: Response) => {
     logger.error(`error happend in add checkout: ${e}`)
     res.status(500).send({
       error: e.message
-        ? translateErrorMessage(e.message)
-        : translateErrorMessage('error happened'),
+        ? translateErrorMessage(req.cookies?.language, e.message)
+        : translateErrorMessage(req.cookies?.language, 'error happened'),
     })
   }
 }

@@ -18,7 +18,7 @@ export const getCheckoutsOfACompany = async (req: Request, res: Response) => {
   } catch (e: any) {
     logger.error(`error happend in get checkouts of a company: ${e}`)
     res.status(500).send({
-      error: translateErrorMessage('error happened'),
+      error: translateErrorMessage(req.cookies?.language, 'error happened'),
     })
   }
 }
@@ -38,7 +38,7 @@ export const getCheckoutsOfAUser = async (req: Request, res: Response) => {
   } catch (e: any) {
     logger.error(`error happend in get checkouts of a user: ${e}`)
     res.status(500).send({
-      error: translateErrorMessage('error happened'),
+      error: translateErrorMessage(req.cookies?.language, 'error happened'),
     })
   }
 }
@@ -55,16 +55,19 @@ export const getACheckout = async (req: Request, res: Response) => {
     )?.[0]
 
     if (!checkout) {
-      res
-        .status(404)
-        .send({ error: translateErrorMessage('checkout not found') })
+      res.status(404).send({
+        error: translateErrorMessage(
+          req.cookies?.language,
+          'checkout not found'
+        ),
+      })
     }
 
     res.status(200).send(checkout)
   } catch (e: any) {
     logger.error(`error happend in get checkouts of a company: ${e}`)
     res.status(500).send({
-      error: translateErrorMessage('error happened'),
+      error: translateErrorMessage(req.cookies?.language, 'error happened'),
     })
   }
 }

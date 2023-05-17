@@ -4,9 +4,17 @@ import redisClient from '../redis'
 import { User } from '../types'
 import translateMessage from './translateMessage'
 
-export const translateErrorMessage = (error: string): string[] => [
-  translateMessage[error as keyof object] || ' خطایی رخ داده است',
-]
+export const translateErrorMessage = (
+  language: string | undefined,
+  errorMessage: string
+): string[] => {
+  if (language === 'fa') {
+    return [
+      translateMessage[errorMessage as keyof object] || ' خطایی رخ داده است',
+    ]
+  }
+  return [errorMessage || 'something went wrong']
+}
 
 export const enCodePassword = (password: string): string =>
   bcrypt.hashSync(password, 8)

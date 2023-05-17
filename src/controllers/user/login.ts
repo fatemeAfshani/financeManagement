@@ -18,7 +18,7 @@ const createToken = ({ username, id, role, companyId }: User) =>
     },
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     process.env.JWT_TOKEN!,
-    { expiresIn: '1h' }
+    { expiresIn: '6h' }
   )
 
 const login = async (req: Request, res: Response) => {
@@ -28,22 +28,24 @@ const login = async (req: Request, res: Response) => {
     const user = (await userDb.get({ username }))?.[0]
 
     if (!user) {
-      return res
-        .status(401)
-        .send({ error: translateErrorMessage('invalid login') })
+      return res.status(401).send({
+        error: translateErrorMessage(req.cookies?.language, 'invalid login'),
+      })
     }
     const passwordMatch = await checkPassword(password, user.password)
     if (!passwordMatch) {
-      return res
-        .status(401)
-        .send({ error: translateErrorMessage('invalid login') })
+      return res.status(401).send({
+        error: translateErrorMessage(req.cookies?.language, 'invalid login'),
+      })
     }
     const token = createToken(user)
     logger.info(`customer login with username: ${username}`)
     res.status(200).send({ username, token })
   } catch (error) {
     logger.error(`error happend in login customer ${error}`)
-    res.status(500).send({ error: translateErrorMessage('error happened') })
+    res.status(500).send({
+      error: translateErrorMessage(req.cookies?.language, 'error happened'),
+    })
   }
 }
 

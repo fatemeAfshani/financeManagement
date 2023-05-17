@@ -16,9 +16,9 @@ const addOrder = async (req: Request, res: Response) => {
       products
     )
     if (!orderId) {
-      res
-        .sendStatus(500)
-        .send({ error: translateErrorMessage('error happened') })
+      res.sendStatus(500).send({
+        error: translateErrorMessage(req.cookies?.language, 'error happened'),
+      })
     }
     const users = await shareHOlderIncomeDB.add(
       orderId,
@@ -32,8 +32,8 @@ const addOrder = async (req: Request, res: Response) => {
     const errorMessage = 'there is no enough product in stock'
     res.status(500).send({
       error: e.toString().includes(errorMessage)
-        ? translateErrorMessage(errorMessage)
-        : translateErrorMessage('error happened'),
+        ? translateErrorMessage(req.cookies?.language, errorMessage)
+        : translateErrorMessage(req.cookies?.language, 'error happened'),
     })
   }
 }

@@ -43,7 +43,7 @@ export const getTotalIncomesOfAllUsersOfACompany = async (
       `error happend in get total incomes of all users of a company: ${e}`
     )
     res.status(500).send({
-      error: translateErrorMessage('error happened'),
+      error: translateErrorMessage(req.cookies?.language, 'error happened'),
     })
   }
 }
@@ -91,7 +91,7 @@ export const getTotalIncomesOfAUserOrACompany = async (
   } catch (e: any) {
     logger.error(`error happend in get total incomes of a user: ${e}`)
     res.status(500).send({
-      error: translateErrorMessage('error happened'),
+      error: translateErrorMessage(req.cookies?.language, 'error happened'),
     })
   }
 }

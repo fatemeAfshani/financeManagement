@@ -12,7 +12,9 @@ const getAllUsersOfCompany = async (req: Request, res: Response) => {
     res.status(200).send({ users })
   } catch (error) {
     logger.error(`error happend in getting all users of a company ${error}`)
-    res.status(500).send({ error: translateErrorMessage('error happened') })
+    res.status(500).send({
+      error: translateErrorMessage(req.cookies?.language, 'error happened'),
+    })
   }
 }
 

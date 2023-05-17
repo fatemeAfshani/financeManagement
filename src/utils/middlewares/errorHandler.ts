@@ -7,10 +7,14 @@ const translateValidationErrorMessage = (errors: ValidationError[]): string =>
 
 const errorHandler = (req: Request, res: Response, next: NextFunction) => {
   const errors = validationResult(req)
+
   if (!errors.isEmpty()) {
-    return res
-      .status(400)
-      .json({ error: translateValidationErrorMessage(errors.array()) })
+    return res.status(400).json({
+      error:
+        req.cookies?.language === 'fa'
+          ? translateValidationErrorMessage(errors.array())
+          : errors.array()?.[0]?.msg || 'something went wrong',
+    })
   }
   next()
 }

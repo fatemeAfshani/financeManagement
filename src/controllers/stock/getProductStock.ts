@@ -12,7 +12,9 @@ export const getStocks = async (req: Request, res: Response) => {
     res.status(200).send(stocks)
   } catch (e) {
     logger.error(`error happend in get stocks: ${e}`)
-    res.status(500).send({ error: translateErrorMessage('error happened') })
+    res.status(500).send({
+      error: translateErrorMessage(req.cookies?.language, 'error happened'),
+    })
   }
 }
 
@@ -27,11 +29,16 @@ export const getStocksOfOneProduct = async (req: Request, res: Response) => {
       res.status(200).send(stocks)
     } else {
       res.status(404).send({
-        error: translateErrorMessage('no stock found for this product'),
+        error: translateErrorMessage(
+          req.cookies?.language,
+          'no stock found for this product'
+        ),
       })
     }
   } catch (e) {
     logger.error(`error happend in get stocks of a product: ${e}`)
-    res.status(500).send({ error: translateErrorMessage('error happened') })
+    res.status(500).send({
+      error: translateErrorMessage(req.cookies?.language, 'error happened'),
+    })
   }
 }

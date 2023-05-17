@@ -16,7 +16,9 @@ export const getInvoices = async (req: Request, res: Response) => {
     res.status(200).send(invoices)
   } catch (e) {
     logger.error(`error happend in get invoices: ${e}`)
-    res.status(500).send({ error: translateErrorMessage('error happened') })
+    res.status(500).send({
+      error: translateErrorMessage(req.cookies?.language, 'error happened'),
+    })
   }
 }
 
@@ -28,13 +30,18 @@ export const getInvoice = async (req: Request, res: Response) => {
     if (invoice?.[0]) {
       res.status(200).send(invoice?.[0])
     } else {
-      res
-        .status(404)
-        .send({ error: translateErrorMessage('invoice not found') })
+      res.status(404).send({
+        error: translateErrorMessage(
+          req.cookies?.language,
+          'invoice not found'
+        ),
+      })
     }
   } catch (e) {
     logger.error(`error happend in get one invoice: ${e}`)
-    res.status(500).send({ error: translateErrorMessage('error happened') })
+    res.status(500).send({
+      error: translateErrorMessage(req.cookies?.language, 'error happened'),
+    })
   }
 }
 
@@ -56,11 +63,16 @@ export const getInvoicesOfOneProduct = async (req: Request, res: Response) => {
       res.status(200).send(invoices)
     } else {
       res.status(404).send({
-        error: translateErrorMessage('no invoice found for this product'),
+        error: translateErrorMessage(
+          req.cookies?.language,
+          'no invoice found for this product'
+        ),
       })
     }
   } catch (e) {
     logger.error(`error happend in get one invoice: ${e}`)
-    res.status(500).send({ error: translateErrorMessage('error happened') })
+    res.status(500).send({
+      error: translateErrorMessage(req.cookies?.language, 'error happened'),
+    })
   }
 }

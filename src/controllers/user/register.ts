@@ -16,7 +16,10 @@ const register = async (req: Request, res: Response) => {
     if (companyName) {
       if (role !== Roles.ADMIN) {
         return res.status(400).send({
-          error: translateErrorMessage('company creator must have admin role'),
+          error: translateErrorMessage(
+            req.cookies?.language,
+            'company creator must have admin role'
+          ),
         })
       }
 
@@ -34,9 +37,9 @@ const register = async (req: Request, res: Response) => {
       )
     }
     if (!companyId) {
-      return res
-        .status(400)
-        .send({ error: translateErrorMessage('no company found') })
+      return res.status(400).send({
+        error: translateErrorMessage(req.cookies?.language, 'no company found'),
+      })
     }
 
     await userDB.add({
@@ -50,7 +53,9 @@ const register = async (req: Request, res: Response) => {
     res.status(200).send({ username, companyId })
   } catch (error) {
     logger.error(`error happend in registring customer ${error}`)
-    res.status(500).send({ error: translateErrorMessage('error happened') })
+    res.status(500).send({
+      error: translateErrorMessage(req.cookies?.language, 'error happened'),
+    })
   }
 }
 

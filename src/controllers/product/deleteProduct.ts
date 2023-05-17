@@ -12,13 +12,18 @@ const deleteProduct = async (req: Request, res: Response) => {
     if (product) {
       res.sendStatus(200)
     } else {
-      res
-        .status(404)
-        .send({ error: translateErrorMessage('product not found') })
+      res.status(404).send({
+        error: translateErrorMessage(
+          req.cookies?.language,
+          'product not found'
+        ),
+      })
     }
   } catch (e) {
     logger.error(`error happend in delete Product: ${e}`)
-    res.status(500).send({ error: translateErrorMessage('error happened') })
+    res.status(500).send({
+      error: translateErrorMessage(req.cookies?.language, 'error happened'),
+    })
   }
 }
 

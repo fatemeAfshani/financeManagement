@@ -17,11 +17,13 @@ export const getIncomesOfOneOrder = async (req: Request, res: Response) => {
     if (incomes.length > 0) {
       return res.status(200).send(incomes)
     }
-    res.status(400).send({ error: translateErrorMessage('data not found') })
+    res.status(400).send({
+      error: translateErrorMessage(req.cookies?.language, 'data not found'),
+    })
   } catch (e: any) {
     logger.error(`error happend in get incomes of one order: ${e}`)
     res.status(500).send({
-      error: translateErrorMessage('error happened'),
+      error: translateErrorMessage(req.cookies?.language, 'error happened'),
     })
   }
 }
@@ -42,7 +44,7 @@ export const getIncomesOfAllUsersOfACompany = async (
   } catch (e: any) {
     logger.error(`error happend in get incomes of all users of a company: ${e}`)
     res.status(500).send({
-      error: translateErrorMessage('error happened'),
+      error: translateErrorMessage(req.cookies?.language, 'error happened'),
     })
   }
 }
@@ -76,7 +78,7 @@ export const getIncomesOfAUserOrACompany = async (
   } catch (e: any) {
     logger.error(`error happend in get incomes of a user: ${e}`)
     res.status(500).send({
-      error: translateErrorMessage('error happened'),
+      error: translateErrorMessage(req.cookies?.language, 'error happened'),
     })
   }
 }

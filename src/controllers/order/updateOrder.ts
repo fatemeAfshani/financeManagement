@@ -18,6 +18,7 @@ const updateOrder = async (req: Request, res: Response) => {
     if (orderIncomes && orderIncomes.length > 0) {
       return res.status(500).send({
         error: translateErrorMessage(
+          req.cookies?.language,
           'incomes of this order is already settled, can not update'
         ),
       })
@@ -32,8 +33,8 @@ const updateOrder = async (req: Request, res: Response) => {
     const errorMessage = 'order not found'
     res.status(500).send({
       error: e.toString().includes(errorMessage)
-        ? translateErrorMessage(errorMessage)
-        : translateErrorMessage('error happened'),
+        ? translateErrorMessage(req.cookies?.language, errorMessage)
+        : translateErrorMessage(req.cookies?.language, 'error happened'),
     })
   }
 }

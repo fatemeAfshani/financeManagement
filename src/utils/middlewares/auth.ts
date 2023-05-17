@@ -42,6 +42,7 @@ export const hasAdminAccess = async (
     if (role !== Roles.ADMIN) {
       return res.status(401).send({
         error: translateErrorMessage(
+          req.cookies?.language,
           'you dont have access to do this operation'
         ),
       })
@@ -63,6 +64,7 @@ export const hasViewerAccess = async (
     if (role !== Roles.ADMIN && role !== Roles.VIEWER) {
       return res.status(401).send({
         error: translateErrorMessage(
+          req.cookies?.language,
           'you dont have access to do this operation'
         ),
       })

@@ -18,7 +18,9 @@ export const getProducts = async (req: Request, res: Response) => {
     res.status(200).send(products)
   } catch (e) {
     logger.error(`error happend in get Products: ${e}`)
-    res.status(500).send({ error: translateErrorMessage('error happened') })
+    res.status(500).send({
+      error: translateErrorMessage(req.cookies?.language, 'error happened'),
+    })
   }
 }
 
@@ -30,12 +32,17 @@ export const getProduct = async (req: Request, res: Response) => {
     if (product?.[0]) {
       res.status(200).send(product?.[0])
     } else {
-      res
-        .status(404)
-        .send({ error: translateErrorMessage('product not found') })
+      res.status(404).send({
+        error: translateErrorMessage(
+          req.cookies?.language,
+          'product not found'
+        ),
+      })
     }
   } catch (e) {
     logger.error(`error happend in get one Product: ${e}`)
-    res.status(500).send({ error: translateErrorMessage('error happened') })
+    res.status(500).send({
+      error: translateErrorMessage(req.cookies?.language, 'error happened'),
+    })
   }
 }

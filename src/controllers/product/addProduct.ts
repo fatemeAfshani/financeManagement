@@ -11,7 +11,9 @@ const addProduct = async (req: Request, res: Response) => {
     res.sendStatus(200)
   } catch (e) {
     logger.error(`error happend in add Product: ${e}`)
-    res.status(500).send({ error: translateErrorMessage('error happened') })
+    res.status(500).send({
+      error: translateErrorMessage(req.cookies?.language, 'error happened'),
+    })
   }
 }
 

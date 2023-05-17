@@ -21,7 +21,9 @@ export const getOrders = async (req: Request, res: Response) => {
     res.status(200).send(orders)
   } catch (e) {
     logger.error(`error happend in get invoices: ${e}`)
-    res.status(500).send({ error: translateErrorMessage('error happened') })
+    res.status(500).send({
+      error: translateErrorMessage(req.cookies?.language, 'error happened'),
+    })
   }
 }
 
@@ -31,14 +33,18 @@ export const getOrder = async (req: Request, res: Response) => {
     const { companyId } = req.user as User
     const order = (await orderDB.getOne({ id: +id, companyId }))?.[0]
     if (!order) {
-      res.status(404).send({ error: translateErrorMessage('order not found') })
+      res.status(404).send({
+        error: translateErrorMessage(req.cookies?.language, 'order not found'),
+      })
     }
     const orderProducts = await orderProductDB.getOne(+id)
     if (orderProducts) order.products = orderProducts
     res.status(200).send(order)
   } catch (e) {
     logger.error(`error happend in get one order: ${e}`)
-    res.status(500).send({ error: translateErrorMessage('error happened') })
+    res.status(500).send({
+      error: translateErrorMessage(req.cookies?.language, 'error happened'),
+    })
   }
 }
 
@@ -65,6 +71,8 @@ export const getOrdersOfOneProduct = async (req: Request, res: Response) => {
     res.status(200).send(orders)
   } catch (e) {
     logger.error(`error happend in get one invoice: ${e}`)
-    res.status(500).send({ error: translateErrorMessage('error happened') })
+    res.status(500).send({
+      error: translateErrorMessage(req.cookies?.language, 'error happened'),
+    })
   }
 }
