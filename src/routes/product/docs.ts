@@ -175,7 +175,12 @@
  *         content:
  *           application/json:
  *             schema:
- *               $ref: "#/components/schemas/Product"
+ *               type: object
+ *               properties:
+ *                 products:
+ *                   $ref: "#/components/schemas/Product"
+ *                 productsCount:
+ *                   type: number
  *
  *       400:
  *         description: Bad Request

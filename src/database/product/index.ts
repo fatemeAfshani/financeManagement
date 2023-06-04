@@ -7,6 +7,10 @@ type ProductInput = {
   companyId?: number
 }
 
+type ProductCount = {
+  count: string
+}
+
 const getAll = (
   limit: number,
   offset: number,
@@ -39,8 +43,8 @@ const deleteOne = (id: number, companyId: number): Promise<number> =>
     .update({ isDeleted: true })
     .where({ id, companyId })
 
-// const deleteMany = (id: number[]): Promise<object> =>
-//   db.table<Product>('product').whereIn('name', id).del()
+const count = (companyId: number): Promise<ProductCount[]> =>
+  db.table<Product>('product').where({ companyId, isDeleted: false }).count('*')
 
 const deleteAll = (): Promise<object> => db.table<Product>('product').del()
 
@@ -51,4 +55,5 @@ export default {
   update,
   deleteOne,
   deleteAll,
+  count,
 }

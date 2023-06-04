@@ -15,7 +15,8 @@ export const getProducts = async (req: Request, res: Response) => {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       companyId!
     )
-    res.status(200).send(products)
+    const productsCount = (await productDB.count(companyId!))?.[0]
+    res.status(200).send({ products, productsCount: +productsCount.count })
   } catch (e) {
     logger.error(`error happend in get Products: ${e}`)
     res.status(500).send({
