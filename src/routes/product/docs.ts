@@ -139,6 +139,9 @@
  *       401:
  *         description: unAuthorized
  *
+ *       403:
+ *         description: forbidden
+ *
  *       400:
  *         description: Bad Request
  *         content:
@@ -184,6 +187,9 @@
  *       401:
  *         description: unAuthorized
  *
+ *       403:
+ *         description: forbidden
+ *
  *       500:
  *         description: Unexpected error
  *         content:
@@ -221,6 +227,9 @@
  *
  *       401:
  *         description: unAuthorized
+ *
+ *       403:
+ *         description: forbidden
  *
  *       500:
  *         description: Unexpected error
@@ -271,6 +280,9 @@
  *       401:
  *         description: unAuthorized
  *
+ *       403:
+ *         description: forbidden
+ *
  *       404:
  *         description: Not found
  *         content:
@@ -311,6 +323,9 @@
  *
  *       401:
  *         description: unAuthorized
+ *
+ *       403:
+ *         description: forbidden
  *
  *       404:
  *         description: Not found

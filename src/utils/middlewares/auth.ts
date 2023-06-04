@@ -40,7 +40,7 @@ export const hasAdminAccess = async (
   try {
     const { role } = req.user as User
     if (role !== Roles.ADMIN) {
-      return res.status(401).send({
+      return res.status(403).send({
         error: translateErrorMessage(
           req.cookies?.language,
           'you dont have access to do this operation'
@@ -50,7 +50,7 @@ export const hasAdminAccess = async (
     next()
   } catch (error) {
     logger.error(`error in authorization middleware, ${error}`)
-    return res.sendStatus(401)
+    return res.sendStatus(403)
   }
 }
 
@@ -62,7 +62,7 @@ export const hasViewerAccess = async (
   try {
     const { role } = req.user as User
     if (role !== Roles.ADMIN && role !== Roles.VIEWER) {
-      return res.status(401).send({
+      return res.status(403).send({
         error: translateErrorMessage(
           req.cookies?.language,
           'you dont have access to do this operation'
@@ -72,6 +72,6 @@ export const hasViewerAccess = async (
     next()
   } catch (error) {
     logger.error(`error in authorization middleware, ${error}`)
-    return res.sendStatus(401)
+    return res.sendStatus(403)
   }
 }
