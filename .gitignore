@@ -1,7 +1,12 @@
-doc/assets
 dist
 node_modules
 development.env
 personalReadMe.md
 coverage
 doc
+
+# client
+build
+yarn.lock
+.vscode/settings.json
+client/yarn-error.log
