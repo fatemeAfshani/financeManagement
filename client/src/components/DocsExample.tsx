@@ -4,10 +4,13 @@ import { CNav, CNavItem, CNavLink, CTabContent, CTabPane } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { cilCode, cilMediaPlay } from '@coreui/icons'
 
-const DocsExample = (props) => {
-  const { children, href } = props
+type DocsExampleProps = {
+  children: React.ReactNode
+  href: string
+}
 
-  const _href = `https://coreui.io/react/docs/${href}`
+const DocsExample = ({ children, href }: DocsExampleProps) => {
+  const _href = `https://github.com/fatemeAfshani/${href}`
 
   return (
     <div className="example">

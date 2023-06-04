@@ -1,6 +1,4 @@
 import React from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-
 import { CSidebar, CSidebarBrand, CSidebarNav, CSidebarToggler } from '@coreui/react'
 
 import { AppSidebarNav } from './AppSidebarNav'
@@ -11,24 +9,29 @@ import 'simplebar/dist/simplebar.min.css'
 
 // sidebar nav config
 import navigation from '../_nav'
+import { useMyContext } from './Context'
+import { NavLink } from 'react-router-dom'
 
 const AppSidebar = () => {
-  const dispatch = useDispatch()
-  const unfoldable = useSelector((state) => state.sidebarUnfoldable)
-  const sidebarShow = useSelector((state) => state.sidebarShow)
+  const { data, changeData } = useMyContext()
 
   return (
     <CSidebar
       position="fixed"
-      unfoldable={unfoldable}
-      visible={sidebarShow}
+      unfoldable={data.sidebarUnfoldable}
+      visible={data.sidebarShow}
       onVisibleChange={(visible) => {
-        dispatch({ type: 'set', sidebarShow: visible })
+        changeData({ sidebarShow: visible })
       }}
     >
-      <CSidebarBrand className="d-none d-md-flex" to="/">
-        <img src={financeLogo} alt="finance management" width="200" height="100"></img>
+      {/* <NavLink to="/"> */}
+      <CSidebarBrand className="d-none d-md-flex">
+        <img src={financeLogo} alt="finance management" width="200" height="100" />
       </CSidebarBrand>
+      {/* </NavLink> */}
+      {/* <CSidebarBrand className="d-none d-md-flex" to="/">
+        <img src={financeLogo} alt="finance management" width="200" height="100"></img>
+      </CSidebarBrand> */}
       <CSidebarNav>
         <SimpleBar>
           <AppSidebarNav items={navigation} />
@@ -36,7 +39,7 @@ const AppSidebar = () => {
       </CSidebarNav>
       <CSidebarToggler
         className="d-none d-lg-flex"
-        onClick={() => dispatch({ type: 'set', sidebarUnfoldable: !unfoldable })}
+        onClick={() => changeData({ sidebarUnfoldable: !data.sidebarUnfoldable })}
       />
     </CSidebar>
   )

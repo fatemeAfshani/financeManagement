@@ -20,35 +20,35 @@ const _nav = [
     to: '/products',
     icon: <CIcon icon={cilStorage} customClassName="nav-icon" />,
   },
-  {
-    component: CNavItem,
-    name: 'Colors',
-    to: '/colors',
-    icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
-  },
-  {
-    component: CNavGroup,
-    name: 'Buttons',
-    to: '/buttons',
-    icon: <CIcon icon={cilCursor} customClassName="nav-icon" />,
-    items: [
-      {
-        component: CNavItem,
-        name: 'Buttons',
-        to: '/buttons/buttons',
-      },
-      {
-        component: CNavItem,
-        name: 'Buttons groups',
-        to: '/buttons/button-groups',
-      },
-      {
-        component: CNavItem,
-        name: 'Dropdowns',
-        to: '/buttons/dropdowns',
-      },
-    ],
-  },
+  // {
+  //   component: CNavItem,
+  //   name: 'Colors',
+  //   to: '/colors',
+  //   icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
+  // },
+  // {
+  //   component: CNavGroup,
+  //   name: 'Buttons',
+  //   to: '/buttons',
+  //   icon: <CIcon icon={cilCursor} customClassName="nav-icon" />,
+  //   items: [
+  //     {
+  //       component: CNavItem,
+  //       name: 'Buttons',
+  //       to: '/buttons/buttons',
+  //     },
+  //     {
+  //       component: CNavItem,
+  //       name: 'Buttons groups',
+  //       to: '/buttons/button-groups',
+  //     },
+  //     {
+  //       component: CNavItem,
+  //       name: 'Dropdowns',
+  //       to: '/buttons/dropdowns',
+  //     },
+  //   ],
+  // },
   {
     component: CNavTitle,
     name: 'Extras',

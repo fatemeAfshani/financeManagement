@@ -16,7 +16,7 @@ import {
 import CIcon from '@coreui/icons-react'
 import { cilLockLocked, cilUser } from '@coreui/icons'
 import axios from 'axios'
-import { useAuth } from 'src/components/Auth'
+import { useMyContext } from '../../../components/Context'
 
 const Login = () => {
   const [userData, setUserData] = useState({
@@ -27,7 +27,7 @@ const Login = () => {
 
   const navigate = useNavigate()
   const location = useLocation()
-  const { login, token } = useAuth()
+  const { login, token } = useMyContext()
   const redirectPath = location.state?.path || '/'
   if (token) navigate(redirectPath)
 
@@ -41,10 +41,8 @@ const Login = () => {
       if (response.status === 200) {
         login(response.data)
         navigate(redirectPath, { replace: true })
-      } else {
-        setError(response.error)
       }
-    } catch (error) {
+    } catch (error: any) {
       const errorMessage = error.response?.data?.error?.[0] || 'something went wrong'
       setError(errorMessage)
     }

@@ -9,44 +9,52 @@ import {
   CTableRow,
 } from '@coreui/react'
 import React, { useEffect, useReducer, useState } from 'react'
-import { useAuth } from 'src/components/Auth'
 import axios from 'axios'
+import { useMyContext } from '../../components/Context'
+import { API_ACTIONS, Product } from '../../types'
 
-const initialState = {
+type ProductState = {
+  error: string
+  loading: boolean
+  products: Product[]
+  total: number
+}
+const initialState: ProductState = {
   error: '',
   loading: false,
   products: [],
   total: 0,
 }
 
-const ACTIONS = {
-  CALL_API: 'call-api',
-  SUCCESS: 'success',
-  ERROR: 'error',
+type Action = {
+  type: API_ACTIONS
+  products?: Product[]
+  productsCount?: number
+  error?: string
 }
 
-const productsReducer = (state, action) => {
+const productsReducer = (state: ProductState, action: Action) => {
   switch (action.type) {
-    case ACTIONS.CALL_API: {
+    case API_ACTIONS.CALL_API: {
       return {
         ...state,
         error: '',
         loading: true,
       }
     }
-    case ACTIONS.SUCCESS: {
+    case API_ACTIONS.SUCCESS: {
       return {
         ...state,
         loading: false,
-        products: action.data.products,
-        total: action.data.productsCount,
+        products: action.products || [],
+        total: action.productsCount || 0,
       }
     }
-    case ACTIONS.ERROR: {
+    case API_ACTIONS.ERROR: {
       return {
         ...state,
         loading: false,
-        error: action.error,
+        error: action.error || '',
       }
     }
 
@@ -63,9 +71,9 @@ export default function ProductTable() {
   const pageCount = Math.ceil(total / limit)
   const [currentPage, setCurrentPage] = useState(1)
 
-  const { token, logout } = useAuth()
+  const { token, logout } = useMyContext()
   useEffect(() => {
-    dispatch({ type: ACTIONS.CALL_API })
+    dispatch({ type: API_ACTIONS.CALL_API })
     const getProducts = async () => {
       try {
         const response = await axios({
@@ -76,13 +84,17 @@ export default function ProductTable() {
           },
         })
 
-        dispatch({ type: ACTIONS.SUCCESS, data: response.data })
-      } catch (error) {
+        dispatch({
+          type: API_ACTIONS.SUCCESS,
+          products: response.data.products,
+          productsCount: response.data.productsCount,
+        })
+      } catch (error: any) {
         if (error.response && error.response.status === 401) {
           logout()
         }
         const errorMessage = error.response?.data?.error?.[0] || 'something went wrong'
-        dispatch({ type: ACTIONS.ERROR, error: errorMessage })
+        dispatch({ type: API_ACTIONS.ERROR, error: errorMessage })
       }
     }
 

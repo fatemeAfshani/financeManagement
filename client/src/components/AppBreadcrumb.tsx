@@ -5,16 +5,25 @@ import routes from '../routes'
 
 import { CBreadcrumb, CBreadcrumbItem } from '@coreui/react'
 
+type Routes = {
+  path: string
+  name: string
+  element?: React.LazyExoticComponent<React.ComponentType<any>>
+  exact?: boolean
+}
+
+type breadcrumb = { pathname: string; name: string; active: boolean }
+
 const AppBreadcrumb = () => {
   const currentLocation = useLocation().pathname
 
-  const getRouteName = (pathname, routes) => {
+  const getRouteName = (pathname: string, routes: Routes[]) => {
     const currentRoute = routes.find((route) => route.path === pathname)
     return currentRoute ? currentRoute.name : false
   }
 
-  const getBreadcrumbs = (location) => {
-    const breadcrumbs = []
+  const getBreadcrumbs = (location: string) => {
+    const breadcrumbs: breadcrumb[] = []
     location.split('/').reduce((prev, curr, index, array) => {
       const currentPathname = `${prev}/${curr}`
       const routeName = getRouteName(currentPathname, routes)

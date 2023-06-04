@@ -16,7 +16,8 @@ import avatar from './../../assets/images/avatar.jpg'
 const AppHeaderDropdown = () => {
   return (
     <CDropdown variant="nav-item">
-      <CDropdownToggle placement="bottom-end" className="py-0" caret={false}>
+      {/* <CDropdownToggle className="py-0" caret={false} placement="bottom-end"> */}
+      <CDropdownToggle className="py-0" caret={false}>
         <CAvatar src={avatar} size="md" />
       </CDropdownToggle>
       <CDropdownMenu className="pt-0" placement="bottom-end">

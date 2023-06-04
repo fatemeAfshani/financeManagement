@@ -4,9 +4,29 @@ import PropTypes from 'prop-types'
 
 import { CBadge } from '@coreui/react'
 
-export const AppSidebarNav = ({ items }) => {
+type AppSidebarNavItem = {
+  component: React.ElementType
+  name: string
+  badge?: {
+    color: string
+    text: string
+  }
+  icon?: React.ReactNode
+  to?: string
+  items?: AppSidebarNavItem[]
+}
+
+type AppSidebarNavProps = {
+  items: AppSidebarNavItem[]
+}
+
+export const AppSidebarNav = ({ items }: AppSidebarNavProps) => {
   const location = useLocation()
-  const navLink = (name, icon, badge) => {
+  const navLink = (
+    name: string,
+    icon: React.ReactNode,
+    badge?: { color: string; text: string },
+  ) => {
     return (
       <>
         {icon && icon}
@@ -20,7 +40,7 @@ export const AppSidebarNav = ({ items }) => {
     )
   }
 
-  const navItem = (item, index) => {
+  const navItem = (item: AppSidebarNavItem, index: number) => {
     const { component, name, badge, icon, ...rest } = item
     const Component = component
     return (
@@ -36,7 +56,7 @@ export const AppSidebarNav = ({ items }) => {
       </Component>
     )
   }
-  const navGroup = (item, index) => {
+  const navGroup = (item: AppSidebarNavItem, index: number) => {
     const { component, name, icon, to, ...rest } = item
     const Component = component
     return (
@@ -44,7 +64,7 @@ export const AppSidebarNav = ({ items }) => {
         idx={String(index)}
         key={index}
         toggler={navLink(name, icon)}
-        visible={location.pathname.startsWith(to)}
+        visible={location.pathname.startsWith(to!)}
         {...rest}
       >
         {item.items?.map((item, index) =>
