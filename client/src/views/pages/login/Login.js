@@ -1,5 +1,5 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState } from 'react'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import {
   CButton,
   CCard,
@@ -15,8 +15,40 @@ import {
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { cilLockLocked, cilUser } from '@coreui/icons'
+import axios from 'axios'
+import { useAuth } from 'src/components/Auth'
 
 const Login = () => {
+  const [userData, setUserData] = useState({
+    username: '',
+    password: '',
+  })
+  const [error, setError] = useState('')
+
+  const navigate = useNavigate()
+  const location = useLocation()
+  const { login, token } = useAuth()
+  const redirectPath = location.state?.path || '/'
+  if (token) navigate(redirectPath)
+
+  const clickHandler = async () => {
+    try {
+      let response = await axios({
+        method: 'post',
+        data: { username: userData.username, password: userData.password },
+        url: `${process.env?.REACT_APP_BASE_URL}/users/login`,
+      })
+      if (response.status === 200) {
+        login(response.data)
+        navigate(redirectPath, { replace: true })
+      } else {
+        setError(response.error)
+      }
+    } catch (error) {
+      const errorMessage = error.response?.data?.error?.[0] || 'something went wrong'
+      setError(errorMessage)
+    }
+  }
   return (
     <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
       <CContainer>
@@ -27,12 +59,21 @@ const Login = () => {
                 <CCardBody>
                   <CForm>
                     <h1>Login</h1>
+                    {error && <h1>{error}</h1>}
                     <p className="text-medium-emphasis">Sign In to your account</p>
                     <CInputGroup className="mb-3">
                       <CInputGroupText>
                         <CIcon icon={cilUser} />
                       </CInputGroupText>
-                      <CFormInput placeholder="Username" autoComplete="username" />
+                      <CFormInput
+                        placeholder="Username"
+                        autoComplete="username"
+                        onChange={(e) =>
+                          setUserData((preData) => {
+                            return { ...preData, username: e.target.value }
+                          })
+                        }
+                      />
                     </CInputGroup>
                     <CInputGroup className="mb-4">
                       <CInputGroupText>
@@ -42,11 +83,16 @@ const Login = () => {
                         type="password"
                         placeholder="Password"
                         autoComplete="current-password"
+                        onChange={(e) =>
+                          setUserData((preData) => {
+                            return { ...preData, password: e.target.value }
+                          })
+                        }
                       />
                     </CInputGroup>
                     <CRow>
                       <CCol xs={6}>
-                        <CButton color="primary" className="px-4">
+                        <CButton color="primary" className="px-4" onClick={() => clickHandler()}>
                           Login
                         </CButton>
                       </CCol>
