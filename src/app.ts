@@ -6,6 +6,7 @@ import helmet from 'helmet'
 import swaggerUi from 'swagger-ui-express'
 import moment from 'jalali-moment'
 import cookieParser from 'cookie-parser'
+import cors from 'cors'
 
 import logger from './logger'
 import { translateErrorMessage } from './utils'
@@ -43,6 +44,7 @@ if (process.env.NODE_ENV !== 'test') app.use(limiter)
 
 app.use(helmet())
 app.use(cookieParser())
+app.use(cors())
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openapiSpecification))
 
