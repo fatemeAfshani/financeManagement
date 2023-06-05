@@ -1,43 +1,32 @@
 import PropTypes from 'prop-types'
 import React, { useContext, useState } from 'react'
 
-type Data = {
-  sidebarShow: boolean
-  sidebarUnfoldable?: boolean
-}
-
-type MyContextProvider = {
+type AuthContextProvider = {
   token: String | null
-  data: Data
-  changeData: (newData: Partial<Data>) => void
   login: ({ token }: { token: String }) => void
   logout: () => void
 }
 
-type MyContextProviderProps = {
+type AuthProviderProps = {
   children: React.ReactNode
 }
 
-const myContext = React.createContext<MyContextProvider>({} as MyContextProvider)
+const authContext = React.createContext<AuthContextProvider>({} as AuthContextProvider)
 
-export default function MyContextProvider({ children }: MyContextProviderProps) {
+export default function AuthProvider({ children }: AuthProviderProps) {
   let localStorageData = localStorage.getItem('tokenData')
-  const now = new Date()
   let tokenData = null
 
   localStorageData = localStorageData && JSON.parse(localStorageData)
   if (localStorageData) {
     const { token, expire } = localStorageData as unknown as { token: string; expire: string }
-    if (now > new Date(expire)) {
+    if (new Date() > new Date(expire)) {
       localStorage.removeItem('tokenData')
     } else {
       tokenData = token
     }
   }
   const [token, setToken] = useState<String | null>(tokenData)
-  const [data, setData] = useState<Data>({
-    sidebarShow: true,
-  })
 
   const login = ({ token }: { token: String }) => {
     const now = new Date()
@@ -54,19 +43,11 @@ export default function MyContextProvider({ children }: MyContextProviderProps) 
     setToken(null)
   }
 
-  const changeData = (newData: Partial<Data>) => {
-    setData((preData) => ({ ...preData, ...newData }))
-  }
-
-  return (
-    <myContext.Provider value={{ token, login, logout, data, changeData }}>
-      {children}
-    </myContext.Provider>
-  )
+  return <authContext.Provider value={{ token, login, logout }}>{children}</authContext.Provider>
 }
 
-MyContextProvider.propTypes = {
+AuthProvider.propTypes = {
   children: PropTypes.node,
 }
 
-export const useMyContext = () => useContext(myContext)
+export const useAuth = () => useContext(authContext)

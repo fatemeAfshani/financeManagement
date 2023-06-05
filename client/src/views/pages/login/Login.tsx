@@ -16,7 +16,7 @@ import {
 import CIcon from '@coreui/icons-react'
 import { cilLockLocked, cilUser } from '@coreui/icons'
 import axios from 'axios'
-import { useMyContext } from '../../../components/Context'
+import { useAuth } from '../../../components/context/AuthContext'
 
 const Login = () => {
   const [userData, setUserData] = useState({
@@ -27,7 +27,7 @@ const Login = () => {
 
   const navigate = useNavigate()
   const location = useLocation()
-  const { login, token } = useMyContext()
+  const { login, token } = useAuth()
   const redirectPath = location.state?.path || '/'
   if (token) navigate(redirectPath)
 

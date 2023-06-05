@@ -10,7 +10,7 @@ import {
 } from '@coreui/react'
 import React, { useEffect, useReducer, useState } from 'react'
 import axios from 'axios'
-import { useMyContext } from '../../components/Context'
+import { useAuth } from '../../components/context/AuthContext'
 import { API_ACTIONS, Product } from '../../types'
 
 type ProductState = {
@@ -71,7 +71,7 @@ export default function ProductTable() {
   const pageCount = Math.ceil(total / limit)
   const [currentPage, setCurrentPage] = useState(1)
 
-  const { token, logout } = useMyContext()
+  const { token, logout } = useAuth()
   useEffect(() => {
     dispatch({ type: API_ACTIONS.CALL_API })
     const getProducts = async () => {

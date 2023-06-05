@@ -20,10 +20,8 @@ module.exports = {
   ],
   plugins: ['react', 'react-hooks'],
   rules: {
-    rules: {
-      'no-use-before-define': 'off',
-      'react/jsx-filename-extension': [2, { extensions: ['.js', '.jsx', '.ts', '.tsx'] }],
-      'react/require-default-props': 'off',
-    },
+    // 'no-use-before-define': off,
+    // 'react/jsx-filename-extension': [2, { extensions: ['.js', '.jsx', '.ts', '.tsx'] }],
+    // 'react/require-default-props': 0,
   },
 }

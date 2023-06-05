@@ -9,11 +9,10 @@ import 'simplebar/dist/simplebar.min.css'
 
 // sidebar nav config
 import navigation from '../_nav'
-import { useMyContext } from './Context'
-import { NavLink } from 'react-router-dom'
+import { useData } from './context/DataContext'
 
 const AppSidebar = () => {
-  const { data, changeData } = useMyContext()
+  const { data, changeData } = useData()
 
   return (
     <CSidebar
