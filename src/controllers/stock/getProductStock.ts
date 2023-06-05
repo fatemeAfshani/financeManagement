@@ -25,6 +25,7 @@ export const getStocksOfOneProduct = async (req: Request, res: Response) => {
     const stocks = await stockDB.getAllForOneProduct({
       productId: +id,
     })
+
     if (stocks.length !== 0) {
       res.status(200).send(stocks)
     } else {

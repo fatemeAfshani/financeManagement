@@ -2,7 +2,6 @@
  * @swagger
  * components:
  *   schemas:
- *
  *     ProductStock:
  *       type: object
  *       properties:
@@ -46,7 +45,24 @@
  *         content:
  *           application/json:
  *             schema:
- *               $ref: "#/components/schemas/ProductStock"
+ *               type: object
+ *               properties:
+ *                 stocks:
+ *                   type: object
+ *                   properties:
+ *                     productId:
+ *                       type: string
+ *                     buyPrice:
+ *                       type: number
+ *                     amount:
+ *                       type: number
+ *                     name:
+ *                       type: string
+ *                     price:
+ *                       type: number
+ *                     id:
+ *                       type: number
+ *
  *
  *       400:
  *         description: Bad Request

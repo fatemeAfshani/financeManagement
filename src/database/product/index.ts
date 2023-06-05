@@ -1,14 +1,10 @@
-import { Product } from '../../types'
+import { Count, Product, ProductStock } from '../../types'
 import db from '../db'
 
 type ProductInput = {
   name?: string
   id?: number
   companyId?: number
-}
-
-type ProductCount = {
-  count: string
 }
 
 const getAll = (
@@ -43,7 +39,7 @@ const deleteOne = (id: number, companyId: number): Promise<number> =>
     .update({ isDeleted: true })
     .where({ id, companyId })
 
-const count = (companyId: number): Promise<ProductCount[]> =>
+const count = (companyId: number): Promise<Count[]> =>
   db.table<Product>('product').where({ companyId, isDeleted: false }).count('*')
 
 const deleteAll = (): Promise<object> => db.table<Product>('product').del()

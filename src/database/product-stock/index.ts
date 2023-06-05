@@ -1,8 +1,13 @@
-import { ProductStock } from '../../types'
+import { Count, ProductStock } from '../../types'
 import db from '../db'
 
 type StockInput = {
   productId: number
+}
+
+type AmountOfStock = {
+  productId: number
+  amount: number
 }
 
 const getAll = (
@@ -19,14 +24,33 @@ const getAll = (
     .limit(limit)
     .offset(offset)
 
+const getStockOfAll = (productIds: number[]): Promise<AmountOfStock[]> =>
+  db
+    .table<ProductStock>('product_stock')
+    .select('productId', db.raw('SUM("amount") as amount'))
+    .whereIn('productId', productIds)
+    .groupBy('productId')
+
 const getAllForOneProduct = (data: StockInput): Promise<ProductStock[]> =>
   db
     .table<ProductStock>('product_stock')
-    .select('*')
+    .select(
+      'product_stock.id as id',
+      'productId',
+      'amount',
+      'buyPrice',
+      'name',
+      'price'
+    )
+    .join('product', 'product.id', 'product_stock.productId')
     .where(data)
-    .andWhere('amount', '>', 0)
+
+const count = (productId: number): Promise<Count[]> =>
+  db.table<ProductStock>('product_stock').where({ productId }).count('*')
 
 export default {
   getAll,
   getAllForOneProduct,
+  getStockOfAll,
+  count,
 }

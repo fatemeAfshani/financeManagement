@@ -178,7 +178,20 @@
  *               type: object
  *               properties:
  *                 products:
- *                   $ref: "#/components/schemas/Product"
+ *                   type: object
+ *                   properties:
+ *                     name:
+ *                       type: string
+ *                     price:
+ *                       type: number
+ *                     id:
+ *                       type: number
+ *                     companyId:
+ *                       type: number
+ *                     isDeleted:
+ *                       type: boolean
+ *                     amount:
+ *                       type: number
  *                 productsCount:
  *                   type: number
  *

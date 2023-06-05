@@ -5,6 +5,7 @@ export type Product = {
   price: number
   companyId: number
   isDeleted?: boolean
+  amount?: number
 }
 
 export type ProductInvoice = {
@@ -92,6 +93,10 @@ export type ShareHolderCheckout = {
   description?: string
   userId?: number
   date: string
+}
+
+export type Count = {
+  count: string
 }
 
 // eslint-disable-next-line no-shadow

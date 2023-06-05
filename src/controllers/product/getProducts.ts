@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
 import productDB from '../../database/product'
+import productStockDB from '../../database/product-stock'
 import logger from '../../logger'
 import { User } from '../../types'
 import { translateErrorMessage } from '../../utils'
@@ -15,6 +16,14 @@ export const getProducts = async (req: Request, res: Response) => {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       companyId!
     )
+
+    const productIds = products.map((product) => product.id) as number[]
+    const stocks = await productStockDB.getStockOfAll(productIds)
+    products.forEach((product) => {
+      const stock = stocks.find((c) => c.productId === product.id)
+      // eslint-disable-next-line no-param-reassign
+      product.amount = stock?.amount || 0
+    })
     const productsCount = (await productDB.count(companyId!))?.[0]
     res.status(200).send({ products, productsCount: +productsCount.count })
   } catch (e) {
