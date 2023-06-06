@@ -1,8 +1,6 @@
 import React, { Suspense } from 'react'
 import { HashRouter, Route, Routes } from 'react-router-dom'
-import AuthProvider from './components/context/AuthContext'
-import DataProvider from './components/context/DataContext'
-import RequireAuth from './components/RequireAuth'
+import { AuthProvider, DataProvider, RequireAuth } from './components'
 import './scss/style.scss'
 
 const loading = (

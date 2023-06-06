@@ -31,17 +31,17 @@ const _nav = [
       {
         component: CNavItem,
         name: 'List',
-        to: '/products',
-      },
-      {
-        component: CNavItem,
-        name: 'Add',
-        to: '/products/add',
+        to: '/products/list',
       },
       {
         component: CNavItem,
         name: 'Stocks',
         to: '/products/stock',
+      },
+      {
+        component: CNavItem,
+        name: 'Add',
+        to: '/products/add',
       },
     ],
   },
@@ -51,6 +51,11 @@ const _nav = [
     to: '/invoices',
     icon: <CIcon icon={cilNewspaper} customClassName="nav-icon" />,
     items: [
+      {
+        component: CNavItem,
+        name: 'List',
+        to: '/invoices/list',
+      },
       {
         component: CNavItem,
         name: 'Add',

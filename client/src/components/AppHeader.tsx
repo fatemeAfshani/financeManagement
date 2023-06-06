@@ -14,7 +14,7 @@ import CIcon from '@coreui/icons-react'
 import { cilMenu } from '@coreui/icons'
 
 import { AppBreadcrumb } from './index'
-import { AppHeaderDropdown } from './header/index'
+import AppHeaderDropdown from './header/AppHeaderDropdown'
 import financeLogo from './../assets/brand/logoF2.png'
 import { useData } from './context/DataContext'
 
