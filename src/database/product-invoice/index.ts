@@ -1,4 +1,4 @@
-import { ProductInvoice, ProductStock } from '../../types'
+import { Count, ProductInvoice, ProductStock } from '../../types'
 import db from '../db'
 
 type InvoiceInput = {
@@ -60,9 +60,14 @@ const add = (invoice: ProductInvoice): Promise<object | undefined | number> =>
         })
       })
   )
+
+const count = (companyId: number): Promise<Count[]> =>
+  db.table<ProductInvoice>('product_invoice').where({ companyId }).count('*')
+
 export default {
   getAll,
   getOne,
   add,
   getAllForOneProduct,
+  count,
 }

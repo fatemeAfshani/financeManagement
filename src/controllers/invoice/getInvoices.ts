@@ -13,7 +13,8 @@ export const getInvoices = async (req: Request, res: Response) => {
       +offset * +limit,
       companyId!
     )
-    res.status(200).send(invoices)
+    const invoicesCount = (await invoiceDB.count(companyId!))?.[0]
+    res.status(200).send({ invoices, invoicesCount: +invoicesCount.count })
   } catch (e) {
     logger.error(`error happend in get invoices: ${e}`)
     res.status(500).send({
