@@ -18,7 +18,9 @@ export const getOrders = async (req: Request, res: Response) => {
         (product) => product.orderId === order.id
       )
     })
-    res.status(200).send(orders)
+
+    const ordersCount = (await orderDB.count(companyId!))?.[0]
+    res.status(200).send({ orders, ordersCount: +ordersCount.count })
   } catch (e) {
     logger.error(`error happend in get invoices: ${e}`)
     res.status(500).send({

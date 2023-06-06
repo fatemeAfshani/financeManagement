@@ -1,4 +1,5 @@
 import {
+  Count,
   Order,
   OrderProduct,
   ProductStock,
@@ -164,10 +165,14 @@ const add = (
   })
 }
 
+const count = (companyId: number): Promise<Count[]> =>
+  db.table<Order>('order').where({ companyId }).count('*')
+
 export default {
   getAll,
   getOne,
   add,
   getAllWithArrayInput,
   update,
+  count,
 }
