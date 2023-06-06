@@ -30,3 +30,30 @@ export type ProductInvoice = {
   date: string
   companyId: number
 }
+
+export type OrderProduct = {
+  id?: number
+  orderId?: number
+  productId: number
+  sellPrice: number
+  buyPrice?: number
+  amount: number
+}
+
+export type Order = {
+  id?: number
+  name: string
+  address: string
+  phone: string
+  postalCode: string
+  trackingCode: string
+  orderDate: string
+  shippingDate: string
+  shippingPriceCustomer: number
+  shippingPriceSeller: number
+  discount: number
+  totalProfit?: number
+  sellFrom: string
+  companyId: number
+  products?: OrderProduct[]
+}

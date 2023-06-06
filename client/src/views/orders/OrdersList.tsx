@@ -11,29 +11,31 @@ import {
 import React, { useEffect, useReducer, useState } from 'react'
 import axios from 'axios'
 import { useAuth } from '../../components/context/AuthContext'
-import { API_ACTIONS, ProductInvoice } from '../../types'
+import { API_ACTIONS, Order } from '../../types'
+import CustomerDataModal from './modals/customerDataModal'
+import ProductsModal from './modals/ProductsModal'
 
-type InvoiceState = {
+type OrderState = {
   error: string
   loading: boolean
-  invoices: ProductInvoice[]
+  orders: Order[]
   total: number
 }
-const initialState: InvoiceState = {
+const initialState: OrderState = {
   error: '',
   loading: false,
-  invoices: [],
+  orders: [],
   total: 0,
 }
 
 type Action = {
   type: API_ACTIONS
-  invoices?: ProductInvoice[]
-  invoicesCount?: number
+  orders?: Order[]
+  ordersCount?: number
   error?: string
 }
 
-const invoicesReducer = (state: InvoiceState, action: Action) => {
+const ordersReducer = (state: OrderState, action: Action) => {
   switch (action.type) {
     case API_ACTIONS.CALL_API: {
       return {
@@ -46,8 +48,8 @@ const invoicesReducer = (state: InvoiceState, action: Action) => {
       return {
         ...state,
         loading: false,
-        invoices: action.invoices || [],
-        total: action.invoicesCount || 0,
+        orders: action.orders || [],
+        total: action.ordersCount || 0,
       }
     }
     case API_ACTIONS.ERROR: {
@@ -64,19 +66,20 @@ const invoicesReducer = (state: InvoiceState, action: Action) => {
   }
 }
 
-export default function InvoiceList() {
-  const [state, dispatch] = useReducer(invoicesReducer, initialState)
-  const { invoices, loading, error, total } = state
+export default function OrderList() {
+  const [state, dispatch] = useReducer(ordersReducer, initialState)
+  const { orders, loading, error, total } = state
   const limit = 10
   const pageCount = Math.ceil(total / limit)
   const [currentPage, setCurrentPage] = useState(1)
   const { token, logout } = useAuth()
+
   useEffect(() => {
     dispatch({ type: API_ACTIONS.CALL_API })
-    const getinvoices = async () => {
+    const getorders = async () => {
       try {
         const response = await axios({
-          url: `${process.env?.REACT_APP_BASE_URL}/invoices?offset=${currentPage - 1}`,
+          url: `${process.env?.REACT_APP_BASE_URL}/orders?offset=${currentPage - 1}`,
           method: 'GET',
           headers: {
             Authorization: `Bearer ${token}`,
@@ -85,8 +88,8 @@ export default function InvoiceList() {
 
         dispatch({
           type: API_ACTIONS.SUCCESS,
-          invoices: response.data.invoices,
-          invoicesCount: response.data.invoicesCount,
+          orders: response.data.orders,
+          ordersCount: response.data.ordersCount,
         })
       } catch (error: any) {
         if (error.response && error.response.status === 401) {
@@ -97,12 +100,12 @@ export default function InvoiceList() {
       }
     }
 
-    getinvoices()
+    getorders()
   }, [logout, token, currentPage])
 
   return (
     <>
-      <h3 className="my-3">Invoices list</h3>
+      <h3 className="my-3">Orders list</h3>
       {error && (
         <div className="alert alert-danger" role="alert">
           {error}
@@ -113,25 +116,51 @@ export default function InvoiceList() {
           <span className="visually-hidden">Loading...</span>
         </div>
       )}
-      <CTable className=" fs-5 table  bg-white table-striped" hover>
+
+      <CTable className=" table  bg-white table-striped" hover>
         <CTableHead>
           <CTableRow>
             <CTableHeaderCell scope="col">Id</CTableHeaderCell>
-            <CTableHeaderCell scope="col">ProductId</CTableHeaderCell>
-            <CTableHeaderCell scope="col">amount</CTableHeaderCell>
-            <CTableHeaderCell scope="col">pricePerOne</CTableHeaderCell>
-            <CTableHeaderCell scope="col">date</CTableHeaderCell>
+            <CTableHeaderCell scope="col">Customer</CTableHeaderCell>
+            <CTableHeaderCell scope="col">OrderDate</CTableHeaderCell>
+            <CTableHeaderCell scope="col">ShippingDate</CTableHeaderCell>
+            <CTableHeaderCell scope="col">ShippingPriceCustomer</CTableHeaderCell>
+            <CTableHeaderCell scope="col">ShippingPriceSeller</CTableHeaderCell>
+            <CTableHeaderCell scope="col">Discount</CTableHeaderCell>
+            <CTableHeaderCell scope="col">TotalProfit</CTableHeaderCell>
+            <CTableHeaderCell scope="col">SellFrom</CTableHeaderCell>
+            <CTableHeaderCell scope="col">Products</CTableHeaderCell>
           </CTableRow>
         </CTableHead>
         <CTableBody>
-          {invoices.map((invoice) => {
+          {orders.map((order) => {
             return (
-              <CTableRow key={invoice.id}>
-                <CTableHeaderCell scope="row">{invoice.id}</CTableHeaderCell>
-                <CTableDataCell>{invoice.productId}</CTableDataCell>
-                <CTableDataCell>{invoice.amount}</CTableDataCell>
-                <CTableDataCell>{invoice.pricePerOne}</CTableDataCell>
-                <CTableDataCell>{invoice.date}</CTableDataCell>
+              <CTableRow key={order.id}>
+                <CTableHeaderCell scope="row">{order.id}</CTableHeaderCell>
+                <CTableDataCell>
+                  {order.name}{' '}
+                  <CustomerDataModal
+                    data={{
+                      name: order.name,
+                      address: order.address,
+                      phone: order.phone,
+                      postalCode: order.postalCode,
+                      trackingCode: order.trackingCode,
+                    }}
+                    id={order.id}
+                  ></CustomerDataModal>
+                </CTableDataCell>
+
+                <CTableDataCell>{order.orderDate}</CTableDataCell>
+                <CTableDataCell>{order.shippingDate}</CTableDataCell>
+                <CTableDataCell>{order.shippingPriceCustomer}</CTableDataCell>
+                <CTableDataCell>{order.shippingPriceSeller}</CTableDataCell>
+                <CTableDataCell>{order.discount}</CTableDataCell>
+                <CTableDataCell>{order.totalProfit}</CTableDataCell>
+                <CTableDataCell>{order.sellFrom}</CTableDataCell>
+                <CTableDataCell>
+                  <ProductsModal data={order.products} id={order.id}></ProductsModal>
+                </CTableDataCell>
               </CTableRow>
             )
           })}
