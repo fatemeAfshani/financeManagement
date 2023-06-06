@@ -7,13 +7,13 @@ import translateMessage from './translateMessage'
 export const translateErrorMessage = (
   language: string | undefined,
   errorMessage: string
-): string[] => {
+): string => {
   if (language === 'fa') {
-    return [
-      translateMessage[errorMessage as keyof object] || ' خطایی رخ داده است',
-    ]
+    return (
+      translateMessage[errorMessage as keyof object] || ' خطایی رخ داده است'
+    )
   }
-  return [errorMessage || 'something went wrong']
+  return errorMessage || 'something went wrong'
 }
 
 export const enCodePassword = (password: string): string =>

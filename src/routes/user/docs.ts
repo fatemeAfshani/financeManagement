@@ -136,9 +136,12 @@
  *                   type: string
  *                 token:
  *                   type: string
+ *                 role:
+ *                   type: string
  *             example:
  *               username: "fateme"
  *               token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXV..."
+ *               role: "admin"
  *
  *       400:
  *         description: Bad Request
