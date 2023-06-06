@@ -70,7 +70,7 @@ export default function Stocks() {
   const limit = 10
   const pageCount = Math.ceil(total / limit)
   const [currentPage, setCurrentPage] = useState(1)
-  const { token, logout } = useAuth()
+  const { user, logout } = useAuth()
   useEffect(() => {
     dispatch({ type: API_ACTIONS.CALL_API })
     const getProducts = async () => {
@@ -79,7 +79,7 @@ export default function Stocks() {
           url: `${process.env?.REACT_APP_BASE_URL}/stocks?offset=${currentPage - 1}`,
           method: 'GET',
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${user?.token}`,
           },
         })
 
@@ -92,13 +92,13 @@ export default function Stocks() {
         if (error.response && error.response.status === 401) {
           logout()
         }
-        const errorMessage = error.response?.data?.error?.[0] || 'something went wrong'
+        const errorMessage = error.response?.data?.error || 'something went wrong'
         dispatch({ type: API_ACTIONS.ERROR, error: errorMessage })
       }
     }
 
     getProducts()
-  }, [logout, token, currentPage])
+  }, [logout, user, currentPage])
 
   return (
     <>

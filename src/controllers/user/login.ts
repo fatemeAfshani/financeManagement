@@ -40,7 +40,7 @@ const login = async (req: Request, res: Response) => {
     }
     const token = createToken(user)
     logger.info(`customer login with username: ${username}`)
-    res.status(200).send({ username, token })
+    res.status(200).send({ username, token, role: user.role })
   } catch (error) {
     logger.error(`error happend in login customer ${error}`)
     res.status(500).send({

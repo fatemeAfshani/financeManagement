@@ -72,7 +72,7 @@ export default function OrderList() {
   const limit = 10
   const pageCount = Math.ceil(total / limit)
   const [currentPage, setCurrentPage] = useState(1)
-  const { token, logout } = useAuth()
+  const { user, logout } = useAuth()
 
   useEffect(() => {
     dispatch({ type: API_ACTIONS.CALL_API })
@@ -82,7 +82,7 @@ export default function OrderList() {
           url: `${process.env?.REACT_APP_BASE_URL}/orders?offset=${currentPage - 1}`,
           method: 'GET',
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${user?.token}`,
           },
         })
 
@@ -95,13 +95,13 @@ export default function OrderList() {
         if (error.response && error.response.status === 401) {
           logout()
         }
-        const errorMessage = error.response?.data?.error?.[0] || 'something went wrong'
+        const errorMessage = error.response?.data?.error || 'something went wrong'
         dispatch({ type: API_ACTIONS.ERROR, error: errorMessage })
       }
     }
 
     getorders()
-  }, [logout, token, currentPage])
+  }, [logout, user, currentPage])
 
   return (
     <>

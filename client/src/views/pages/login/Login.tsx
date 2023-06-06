@@ -27,9 +27,9 @@ const Login = () => {
 
   const navigate = useNavigate()
   const location = useLocation()
-  const { login, token } = useAuth()
+  const { login, user } = useAuth()
   const redirectPath = location.state?.path || '/'
-  if (token) navigate(redirectPath)
+  if (user?.token) navigate(redirectPath)
 
   const clickHandler = async () => {
     try {
@@ -43,7 +43,7 @@ const Login = () => {
         navigate(redirectPath, { replace: true })
       }
     } catch (error: any) {
-      const errorMessage = error.response?.data?.error?.[0] || 'something went wrong'
+      const errorMessage = error.response?.data?.error || 'something went wrong'
       setError(errorMessage)
     }
   }

@@ -65,7 +65,7 @@ export default function ProductStocks() {
 
   const { id: productId } = useParams()
 
-  const { token, logout } = useAuth()
+  const { user, logout } = useAuth()
 
   const navigate = useNavigate()
 
@@ -77,7 +77,7 @@ export default function ProductStocks() {
           url: `${process.env?.REACT_APP_BASE_URL}/stocks/product/${productId}`,
           method: 'GET',
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${user?.token}`,
           },
         })
 
@@ -89,13 +89,13 @@ export default function ProductStocks() {
         if (error.response && error.response.status === 401) {
           logout()
         }
-        const errorMessage = error.response?.data?.error?.[0] || 'something went wrong'
+        const errorMessage = error.response?.data?.error || 'something went wrong'
         dispatch({ type: API_ACTIONS.ERROR, error: errorMessage })
       }
     }
 
     getStocks()
-  }, [logout, token, productId])
+  }, [logout, user, productId])
 
   const goBack = () => {
     navigate(-1)
