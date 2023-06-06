@@ -8,10 +8,10 @@ type RequireAuthProps = {
 }
 
 export default function RequireAuth({ children }: RequireAuthProps) {
-  const { token } = useAuth()
+  const { user } = useAuth()
   const location = useLocation()
 
-  if (!token) return <Navigate to="/login" state={{ path: location.pathname }} />
+  if (!user?.token) return <Navigate to="/login" state={{ path: location.pathname }} />
   return <>{children}</>
 }
 
