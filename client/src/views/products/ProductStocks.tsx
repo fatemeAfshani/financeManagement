@@ -71,7 +71,7 @@ export default function ProductStocks() {
 
   useEffect(() => {
     dispatch({ type: API_ACTIONS.CALL_API })
-    const getProducts = async () => {
+    const getStocks = async () => {
       try {
         const response = await axios({
           url: `${process.env?.REACT_APP_BASE_URL}/stocks/product/${productId}`,
@@ -94,7 +94,7 @@ export default function ProductStocks() {
       }
     }
 
-    getProducts()
+    getStocks()
   }, [logout, token, productId])
 
   const goBack = () => {

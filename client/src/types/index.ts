@@ -21,3 +21,12 @@ export type ProductStock = {
   name: string
   price: number
 }
+
+export type ProductInvoice = {
+  id: number
+  productId: number
+  amount: number
+  pricePerOne: number
+  date: string
+  companyId: number
+}

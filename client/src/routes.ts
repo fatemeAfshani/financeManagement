@@ -9,10 +9,8 @@ const Products = React.lazy(() => import('./views/products/ProductsList'))
 const ProductStocks = React.lazy(() => import('./views/products/ProductStocks'))
 const Stocks = React.lazy(() => import('./views/products/Stocks'))
 
-// // Buttons
-// const Buttons = React.lazy(() => import('./views/buttons/buttons/Buttons'))
-// const ButtonGroups = React.lazy(() => import('./views/buttons/button-groups/ButtonGroups'))
-// const Dropdowns = React.lazy(() => import('./views/buttons/dropdowns/Dropdowns'))
+// Invoices
+const Invoices = React.lazy(() => import('./views/invoices/InvoicesList'))
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -20,11 +18,7 @@ const routes = [
   { path: '/products/list', name: 'Products', element: Products, exact: true },
   { path: '/product/stock/:id', name: 'Product stock', element: ProductStocks, exact: true },
   { path: '/products/stock', name: 'Stocks', element: Stocks, exact: true },
-  // { path: '/colors', name: 'Colors', element: Colors },
-  // { path: '/buttons', name: 'Buttons', element: Buttons, exact: true },
-  // { path: '/buttons/buttons', name: 'Buttons', element: Buttons },
-  // { path: '/buttons/dropdowns', name: 'Dropdowns', element: Dropdowns },
-  // { path: '/buttons/button-groups', name: 'Button Groups', element: ButtonGroups },
+  { path: '/invoices/list', name: 'Invoices', element: Invoices, exact: true },
 ]
 
 export default routes
