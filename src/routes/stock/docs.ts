@@ -2,7 +2,7 @@
  * @swagger
  * components:
  *   schemas:
- *     ProductStock:
+ *     Stocks:
  *       type: object
  *       properties:
  *         productId:
@@ -11,10 +11,16 @@
  *           type: number
  *         amount:
  *           type: number
+ *         name:
+ *           type: string
+ *         price:
+ *           type: number
  *         id:
  *           type: number
  *       example:
  *         productId: 1
+ *         price: 30.00
+ *         name: "cloth1"
  *         buyPrice: 20.00
  *         amount: 10
  *         id: 2
@@ -45,24 +51,7 @@
  *         content:
  *           application/json:
  *             schema:
- *               type: object
- *               properties:
- *                 stocks:
- *                   type: object
- *                   properties:
- *                     productId:
- *                       type: string
- *                     buyPrice:
- *                       type: number
- *                     amount:
- *                       type: number
- *                     name:
- *                       type: string
- *                     price:
- *                       type: number
- *                     id:
- *                       type: number
- *
+ *               $ref: "#/components/schemas/Stocks"
  *
  *       400:
  *         description: Bad Request
@@ -101,8 +90,23 @@
  *         content:
  *           application/json:
  *             schema:
- *               $ref: "#/components/schemas/ProductStock"
- *
+ *               type: object
+ *               properties:
+ *                 stocks:
+ *                   type: object
+ *                   properties:
+ *                     name:
+ *                       type: string
+ *                     id:
+ *                       type: number
+ *                     buyPrice:
+ *                       type: number
+ *                     productId:
+ *                       type: number
+ *                     amount:
+ *                       type: number
+ *                 stocksCount:
+ *                   type: number
  *       400:
  *         description: Bad Request
  *         content:

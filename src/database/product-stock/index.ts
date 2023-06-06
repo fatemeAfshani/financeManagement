@@ -17,7 +17,7 @@ const getAll = (
 ): Promise<ProductStock[]> =>
   db
     .table<ProductStock>('product_stock')
-    .select('product_stock.id', 'productId', 'amount', 'buyPrice', 'price')
+    .select('product_stock.id as id', 'productId', 'amount', 'buyPrice', 'name')
     .join('product', 'product.id', 'product_stock.productId')
     .where({ companyId })
     .andWhere('amount', '>', 0)
@@ -45,8 +45,13 @@ const getAllForOneProduct = (data: StockInput): Promise<ProductStock[]> =>
     .join('product', 'product.id', 'product_stock.productId')
     .where(data)
 
-const count = (productId: number): Promise<Count[]> =>
-  db.table<ProductStock>('product_stock').where({ productId }).count('*')
+const count = (companyId: number): Promise<Count[]> =>
+  db
+    .table<ProductStock>('product_stock')
+    .join('product', 'product.id', 'product_stock.productId')
+    .where({ companyId })
+    .andWhere('amount', '>', 0)
+    .count('*')
 
 export default {
   getAll,
