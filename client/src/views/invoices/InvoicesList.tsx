@@ -1,4 +1,5 @@
 import {
+  CAlert,
   CPagination,
   CPaginationItem,
   CTable,
@@ -104,9 +105,9 @@ export default function InvoiceList() {
     <>
       <h3 className="my-3">Invoices list</h3>
       {error && (
-        <div className="alert alert-danger" role="alert">
-          {error}
-        </div>
+        <CAlert color="danger" dismissible>
+          <strong>{error}</strong>
+        </CAlert>
       )}
       {loading && (
         <div className="spinner-border text-info" role="status">

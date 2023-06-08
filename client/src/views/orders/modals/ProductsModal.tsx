@@ -22,7 +22,6 @@ type TableModalProps = {
 
 const ProductsModal = ({ data, id }: TableModalProps) => {
   const [visible, setVisible] = useState(false)
-  console.log('### data', data)
   return (
     <>
       <CButton

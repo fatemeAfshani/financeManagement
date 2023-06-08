@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import {
+  CAlert,
   CButton,
   CCard,
   CCardBody,
@@ -58,9 +59,9 @@ const Login = () => {
                   <CForm>
                     <h1>Login</h1>
                     {error && (
-                      <div className="alert alert-danger" role="alert">
-                        {error}
-                      </div>
+                      <CAlert color="danger" dismissible>
+                        <strong>{error}</strong>
+                      </CAlert>
                     )}
                     <p className="text-medium-emphasis">Sign In to your account</p>
                     <CInputGroup className="mb-3">

@@ -16,7 +16,6 @@ type TableModalProps = {
 
 const CustomerDataModal = ({ data, id }: TableModalProps) => {
   const [visible, setVisible] = useState(false)
-  console.log('### data', data)
   return (
     <>
       <CButton color="info" variant="outline" className="mx-3" onClick={() => setVisible(!visible)}>

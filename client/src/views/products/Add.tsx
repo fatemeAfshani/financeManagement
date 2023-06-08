@@ -1,4 +1,4 @@
-import { CForm, CRow, CFormLabel, CCol, CFormInput, CButton } from '@coreui/react'
+import { CForm, CRow, CFormLabel, CCol, CFormInput, CButton, CAlert } from '@coreui/react'
 import axios from 'axios'
 import React, { useReducer, useState } from 'react'
 import { useAuth } from '../../components/context/AuthContext'
@@ -95,9 +95,9 @@ export default function AddProduct() {
     <>
       <h3 className="my-3">Add new Product</h3>
       {error && (
-        <div className="alert alert-danger" role="alert">
-          {error}
-        </div>
+        <CAlert color="danger" dismissible>
+          <strong>{error}</strong>
+        </CAlert>
       )}
       {loading && (
         <div className="spinner-border text-info" role="status">
@@ -105,9 +105,9 @@ export default function AddProduct() {
         </div>
       )}
       {message && (
-        <div className="alert alert-success" role="alert">
-          {message}
-        </div>
+        <CAlert color="success" dismissible>
+          <strong>{message}</strong>
+        </CAlert>
       )}
       <CRow>
         <CCol xs={6}>

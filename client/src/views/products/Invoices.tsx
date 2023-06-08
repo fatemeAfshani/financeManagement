@@ -1,4 +1,5 @@
 import {
+  CAlert,
   CPagination,
   CPaginationItem,
   CTable,
@@ -116,9 +117,9 @@ export default function Stocks() {
         Back
       </button>
       {error && (
-        <div className="alert alert-danger" role="alert">
-          {error}
-        </div>
+        <CAlert color="danger" dismissible>
+          <strong>{error}</strong>
+        </CAlert>
       )}
       {loading && (
         <div className="spinner-border text-info" role="status">
