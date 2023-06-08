@@ -10,7 +10,7 @@
     "eject": "react-scripts eject",
     "lint": "eslint \"src/**/*.js\"",
     "dev": "eslint --fix ./src  & env-cmd -f .env.develop react-scripts start",
-    "start": "react-scripts start"
+    "start": "env-cmd -f react-scripts start"
   },
   "dependencies": {
     "@coreui/chartjs": "^3.1.1",
