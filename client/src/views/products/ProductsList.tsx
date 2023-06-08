@@ -103,8 +103,11 @@ export default function ProductList() {
     getProducts()
   }, [logout, user, currentPage])
 
-  const clickHandler = (productId: number) => {
+  const clickHandlerStock = (productId: number) => {
     navigate(`/product/stock/${productId}`)
+  }
+  const clickHandlerInvoice = (productId: number) => {
+    navigate(`/product/invoices/${productId}`)
   }
   return (
     <>
@@ -126,6 +129,10 @@ export default function ProductList() {
             <CTableHeaderCell scope="col">Name</CTableHeaderCell>
             <CTableHeaderCell scope="col">Price</CTableHeaderCell>
             <CTableHeaderCell scope="col">Stock</CTableHeaderCell>
+            <CTableHeaderCell scope="col">Invoices</CTableHeaderCell>
+            <CTableHeaderCell scope="col">Orders</CTableHeaderCell>
+            <CTableHeaderCell scope="col">Update</CTableHeaderCell>
+            <CTableHeaderCell scope="col">Delete</CTableHeaderCell>
           </CTableRow>
         </CTableHead>
         <CTableBody>
@@ -141,9 +148,49 @@ export default function ProductList() {
                     color="primary"
                     variant="outline"
                     className="mx-3"
-                    onClick={() => clickHandler(product.id)}
+                    onClick={() => clickHandlerStock(product.id)}
                   >
-                    view detail
+                    View details
+                  </CButton>
+                </CTableDataCell>
+                <CTableDataCell>
+                  <CButton
+                    color="info"
+                    variant="outline"
+                    className="mx-3"
+                    onClick={() => clickHandlerInvoice(product.id)}
+                  >
+                    View
+                  </CButton>
+                </CTableDataCell>
+                <CTableDataCell>
+                  <CButton
+                    color="success"
+                    variant="outline"
+                    className="mx-3"
+                    onClick={() => clickHandlerStock(product.id)}
+                  >
+                    View
+                  </CButton>
+                </CTableDataCell>
+                <CTableDataCell>
+                  <CButton
+                    color="warning"
+                    variant="outline"
+                    className="mx-3"
+                    onClick={() => clickHandlerStock(product.id)}
+                  >
+                    Update
+                  </CButton>
+                </CTableDataCell>
+                <CTableDataCell>
+                  <CButton
+                    color="danger"
+                    variant="outline"
+                    className="mx-3"
+                    onClick={() => clickHandlerStock(product.id)}
+                  >
+                    Delete
                   </CButton>
                 </CTableDataCell>
               </CTableRow>

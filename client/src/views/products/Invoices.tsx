@@ -11,29 +11,30 @@ import {
 import React, { useEffect, useReducer, useState } from 'react'
 import axios from 'axios'
 import { useAuth } from '../../components/context/AuthContext'
-import { API_ACTIONS, ProductStock } from '../../types'
+import { API_ACTIONS, ProductInvoice } from '../../types'
+import { useNavigate, useParams } from 'react-router-dom'
 
-type StocksState = {
+type InvoicesState = {
   error: string
   loading: boolean
-  stocks: ProductStock[]
+  invoices: ProductInvoice[]
   total: number
 }
-const initialState: StocksState = {
+const initialState: InvoicesState = {
   error: '',
   loading: false,
-  stocks: [],
+  invoices: [],
   total: 0,
 }
 
 type Action = {
   type: API_ACTIONS
-  stocks?: ProductStock[]
-  stocksCount?: number
+  invoices?: ProductInvoice[]
+  invoicesCount?: number
   error?: string
 }
 
-const stockReducer = (state: StocksState, action: Action) => {
+const invoiceReducer = (state: InvoicesState, action: Action) => {
   switch (action.type) {
     case API_ACTIONS.CALL_API: {
       return {
@@ -46,8 +47,8 @@ const stockReducer = (state: StocksState, action: Action) => {
       return {
         ...state,
         loading: false,
-        stocks: action.stocks || [],
-        total: action.stocksCount || 0,
+        invoices: action.invoices || [],
+        total: action.invoicesCount || 0,
       }
     }
     case API_ACTIONS.ERROR: {
@@ -65,18 +66,23 @@ const stockReducer = (state: StocksState, action: Action) => {
 }
 
 export default function Stocks() {
-  const [state, dispatch] = useReducer(stockReducer, initialState)
-  const { stocks, loading, error, total } = state
+  const [state, dispatch] = useReducer(invoiceReducer, initialState)
+  const { invoices, loading, error, total } = state
   const limit = 10
   const pageCount = Math.ceil(total / limit)
   const [currentPage, setCurrentPage] = useState(1)
   const { user, logout } = useAuth()
+  const { id: productId } = useParams()
+  const navigate = useNavigate()
+
   useEffect(() => {
     dispatch({ type: API_ACTIONS.CALL_API })
-    const getStock = async () => {
+    const getInvoices = async () => {
       try {
         const response = await axios({
-          url: `${process.env?.REACT_APP_BASE_URL}/stocks?offset=${currentPage - 1}`,
+          url: `${process.env?.REACT_APP_BASE_URL}/invoices/product/${productId}?offset=${
+            currentPage - 1
+          }`,
           method: 'GET',
           headers: {
             Authorization: `Bearer ${user?.token}`,
@@ -85,8 +91,8 @@ export default function Stocks() {
 
         dispatch({
           type: API_ACTIONS.SUCCESS,
-          stocks: response.data.stocks,
-          stocksCount: response.data.stocksCount,
+          invoices: response.data.invoices,
+          invoicesCount: response.data.invoicesCount,
         })
       } catch (error: any) {
         if (error.response && error.response.status === 401) {
@@ -97,12 +103,18 @@ export default function Stocks() {
       }
     }
 
-    getStock()
-  }, [logout, user, currentPage])
+    getInvoices()
+  }, [logout, user, currentPage, productId])
 
+  const goBack = () => {
+    navigate(-1)
+  }
   return (
     <>
-      <h3 className="my-3">Stock list</h3>
+      <h3 className="my-3">Product {productId} invoices</h3>
+      <button type="button" className="btn btn-primary my-3" onClick={goBack}>
+        Back
+      </button>
       {error && (
         <div className="alert alert-danger" role="alert">
           {error}
@@ -118,20 +130,20 @@ export default function Stocks() {
           <CTableRow>
             <CTableHeaderCell scope="col">Id</CTableHeaderCell>
             <CTableHeaderCell scope="col">Product Id</CTableHeaderCell>
-            <CTableHeaderCell scope="col">Product Name</CTableHeaderCell>
-            <CTableHeaderCell scope="col">Buy Price</CTableHeaderCell>
             <CTableHeaderCell scope="col">Amount</CTableHeaderCell>
+            <CTableHeaderCell scope="col">Price Per One</CTableHeaderCell>
+            <CTableHeaderCell scope="col">Date</CTableHeaderCell>
           </CTableRow>
         </CTableHead>
         <CTableBody>
-          {stocks.map((stock) => {
+          {invoices.map((invoice) => {
             return (
-              <CTableRow key={stock.id}>
-                <CTableHeaderCell scope="row">{stock.id}</CTableHeaderCell>
-                <CTableDataCell>{stock.productId}</CTableDataCell>
-                <CTableDataCell>{stock.name}</CTableDataCell>
-                <CTableDataCell>{stock.buyPrice}</CTableDataCell>
-                <CTableDataCell>{stock.amount}</CTableDataCell>
+              <CTableRow key={invoice.id}>
+                <CTableHeaderCell scope="row">{invoice.id}</CTableHeaderCell>
+                <CTableDataCell>{invoice.productId}</CTableDataCell>
+                <CTableDataCell>{invoice.amount}</CTableDataCell>
+                <CTableDataCell>{invoice.pricePerOne}</CTableDataCell>
+                <CTableDataCell>{invoice.date}</CTableDataCell>
               </CTableRow>
             )
           })}
