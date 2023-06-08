@@ -70,7 +70,7 @@ export const getOrdersOfOneProduct = async (req: Request, res: Response) => {
         (product) => product.orderId === order.id
       )
     })
-    res.status(200).send(orders)
+    res.status(200).send({ orders, ordersCount: orderIds.length })
   } catch (e) {
     logger.error(`error happend in get one invoice: ${e}`)
     res.status(500).send({

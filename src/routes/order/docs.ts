@@ -274,7 +274,12 @@
  *         content:
  *           application/json:
  *             schema:
- *               $ref: "#/components/schemas/Order"
+ *               type: object
+ *               properties:
+ *                 orders:
+ *                   $ref: "#/components/schemas/Order"
+ *                 ordersCount:
+ *                   type: number
  *
  *       400:
  *         description: Bad Request
