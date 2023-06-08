@@ -103,7 +103,12 @@
  *         content:
  *           application/json:
  *             schema:
- *               $ref: "#/components/schemas/ProductInvoice"
+ *               type: object
+ *               properties:
+ *                 invoices:
+ *                   $ref: "#/components/schemas/ProductInvoice"
+ *                 invoicesCount:
+ *                   type: number
  *
  *       400:
  *         description: Bad Request
@@ -180,7 +185,12 @@
  *         content:
  *           application/json:
  *             schema:
- *               $ref: "#/components/schemas/ProductInvoice"
+ *               type: object
+ *               properties:
+ *                 invoices:
+ *                   $ref: "#/components/schemas/ProductInvoice"
+ *                 invoicesCount:
+ *                   type: number
  *
  *       400:
  *         description: Bad Request

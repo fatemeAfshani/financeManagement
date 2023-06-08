@@ -61,7 +61,10 @@ export const getInvoicesOfOneProduct = async (req: Request, res: Response) => {
       +offset * +limit
     )
     if (invoices.length !== 0) {
-      res.status(200).send(invoices)
+      const invoicesCount = (
+        await invoiceDB.countOfOneProduct(companyId!, +id)
+      )?.[0]
+      res.status(200).send({ invoices, invoicesCount: +invoicesCount.count })
     } else {
       res.status(404).send({
         error: translateErrorMessage(

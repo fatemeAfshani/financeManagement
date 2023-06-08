@@ -64,10 +64,20 @@ const add = (invoice: ProductInvoice): Promise<object | undefined | number> =>
 const count = (companyId: number): Promise<Count[]> =>
   db.table<ProductInvoice>('product_invoice').where({ companyId }).count('*')
 
+const countOfOneProduct = (
+  companyId: number,
+  productId: number
+): Promise<Count[]> =>
+  db
+    .table<ProductInvoice>('product_invoice')
+    .where({ companyId, productId })
+    .count('*')
+
 export default {
   getAll,
   getOne,
   add,
   getAllForOneProduct,
   count,
+  countOfOneProduct,
 }
