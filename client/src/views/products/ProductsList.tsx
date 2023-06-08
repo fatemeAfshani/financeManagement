@@ -1,4 +1,5 @@
 import {
+  CAlert,
   CButton,
   CPagination,
   CPaginationItem,
@@ -72,8 +73,10 @@ export default function ProductList() {
   const limit = 10
   const pageCount = Math.ceil(total / limit)
   const [currentPage, setCurrentPage] = useState(1)
+  const [deleteState, setDeleteState] = useState({ error: '', success: false })
   const { user, logout } = useAuth()
   const navigate = useNavigate()
+
   useEffect(() => {
     dispatch({ type: API_ACTIONS.CALL_API })
     const getProducts = async () => {
@@ -112,13 +115,45 @@ export default function ProductList() {
   const clickHandlerOrder = (productId: number) => {
     navigate(`/product/orders/${productId}`)
   }
+
+  const deleteHandler = async (productId: number) => {
+    try {
+      let response = await axios({
+        method: 'DELETE',
+        url: `${process.env?.REACT_APP_BASE_URL}/products/${productId}`,
+        headers: {
+          Authorization: `Bearer ${user?.token}`,
+        },
+      })
+      if (response.status === 200) {
+        setDeleteState({ error: '', success: true })
+      }
+    } catch (error: any) {
+      if (error.response && error.response.status === 401) {
+        logout()
+      }
+      const errorMessage = error.response?.data?.error || 'something went wrong'
+      setDeleteState({ success: false, error: errorMessage })
+    }
+  }
+
   return (
     <>
       <h3 className="my-3">Products list</h3>
       {error && (
-        <div className="alert alert-danger" role="alert">
-          {error}
-        </div>
+        <CAlert color="danger" dismissible>
+          <strong>{error}</strong>
+        </CAlert>
+      )}{' '}
+      {deleteState.error && (
+        <CAlert color="danger" dismissible>
+          <strong>{deleteState.error}</strong>
+        </CAlert>
+      )}{' '}
+      {deleteState.success && (
+        <CAlert color="success" dismissible>
+          <strong>Product deleted successfully</strong>
+        </CAlert>
       )}
       {loading && (
         <div className="spinner-border text-info" role="status">
@@ -191,7 +226,7 @@ export default function ProductList() {
                     color="danger"
                     variant="outline"
                     className="mx-3"
-                    onClick={() => clickHandlerStock(product.id)}
+                    onClick={() => deleteHandler(product.id)}
                   >
                     Delete
                   </CButton>
