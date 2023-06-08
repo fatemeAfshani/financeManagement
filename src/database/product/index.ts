@@ -1,4 +1,4 @@
-import { Count, Product, ProductStock } from '../../types'
+import { Count, Product } from '../../types'
 import db from '../db'
 
 type ProductInput = {
@@ -44,6 +44,18 @@ const count = (companyId: number): Promise<Count[]> =>
 
 const deleteAll = (): Promise<object> => db.table<Product>('product').del()
 
+const search = (
+  name: string,
+  companyId: number,
+  limit: number
+): Promise<Product[]> =>
+  db
+    .table<Product>('product')
+    .select('*')
+    .where({ companyId })
+    .whereILike('name', `%${name}%`)
+    .limit(limit)
+
 export default {
   getAll,
   getOne,
@@ -52,4 +64,5 @@ export default {
   deleteOne,
   deleteAll,
   count,
+  search,
 }

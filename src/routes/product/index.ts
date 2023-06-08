@@ -2,7 +2,11 @@ import { Router } from 'express'
 
 import addProduct from '../../controllers/product/addProduct'
 import deleteProduct from '../../controllers/product/deleteProduct'
-import { getProduct, getProducts } from '../../controllers/product/getProducts'
+import {
+  getProduct,
+  getProducts,
+  searchProducts,
+} from '../../controllers/product/getProducts'
 import updateProduct from '../../controllers/product/updateProduct'
 import { Methods } from '../../types'
 import {
@@ -60,4 +64,12 @@ productRouter.post(
   updateProduct
 )
 
+productRouter.get(
+  '/search/name',
+  isAuth,
+  hasViewerAccess,
+  productValitate(Methods.Search),
+  errorHandler,
+  searchProducts
+)
 export default productRouter

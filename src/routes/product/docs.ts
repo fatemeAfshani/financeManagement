@@ -91,6 +91,15 @@
  *       schema:
  *         type: boolean
  *
+ *     nameQuery:
+ *       name: name
+ *       in: query
+ *       description: name of product we want to search
+ *       required: true
+ *       schema:
+ *         type: string
+ *
+ *
  *   securitySchemes:
  *     bearerAuth:
  *       type: http
@@ -351,6 +360,50 @@
  *           application/json:
  *             schema:
  *               $ref: "#/components/schemas/GeneralError"
+ *
+ *       500:
+ *         description: Unexpected error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: "#/components/schemas/GeneralError"
+ *
+ */
+
+/**
+ * @swagger
+ * /products/search/name:
+ *   get:
+ *     tags: [Products]
+ *     summary: search in products
+ *     description: Returns 15 product that their name is like name query
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - $ref: "#/components/parameters/nameQuery"
+ *     responses:
+ *       200:
+ *         description: Successful
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 products:
+ *                   $ref: "#/components/schemas/Product"
+ *
+ *       400:
+ *         description: Bad Request
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: "#/components/schemas/GeneralError"
+ *
+ *       401:
+ *         description: unAuthorized
+ *
+ *       403:
+ *         description: forbidden
  *
  *       500:
  *         description: Unexpected error

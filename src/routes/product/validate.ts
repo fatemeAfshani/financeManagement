@@ -58,6 +58,9 @@ const productValitate = (method: Methods) => {
         body('price', 'invalid price').optional().isFloat(),
       ]
     }
+    case Methods.Search: {
+      return [query('name', 'invalid name').isString().notEmpty()]
+    }
     default: {
       return []
     }

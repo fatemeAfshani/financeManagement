@@ -56,3 +56,17 @@ export const getProduct = async (req: Request, res: Response) => {
     })
   }
 }
+
+export const searchProducts = async (req: Request, res: Response) => {
+  try {
+    const { name } = req.query
+    const { companyId } = req.user as User
+    const products = await productDB.search(name as string, companyId!, 15)
+    res.status(200).send(products)
+  } catch (e) {
+    logger.error(`error happend in search Products: ${e}`)
+    res.status(500).send({
+      error: translateErrorMessage(req.cookies?.language, 'error happened'),
+    })
+  }
+}
