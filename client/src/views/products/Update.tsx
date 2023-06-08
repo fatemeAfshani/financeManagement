@@ -1,16 +1,17 @@
 import { CForm, CCol, CFormInput, CButton, CAlert } from '@coreui/react'
 import axios from 'axios'
-import React, { useReducer, useState } from 'react'
+import React, { useEffect, useReducer, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useAuth } from '../../components/context/AuthContext'
 import { API_ACTIONS } from '../../types'
 
-type AddProductState = {
+type UpdateProductState = {
   error: string
   message: string
   loading: boolean
 }
 
-const initialState: AddProductState = {
+const initialState: UpdateProductState = {
   error: '',
   loading: false,
   message: '',
@@ -21,7 +22,7 @@ type Action = {
   message?: string
 }
 
-const AddProductsReducer = (state: AddProductState, action: Action) => {
+const UpdateProductsReducer = (state: UpdateProductState, action: Action) => {
   switch (action.type) {
     case API_ACTIONS.CALL_API: {
       return {
@@ -53,21 +54,50 @@ const AddProductsReducer = (state: AddProductState, action: Action) => {
   }
 }
 
-export default function AddProduct() {
-  const [state, dispatch] = useReducer(AddProductsReducer, initialState)
+export default function UpdateProduct() {
+  const [state, dispatch] = useReducer(UpdateProductsReducer, initialState)
   const { message, loading, error } = state
+
   const [product, setProduct] = useState({
     name: '',
     price: 0,
   })
+
   const { user, logout } = useAuth()
+
+  const { id: productId } = useParams()
+
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    const getProduct = async () => {
+      try {
+        const response = await axios({
+          url: `${process.env?.REACT_APP_BASE_URL}/products/${productId}`,
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${user?.token}`,
+          },
+        })
+        console.log('### response.data', response.data)
+        setProduct(response.data)
+      } catch (error: any) {
+        if (error.response && error.response.status === 401) {
+          logout()
+        }
+        const errorMessage = error.response?.data?.error || 'something went wrong'
+        dispatch({ type: API_ACTIONS.ERROR, error: errorMessage })
+      }
+    }
+    getProduct()
+  }, [productId, logout, user])
 
   const clickHandler = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     dispatch({ type: API_ACTIONS.CALL_API })
     try {
       await axios({
-        url: `${process.env?.REACT_APP_BASE_URL}/products`,
+        url: `${process.env?.REACT_APP_BASE_URL}/products/${productId}`,
         method: 'POST',
         data: {
           ...product,
@@ -79,7 +109,7 @@ export default function AddProduct() {
 
       dispatch({
         type: API_ACTIONS.SUCCESS,
-        message: 'product added successfullty',
+        message: 'product updated successfullty',
       })
     } catch (error: any) {
       if (error.response && error.response.status === 401) {
@@ -90,10 +120,15 @@ export default function AddProduct() {
       dispatch({ type: API_ACTIONS.ERROR, error: errorMessage })
     }
   }
-
+  const goBack = () => {
+    navigate(-1)
+  }
   return (
     <>
-      <h3 className="my-3">Add New Product</h3>
+      <h3 className="my-3">Update Product ${productId}</h3>
+      <button type="button" className="btn btn-primary my-3" onClick={goBack}>
+        Back
+      </button>
       {error && (
         <CAlert color="danger" dismissible>
           <strong>{error}</strong>
@@ -110,7 +145,7 @@ export default function AddProduct() {
         </CAlert>
       )}
       <CForm className="row g-3 fs-5 my-3 p-3 bg-white" onSubmit={clickHandler}>
-        <CCol md={6}>
+        <CCol xs={6}>
           <CFormInput
             type="name"
             id="inputName"
@@ -125,7 +160,7 @@ export default function AddProduct() {
           />
         </CCol>
 
-        <CCol md={6}>
+        <CCol xs={6}>
           <CFormInput
             type="number"
             step="0.1"

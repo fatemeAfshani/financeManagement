@@ -3,6 +3,7 @@ import React, { useEffect, useReducer } from 'react'
 import { useAuth } from '../../components/context/AuthContext'
 import { API_ACTIONS, ProductStock } from '../../types'
 import {
+  CAlert,
   CTable,
   CTableBody,
   CTableDataCell,
@@ -107,9 +108,9 @@ export default function ProductStocks() {
         Back
       </button>
       {error && (
-        <div className="alert alert-danger" role="alert">
-          {error}
-        </div>
+        <CAlert color="danger" dismissible>
+          <strong>{error}</strong>
+        </CAlert>
       )}
       {loading && (
         <div className="spinner-border text-info" role="status">

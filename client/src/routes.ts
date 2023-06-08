@@ -10,6 +10,7 @@ const ProductStocks = React.lazy(() => import('./views/products/ProductStocks'))
 const ProductInvoices = React.lazy(() => import('./views/products/Invoices'))
 const ProductOrders = React.lazy(() => import('./views/products/Orders'))
 const Stocks = React.lazy(() => import('./views/products/Stocks'))
+const UpdateProduct = React.lazy(() => import('./views/products/Update'))
 const AddProduct = React.lazy(() => import('./views/products/Add'))
 
 // Invoices
@@ -35,8 +36,14 @@ const routes = [
     element: ProductOrders,
     exact: true,
   },
+  {
+    path: '/product/update/:id',
+    name: 'update Product',
+    element: UpdateProduct,
+    exact: true,
+  },
   { path: '/products/stock', name: 'Stocks', element: Stocks, exact: true },
-  { path: '/products/add', name: 'Product stock', element: AddProduct, exact: true },
+  { path: '/products/add', name: 'add Product', element: AddProduct, exact: true },
   { path: '/invoices/list', name: 'Invoices', element: Invoices, exact: true },
   { path: '/orders/list', name: 'Orders', element: Orders, exact: true },
 ]

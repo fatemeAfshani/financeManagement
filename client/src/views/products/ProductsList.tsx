@@ -116,6 +116,10 @@ export default function ProductList() {
     navigate(`/product/orders/${productId}`)
   }
 
+  const clickHandlerUpdate = (productId: number) => {
+    navigate(`/product/update/${productId}`)
+  }
+
   const deleteHandler = async (productId: number) => {
     try {
       let response = await axios({
@@ -216,7 +220,7 @@ export default function ProductList() {
                     color="warning"
                     variant="outline"
                     className="mx-3"
-                    onClick={() => clickHandlerStock(product.id)}
+                    onClick={() => clickHandlerUpdate(product.id)}
                   >
                     Update
                   </CButton>
