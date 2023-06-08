@@ -48,7 +48,10 @@ const productValitate = (method: Methods) => {
               name: productName,
               companyId: req.user.companyId,
             })
-            if (product?.[0]) {
+            if (
+              product?.[0] &&
+              product?.[0].id?.toString() !== req.params?.id
+            ) {
               return Promise.reject('product with this name already exist')
             }
           }),
