@@ -109,6 +109,9 @@ export default function ProductList() {
   const clickHandlerInvoice = (productId: number) => {
     navigate(`/product/invoices/${productId}`)
   }
+  const clickHandlerOrder = (productId: number) => {
+    navigate(`/product/orders/${productId}`)
+  }
   return (
     <>
       <h3 className="my-3">Products list</h3>
@@ -168,7 +171,7 @@ export default function ProductList() {
                     color="success"
                     variant="outline"
                     className="mx-3"
-                    onClick={() => clickHandlerStock(product.id)}
+                    onClick={() => clickHandlerOrder(product.id)}
                   >
                     View
                   </CButton>
