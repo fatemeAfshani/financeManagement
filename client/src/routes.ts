@@ -19,6 +19,7 @@ const AddInvoice = React.lazy(() => import('./views/invoices/Add'))
 
 // Orders
 const Orders = React.lazy(() => import('./views/orders/OrdersList'))
+const AddOrders = React.lazy(() => import('./views/orders/Add'))
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -48,6 +49,7 @@ const routes = [
   { path: '/invoices/list', name: 'Invoices', element: Invoices, exact: true },
   { path: '/invoices/add', name: 'add Invoice', element: AddInvoice, exact: true },
   { path: '/orders/list', name: 'Orders', element: Orders, exact: true },
+  { path: '/orders/add', name: 'add Order', element: AddOrders, exact: true },
 ]
 
 export default routes

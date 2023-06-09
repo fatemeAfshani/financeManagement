@@ -58,7 +58,7 @@ type Data = {
   errorMessage: string
 }
 
-export default function AddProduct() {
+export default function AddInvoice() {
   const [state, dispatch] = useReducer(AddInvoiceReducer, initialState)
   const { message, loading, error } = state
   const [invoice, setInvoice] = useState({
