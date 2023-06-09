@@ -15,6 +15,7 @@ import { useAuth } from '../../components/context/AuthContext'
 import { API_ACTIONS, Order } from '../../types'
 import CustomerDataModal from './modals/customerDataModal'
 import ProductsModal from './modals/ProductsModal'
+import { convertDate } from '../../utils'
 
 type OrderState = {
   error: string
@@ -152,8 +153,10 @@ export default function OrderList() {
                   ></CustomerDataModal>
                 </CTableDataCell>
 
-                <CTableDataCell>{order.orderDate}</CTableDataCell>
-                <CTableDataCell>{order.shippingDate}</CTableDataCell>
+                <CTableDataCell>{order.orderDate && convertDate(order.orderDate)}</CTableDataCell>
+                <CTableDataCell>
+                  {order.shippingDate && convertDate(order.shippingDate)}
+                </CTableDataCell>
                 <CTableDataCell>{order.shippingPriceCustomer}</CTableDataCell>
                 <CTableDataCell>{order.shippingPriceSeller}</CTableDataCell>
                 <CTableDataCell>{order.discount}</CTableDataCell>

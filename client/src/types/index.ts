@@ -58,3 +58,19 @@ export type Order = {
   companyId: number
   products?: OrderProduct[]
 }
+
+export type User = {
+  id: number
+  username: string
+  role: string
+  companyId: number
+  isShareHolder: boolean
+  sharePercent: number
+}
+
+export type Company = {
+  id: number
+  name: string
+  createdAt: string
+  sharePercent: number
+}

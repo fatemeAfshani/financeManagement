@@ -8,11 +8,14 @@ import SimpleBar from 'simplebar-react'
 import 'simplebar/dist/simplebar.min.css'
 
 // sidebar nav config
-import navigation from '../_nav'
+import { userNav, adminNav } from '../_nav'
 import { useData } from './context/DataContext'
+import { useAuth } from './context/AuthContext'
 
 const AppSidebar = () => {
   const { data, changeData } = useData()
+  const { user } = useAuth()
+  let navigation = user?.role === 'admin' ? adminNav : userNav
 
   return (
     <CSidebar

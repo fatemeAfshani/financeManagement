@@ -11,7 +11,89 @@ import {
 } from '@coreui/icons'
 import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react'
 
-const _nav = [
+export const userNav = [
+  {
+    component: CNavItem,
+    name: 'Dashboard',
+    to: '/dashboard',
+    icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavTitle,
+    name: 'Components',
+  },
+  {
+    component: CNavGroup,
+    name: 'Products',
+    to: '/products',
+    icon: <CIcon icon={cilStorage} customClassName="nav-icon" />,
+    items: [
+      {
+        component: CNavItem,
+        name: 'List',
+        to: '/products/list',
+      },
+      {
+        component: CNavItem,
+        name: 'Stocks',
+        to: '/products/stock',
+      },
+      {
+        component: CNavItem,
+        name: 'Add',
+        to: '/products/add',
+      },
+    ],
+  },
+  {
+    component: CNavGroup,
+    name: 'Invoices',
+    to: '/invoices',
+    icon: <CIcon icon={cilNewspaper} customClassName="nav-icon" />,
+    items: [
+      {
+        component: CNavItem,
+        name: 'List',
+        to: '/invoices/list',
+      },
+      {
+        component: CNavItem,
+        name: 'Add',
+        to: '/invoices/add',
+      },
+    ],
+  },
+  {
+    component: CNavGroup,
+    name: 'Orders',
+    to: '/orders',
+    icon: <CIcon icon={cilBasket} customClassName="nav-icon" />,
+    items: [
+      {
+        component: CNavItem,
+        name: 'List',
+        to: '/orders/list',
+      },
+      {
+        component: CNavItem,
+        name: 'Add',
+        to: '/orders/add',
+      },
+    ],
+  },
+  {
+    component: CNavTitle,
+    name: 'Extras',
+  },
+  {
+    component: CNavItem,
+    name: 'SourceCode',
+    href: 'https://github.com/fatemeAfshani/financeManagement',
+    icon: <CIcon icon={cilDescription} customClassName="nav-icon" />,
+  },
+]
+
+export const adminNav = [
   {
     component: CNavItem,
     name: 'Dashboard',
@@ -89,13 +171,8 @@ const _nav = [
     items: [
       {
         component: CNavItem,
-        name: 'Incomes',
-        to: '/users/incomes',
-      },
-      {
-        component: CNavItem,
-        name: 'Checkouts',
-        to: '/users/checkouts',
+        name: 'List',
+        to: '/users/list',
       },
     ],
   },
@@ -128,5 +205,3 @@ const _nav = [
     icon: <CIcon icon={cilDescription} customClassName="nav-icon" />,
   },
 ]
-
-export default _nav
