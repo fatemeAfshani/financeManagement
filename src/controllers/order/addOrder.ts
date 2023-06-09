@@ -32,7 +32,7 @@ const addOrder = async (req: Request, res: Response) => {
     const errorMessage = 'there is no enough product in stock'
     res.status(500).send({
       error: e.toString().includes(errorMessage)
-        ? translateErrorMessage(req.cookies?.language, errorMessage)
+        ? translateErrorMessage(req.cookies?.language, e.toString())
         : translateErrorMessage(req.cookies?.language, 'error happened'),
     })
   }

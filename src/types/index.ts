@@ -99,6 +99,13 @@ export type Count = {
   count: string
 }
 
+export type OrderProductInput = {
+  productId: number
+  sellPrice: number
+  amount: number
+  name: string
+}
+
 // eslint-disable-next-line no-shadow
 export const enum Methods {
   Add = 'ADD',

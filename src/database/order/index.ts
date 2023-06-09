@@ -2,6 +2,7 @@ import {
   Count,
   Order,
   OrderProduct,
+  OrderProductInput,
   ProductStock,
   ShareHolderIncome,
 } from '../../types'
@@ -10,12 +11,6 @@ import db from '../db'
 type OrderInput = {
   id?: number
   companyId?: number
-}
-
-type OrderProductInput = {
-  productId: number
-  sellPrice: number
-  amount: number
 }
 
 type OrderUpdateInput = {
@@ -150,7 +145,9 @@ const add = (
 
           return
         }
-        throw new Error('there is no enough product in stock')
+        throw new Error(
+          `there is no enough product in stock for ${product.name}`
+        )
       })
     )
     const shippingPriceDifference =

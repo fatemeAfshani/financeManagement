@@ -1,6 +1,6 @@
 import { body, param, query } from 'express-validator'
 
-import { Methods, OrderProduct, SellFrom } from '../../types'
+import { Methods, OrderProductInput, SellFrom } from '../../types'
 import productDB from '../../database/product'
 
 const orderValitate = (method: Methods) => {
@@ -41,7 +41,7 @@ const orderValitate = (method: Methods) => {
         body('products', 'invalid products').custom(
           async (products, { req }) => {
             await Promise.all(
-              products.map(async (product: OrderProduct) => {
+              products.map(async (product: OrderProductInput) => {
                 if (typeof product.productId !== 'number') {
                   return Promise.reject('product not found')
                 }
