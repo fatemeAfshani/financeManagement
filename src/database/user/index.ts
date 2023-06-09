@@ -14,6 +14,19 @@ const add = (
 const get = (params: userInput): Promise<User[]> =>
   db.table<User>('user').select('*').where(params)
 
+const getAll = (params: userInput): Promise<User[]> =>
+  db
+    .table<User>('user')
+    .select(
+      'username',
+      'role',
+      'companyId',
+      'isShareHolder',
+      'sharePercent',
+      'id'
+    )
+    .where(params)
+
 const updateShareHolders = async (
   updatedUsers: ShareHolderUser[],
   companyId: number
@@ -62,5 +75,6 @@ const updateShareHolders = async (
 export default {
   add,
   get,
+  getAll,
   updateShareHolders,
 }

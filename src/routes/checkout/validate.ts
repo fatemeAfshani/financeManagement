@@ -1,8 +1,7 @@
 import { body, param, query } from 'express-validator'
 
-import { Methods, ShareHolderUser } from '../../types'
+import { Methods } from '../../types'
 import userDB from '../../database/user'
-import shareholderIncomeDB from '../../database/shareholder-income'
 
 const checkoutValitate = (method: Methods) => {
   switch (method) {
@@ -24,7 +23,7 @@ const checkoutValitate = (method: Methods) => {
         body('description', 'invalid description').optional().isString(),
         body('incomeIds', 'invalid input')
           .isArray()
-          .custom(async (incomeIds, { req }) => {
+          .custom(async (incomeIds) => {
             if (!incomeIds.every((income: any) => typeof income === 'number')) {
               return Promise.reject('invalid input')
             }

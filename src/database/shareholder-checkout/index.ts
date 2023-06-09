@@ -62,6 +62,7 @@ const get = (
     .table<ShareHolderCheckout>('shareholder_checkout')
     .select('*')
     .where(params)
+    .orderBy('id', 'desc')
 
 const getAllWithLimit = (
   params: ShareHolderCheckoutInput,
@@ -74,6 +75,7 @@ const getAllWithLimit = (
     .where(params)
     .limit(limit)
     .offset(offset)
+    .orderBy('id', 'desc')
 
 export default {
   add,

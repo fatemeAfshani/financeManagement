@@ -62,12 +62,14 @@ const getAllWithLimit = (
     .where(params)
     .limit(limit)
     .offset(offset)
+    .orderBy('id', 'desc')
 
 const getAll = (ids: number[]): Promise<ShareHolderIncome[]> =>
   db
     .table<ShareHolderIncome>('shareholder_income')
     .select('*')
     .whereIn('id', ids)
+    .orderBy('id', 'desc')
 
 const getSum = (
   params: ShareHolderIncomeInput,

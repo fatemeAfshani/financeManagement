@@ -7,20 +7,40 @@
  *       properties:
  *         username:
  *           type: string
- *         password:
- *           type: number
  *         companyId:
  *           type: number
- *         companyName:
- *           type: string
+ *         id:
+ *           type: number
  *         role:
  *           type: string
+ *         isShareHolder:
+ *           type: boolean
+ *         sharePercent:
+ *           type: number
  *       example:
  *         username: "fateme"
- *         password: "123dd2"
  *         role: 'admin'
  *         id: 1
  *         companyId: 1
+ *         isShareHolder: true
+ *         sharePercent: 10
+ *
+ *     Company:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: number
+ *         name:
+ *           type: string
+ *         createdAt:
+ *           type: string
+ *         sharePercent:
+ *           type: number
+ *       example:
+ *         name: "company"
+ *         sharePercent: 10
+ *         id: 1
+ *         createdAt: "020123"
  *
  */
 
@@ -56,17 +76,12 @@
  *               companyName:
  *                 type: string
  *                 description: name of the company if it is new
- *               role:
- *                 type: string
- *                 description: user role in company whitch can be admin or viewer
  *             required:
  *               - username
  *               - password
- *               - role
  *           example:
  *             username: "fateme"
  *             password: "123456"
- *             role: admin
  *             companyName: "sample name"
  *     responses:
  *       200:
@@ -172,7 +187,7 @@
 
 /**
  * @swagger
- * /users/company/{id}:
+ * /users/company:
  *   get:
  *     tags: [Users]
  *     summary: Returns all users of a company
@@ -185,8 +200,13 @@
  *         content:
  *           application/json:
  *             schema:
- *               $ref: "#/components/schemas/User"
- *
+ *               type: object
+ *               properties:
+ *                 users:
+ *                   $ref: "#/components/schemas/User"
+ *                 company:
+ *                   $ref: "#/components/schemas/Company"
+
  *       400:
  *         description: Bad Request
  *         content:
