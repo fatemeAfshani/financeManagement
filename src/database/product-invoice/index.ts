@@ -14,10 +14,19 @@ const getAll = (
 ): Promise<ProductInvoice[]> =>
   db
     .table<ProductInvoice>('product_invoice')
-    .select('*')
-    .where({ companyId })
+    .select(
+      'product_invoice.id as id',
+      'product_invoice.amount as amount',
+      'date',
+      'pricePerOne',
+      'productId',
+      'name'
+    )
+    .join('product', 'product.id', 'product_invoice.productId')
+    .where({ 'product_invoice.companyId': companyId })
     .limit(limit)
     .offset(offset)
+    .orderBy('id', 'desc')
 
 const getOne = (data: InvoiceInput): Promise<ProductInvoice[]> =>
   db.table<ProductInvoice>('product_invoice').select('*').where(data)
@@ -33,6 +42,7 @@ const getAllForOneProduct = (
     .where(data)
     .limit(limit)
     .offset(offset)
+    .orderBy('id', 'desc')
 
 const add = (invoice: ProductInvoice): Promise<object | undefined | number> =>
   db.transaction((trx) =>

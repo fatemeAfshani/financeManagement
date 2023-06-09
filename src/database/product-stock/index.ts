@@ -23,6 +23,7 @@ const getAll = (
     .andWhere('amount', '>', 0)
     .limit(limit)
     .offset(offset)
+    .orderBy('id', 'desc')
 
 const getStockOfAll = (productIds: number[]): Promise<AmountOfStock[]> =>
   db

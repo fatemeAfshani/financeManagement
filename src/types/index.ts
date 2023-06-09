@@ -111,6 +111,7 @@ export const enum Methods {
   GetAllOfOneType = 'GETALLOFONETYPE',
   GetTotal = 'GETTOTAL',
   GetTotalUser = 'GETTOTALUSER',
+  Search = 'SEARCH',
 }
 
 export enum Roles {

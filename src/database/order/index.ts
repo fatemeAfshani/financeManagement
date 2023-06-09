@@ -45,6 +45,7 @@ const getAllWithArrayInput = (
     .andWhere({ companyId })
     .limit(limit)
     .offset(offset)
+    .orderBy('id', 'desc')
 
 const getAll = (
   limit: number,
@@ -57,6 +58,7 @@ const getAll = (
     .where({ companyId })
     .limit(limit)
     .offset(offset)
+    .orderBy('id', 'desc')
 
 const getOne = (data: OrderInput): Promise<Order[]> =>
   db

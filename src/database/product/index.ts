@@ -52,7 +52,7 @@ const search = (
   db
     .table<Product>('product')
     .select('*')
-    .where({ companyId })
+    .where({ companyId, isDeleted: false })
     .whereILike('name', `%${name}%`)
     .limit(limit)
 

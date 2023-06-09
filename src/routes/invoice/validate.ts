@@ -18,7 +18,7 @@ const invoiceValitate = (method: Methods) => {
               return Promise.reject('product not found')
             }
           }),
-        body('pricePerOne', 'invalid price').isInt(),
+        body('pricePerOne', 'invalid price').isFloat(),
         body('amount', 'invalid amount').isInt(),
       ]
     }

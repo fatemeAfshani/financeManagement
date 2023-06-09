@@ -188,7 +188,18 @@
  *               type: object
  *               properties:
  *                 invoices:
- *                   $ref: "#/components/schemas/ProductInvoice"
+ *                   productId:
+ *                     type: string
+ *                   pricePerOne:
+ *                     type: number
+ *                   amount:
+ *                     type: number
+ *                   date:
+ *                     type: string
+ *                   name:
+ *                     type: string
+ *                   id:
+ *                     type: number
  *                 invoicesCount:
  *                   type: number
  *
