@@ -28,7 +28,8 @@ export type ProductInvoice = {
   amount: number
   pricePerOne: number
   date: string
-  companyId: number
+  companyId?: number
+  name?: string
 }
 
 export type OrderProduct = {

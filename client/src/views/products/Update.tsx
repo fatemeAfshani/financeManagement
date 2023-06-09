@@ -79,7 +79,6 @@ export default function UpdateProduct() {
             Authorization: `Bearer ${user?.token}`,
           },
         })
-        console.log('### response.data', response.data)
         setProduct(response.data)
       } catch (error: any) {
         if (error.response && error.response.status === 401) {

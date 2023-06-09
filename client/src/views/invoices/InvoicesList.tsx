@@ -119,6 +119,7 @@ export default function InvoiceList() {
           <CTableRow>
             <CTableHeaderCell scope="col">Id</CTableHeaderCell>
             <CTableHeaderCell scope="col">ProductId</CTableHeaderCell>
+            <CTableHeaderCell scope="col">Product Name</CTableHeaderCell>
             <CTableHeaderCell scope="col">amount</CTableHeaderCell>
             <CTableHeaderCell scope="col">pricePerOne</CTableHeaderCell>
             <CTableHeaderCell scope="col">date</CTableHeaderCell>
@@ -130,6 +131,7 @@ export default function InvoiceList() {
               <CTableRow key={invoice.id}>
                 <CTableHeaderCell scope="row">{invoice.id}</CTableHeaderCell>
                 <CTableDataCell>{invoice.productId}</CTableDataCell>
+                <CTableDataCell>{invoice.name}</CTableDataCell>
                 <CTableDataCell>{invoice.amount}</CTableDataCell>
                 <CTableDataCell>{invoice.pricePerOne}</CTableDataCell>
                 <CTableDataCell>{invoice.date}</CTableDataCell>
