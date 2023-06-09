@@ -40,14 +40,6 @@ const userValidate = (method: Methods) => {
               return Promise.reject('company already exist with this name')
             }
           }),
-        body('role', 'invalid role')
-          .isString()
-          .notEmpty()
-          .custom(async (role) => {
-            if (!Object.values(Roles).includes(role)) {
-              return Promise.reject('invalid role')
-            }
-          }),
       ]
     }
     case Methods.Login: {

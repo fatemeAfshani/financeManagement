@@ -9,20 +9,12 @@ import { enCodePassword, translateErrorMessage } from '../../utils'
 
 const register = async (req: Request, res: Response) => {
   try {
-    const { username, password, companyName, role } = req.body
+    const { username, password, companyName } = req.body
     let { companyId } = req.body
 
+    let role = Roles.VIEWER
     const hashedPassword = enCodePassword(password)
     if (companyName) {
-      if (role !== Roles.ADMIN) {
-        return res.status(400).send({
-          error: translateErrorMessage(
-            req.cookies?.language,
-            'company creator must have admin role'
-          ),
-        })
-      }
-
       const company = (
         await companyDB.add({
           name: companyName,
@@ -31,6 +23,7 @@ const register = async (req: Request, res: Response) => {
       )?.[0]
 
       companyId = company.id
+      role = Roles.ADMIN
 
       logger.info(
         `create new company with name: ${companyName} and id: ${companyId}`
