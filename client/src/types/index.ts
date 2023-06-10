@@ -75,3 +75,16 @@ export type Company = {
   createdAt: string
   sharePercent: number
 }
+
+export type ShareHolderIncome = {
+  id?: number
+  companyId: number
+  orderId: number
+  userId?: number
+  amount: number
+  sharePercent: number
+  date: string
+  isSettled?: boolean
+  checkoutId?: string
+  isCompanyIncome?: boolean
+}

@@ -106,6 +106,10 @@ export default function UserList() {
     navigate(`/users/update/${userId}`)
   }
 
+  const clickHandlerIncome = (userId: number) => {
+    navigate(`/users/income/${userId}`)
+  }
+
   const deleteHandler = async (userId: number) => {
     try {
       let response = await axios({
@@ -174,6 +178,7 @@ export default function UserList() {
             <CTableHeaderCell scope="col">Is Share Holder</CTableHeaderCell>
             <CTableHeaderCell scope="col">SharePercent</CTableHeaderCell>
             <CTableHeaderCell scope="col">Is Deleted</CTableHeaderCell>
+            <CTableHeaderCell scope="col">Incomes</CTableHeaderCell>
             <CTableHeaderCell scope="col">Update</CTableHeaderCell>
             <CTableHeaderCell scope="col">Delete</CTableHeaderCell>
           </CTableRow>
@@ -188,6 +193,16 @@ export default function UserList() {
                 <CTableDataCell>{user.isShareHolder ? 'yes' : 'no'}</CTableDataCell>
                 <CTableDataCell>{user.sharePercent}</CTableDataCell>
                 <CTableDataCell>{user.isDeleted ? 'yes' : 'no'}</CTableDataCell>
+                <CTableDataCell>
+                  <CButton
+                    color="info"
+                    variant="outline"
+                    className="mx-3"
+                    onClick={() => clickHandlerIncome(user.id)}
+                  >
+                    Incomes
+                  </CButton>
+                </CTableDataCell>
                 <CTableDataCell>
                   {!user.isDeleted && (
                     <CButton
