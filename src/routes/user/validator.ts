@@ -1,4 +1,4 @@
-import { body } from 'express-validator'
+import { body, param } from 'express-validator'
 
 import { Methods, Roles, ShareHolderUser } from '../../types'
 import userDB from '../../database/user'
@@ -80,6 +80,49 @@ const userValidate = (method: Methods) => {
       ]
     }
 
+    case Methods.Update: {
+      return [
+        body('role', 'invalid role')
+          .isString()
+          .notEmpty()
+          .custom(async (role) => {
+            if (!Object.values(Roles).includes(role)) {
+              return Promise.reject('invalid role')
+            }
+          }),
+        body('username', 'invalid username')
+          .isString()
+          .notEmpty()
+          .custom(async (username, { req }) => {
+            const user = (await userDB.get({ username }))?.[0]
+            if (user && user.id !== req.body?.id) {
+              return Promise.reject('customer already exist with this username')
+            }
+          }),
+        body('id', 'invalid user id').isInt(),
+      ]
+    }
+    case Methods.GetOne: {
+      return [
+        param('id', 'invalid product id')
+          .isInt()
+          .custom(async (id, { req }) => {
+            const user = (await userDB.get({ id }))?.[0]
+            // only user itself or someOne in the same compnay with admin access can get user's data
+            if (
+              !user ||
+              (user.id !== req.user.id &&
+                (req.user.companyId !== user.companyId ||
+                  req.user.role !== Roles.ADMIN))
+            ) {
+              return Promise.reject('user not found')
+            }
+          }),
+      ]
+    }
+    case Methods.Delete: {
+      return [param('id', 'invalid product id').isInt()]
+    }
     default: {
       return []
     }

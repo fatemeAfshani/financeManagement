@@ -32,6 +32,7 @@ export type User = {
   companyId?: number
   isShareHolder: boolean
   sharePercent: number
+  isDeleted: boolean
 }
 
 export type ShareHolderUser = {

@@ -16,6 +16,7 @@ const translateMessage: object = {
     'کاربر با این نام کاربری وجود دارد',
   'invalid password': 'رمز عبور نامعتبر است',
   'invalid username': 'نام کاربری نامعتبر است',
+  'invalid user id': 'شناسه کاربر نامعتبر است',
   'invalid company': 'شناسه فروشگاه نامعتبر است',
   'company not found': 'فروشگاه یافت نشد',
   'invalid company name': 'نام فروشگاه نامعتبر است',

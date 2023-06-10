@@ -1,4 +1,4 @@
-import { Company, ShareHolderUser, User } from '../../types'
+import { Company, Roles, ShareHolderUser, User } from '../../types'
 import db from '../db'
 
 type userInput = {
@@ -8,11 +8,14 @@ type userInput = {
 }
 
 const add = (
-  user: Omit<User, 'isShareHolder' | 'sharePercent'>
+  user: Omit<User, 'isShareHolder' | 'sharePercent' | 'isDeleted'>
 ): Promise<object> => db.table<User>('user').insert(user)
 
 const get = (params: userInput): Promise<User[]> =>
-  db.table<User>('user').select('*').where(params)
+  db
+    .table<User>('user')
+    .select('*')
+    .where({ ...params, isDeleted: false })
 
 const getAll = (params: userInput): Promise<User[]> =>
   db
@@ -25,7 +28,7 @@ const getAll = (params: userInput): Promise<User[]> =>
       'sharePercent',
       'id'
     )
-    .where(params)
+    .where({ ...params, isDeleted: false })
 
 const updateShareHolders = async (
   updatedUsers: ShareHolderUser[],
@@ -39,6 +42,7 @@ const updateShareHolders = async (
       .select('*')
       .where({
         companyId,
+        isDeleted: false,
       })
 
     companyUsers.forEach((user) => {
@@ -72,9 +76,22 @@ const updateShareHolders = async (
       .where({ id: companyId })
   })
 
+const update = async (
+  id: number,
+  role: Roles,
+  username: string,
+  companyId: number
+): Promise<number> =>
+  db.table<User>('user').update({ role, username }).where({ id, companyId })
+
+const deleteOne = (id: number, companyId: number): Promise<number> =>
+  db.table<User>('user').update({ isDeleted: true }).where({ id, companyId })
+
 export default {
   add,
   get,
   getAll,
   updateShareHolders,
+  update,
+  deleteOne,
 }

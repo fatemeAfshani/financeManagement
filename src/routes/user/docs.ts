@@ -277,3 +277,130 @@
  *               $ref: "#/components/schemas/GeneralError"
  *
  */
+
+/**
+ * @swagger
+ * /users/update:
+ *   post:
+ *     tags: [Users]
+ *     summary: update role and/or username of a user
+ *     description:  update role and/or username of a user
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             users:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: number
+ *                 username:
+ *                   type: string
+ *                 role:
+ *                   type: string
+ *
+ *
+ *             example:
+ *               id: 1
+ *               username: "newName"
+ *               role: "admin"
+ *
+ *     responses:
+ *       200:
+ *         description: Successful
+
+ *       400:
+ *         description: Bad Request
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: "#/components/schemas/GeneralError"
+ *
+ *       401:
+ *         description: unAuthorized
+ *
+ *       403:
+ *         description: forbbiden
+ *       500:
+ *         description: Unexpected error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: "#/components/schemas/GeneralError"
+ *
+ */
+
+/**
+ * @swagger
+ * /users/user/{id}:
+ *   get:
+ *     tags: [Users]
+ *     summary: update role and/or username of a user
+ *     description:  update role and/or username of a user
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - $ref: "#/components/parameters/idParam"
+ *     responses:
+ *       200:
+ *         description: Successful
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: "#/components/schemas/User"
+
+ *       400:
+ *         description: Bad Request
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: "#/components/schemas/GeneralError"
+ *
+ *       401:
+ *         description: unAuthorized
+ *
+ *       500:
+ *         description: Unexpected error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: "#/components/schemas/GeneralError"
+ *
+ */
+
+/**
+ * @swagger
+ * /users/{id}:
+ *   delete:
+ *     tags: [Users]
+ *     summary: delete a user
+ *     description:  delete a user
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - $ref: "#/components/parameters/idParam"
+ *     responses:
+ *       200:
+ *         description: Successful
+ *       400:
+ *         description: Bad Request
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: "#/components/schemas/GeneralError"
+ *
+ *       401:
+ *         description: unAuthorized
+ *       404:
+ *         description: not found
+ *       500:
+ *         description: Unexpected error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: "#/components/schemas/GeneralError"
+ *
+ */
