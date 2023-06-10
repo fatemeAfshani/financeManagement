@@ -1,7 +1,7 @@
 import React from 'react'
 
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
-// const Colors = React.lazy(() => import('./views/colors/Colors'))
+const Profile = React.lazy(() => import('./views/profile/Profile'))
 
 // Products
 
@@ -29,6 +29,7 @@ const UserIncomes = React.lazy(() => import('./views/users/UserIncomes'))
 const routes = [
   { path: '/', exact: true, name: 'Home' },
   { path: '/dashboard', name: 'Dashboard', element: Dashboard },
+  { path: '/profile', name: 'Profile', element: Profile },
   { path: '/products/list', name: 'Products', element: Products, exact: true },
   { path: '/product/stock/:id', name: 'Product stock', element: ProductStocks, exact: true },
   {
