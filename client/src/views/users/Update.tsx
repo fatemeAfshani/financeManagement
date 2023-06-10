@@ -77,7 +77,7 @@ export default function UpdateUser() {
     const getUser = async () => {
       try {
         const response = await axios({
-          url: `${process.env?.REACT_APP_BASE_URL}/users/user/${userId}`,
+          url: `${process.env?.REACT_APP_BASE_URL}/users?id=${userId}`,
           method: 'GET',
           headers: {
             Authorization: `Bearer ${user?.token}`,

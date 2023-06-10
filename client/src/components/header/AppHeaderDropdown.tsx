@@ -8,12 +8,14 @@ import {
   CDropdownMenu,
   CDropdownToggle,
 } from '@coreui/react'
-import { cilLockUnlocked, cilSettings, cilUser } from '@coreui/icons'
+import { cilLockUnlocked, cilUser } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
 
 import avatar from './../../assets/images/avatar.jpg'
+import { useAuth } from '../context/AuthContext'
 
 const AppHeaderDropdown = () => {
+  const { logout } = useAuth()
   return (
     <CDropdown variant="nav-item">
       {/* <CDropdownToggle className="py-0" caret={false} placement="bottom-end"> */}
@@ -26,12 +28,8 @@ const AppHeaderDropdown = () => {
           <CIcon icon={cilUser} className="me-2" />
           Profile
         </CDropdownItem>
-        <CDropdownItem href="#">
-          <CIcon icon={cilSettings} className="me-2" />
-          Settings
-        </CDropdownItem>
         <CDropdownDivider />
-        <CDropdownItem href="#">
+        <CDropdownItem onClick={() => logout()}>
           <CIcon icon={cilLockUnlocked} className="me-2" />
           Logout
         </CDropdownItem>

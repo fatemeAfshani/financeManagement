@@ -30,11 +30,9 @@ const AppHeader = () => {
         >
           <CIcon icon={cilMenu} size="lg" />
         </CHeaderToggler>
-        {/* <NavLink to="/"> */}
         <CHeaderBrand className="mx-auto d-md-none">
           <img src={financeLogo} alt="finance management" width="200" height="100"></img>
         </CHeaderBrand>
-        {/* </NavLink> */}
         <CHeaderNav className="d-none d-md-flex me-auto">
           <CNavItem>
             <CNavLink to="/dashboard" component={NavLink}>
@@ -42,28 +40,6 @@ const AppHeader = () => {
             </CNavLink>
           </CNavItem>
         </CHeaderNav>
-        {/* <CHeaderNav>
-          <CNavItem>
-            <CNavLink href="#">
-              <CDropdown>
-                <CDropdownToggle color="white">
-                  {' '}
-                  <CIcon icon={cilLanguage} size="lg" />
-                </CDropdownToggle>
-                <CDropdownMenu>
-                  <CDropdownItem onClick={() => clickHander('en')}>
-                    <CIcon icon={cifUs} size="lg" className="mx-3" />
-                    <span>en</span>
-                  </CDropdownItem>
-                  <CDropdownItem onClick={() => clickHander('fa')}>
-                    <CIcon icon={cifIr} size="lg" className="mx-3" />
-                    <span>fa</span>
-                  </CDropdownItem>
-                </CDropdownMenu>
-              </CDropdown>
-            </CNavLink>
-          </CNavItem>
-        </CHeaderNav> */}
         <CHeaderNav className=" mx-s-auto ms-md-3">
           <AppHeaderDropdown />
         </CHeaderNav>
