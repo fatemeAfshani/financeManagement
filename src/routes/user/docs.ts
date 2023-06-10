@@ -335,7 +335,7 @@
 
 /**
  * @swagger
- * /users/user/{id}:
+ * /users:
  *   get:
  *     tags: [Users]
  *     summary: update role and/or username of a user
@@ -343,7 +343,7 @@
  *     security:
  *       - bearerAuth: []
  *     parameters:
- *       - $ref: "#/components/parameters/idParam"
+ *       - $ref: "#/components/parameters/idQuery"
  *     responses:
  *       200:
  *         description: Successful

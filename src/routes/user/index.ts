@@ -28,7 +28,7 @@ userRouter.post('/login', userValidate(Methods.Login), errorHandler, login)
 
 userRouter.get('/company', isAuth, hasAdminAccess, getAllUsersOfCompany)
 userRouter.get(
-  '/user/:id',
+  '/',
   isAuth,
   hasViewerAccess,
   userValidate(Methods.GetOne),

@@ -23,9 +23,10 @@ export const getAllUsersOfCompany = async (req: Request, res: Response) => {
 
 export const getUser = async (req: Request, res: Response) => {
   try {
-    const { id } = req.params
-    const { companyId } = req.user as User
-    const user = await UserDB.getAll({ id: +id, companyId })
+    const { id } = req.query
+    const { companyId, id: userId } = req.user as User
+    const searchId = id || userId
+    const user = await UserDB.getAll({ id: +searchId!, companyId })
     if (user?.[0]) {
       res.status(200).send(user?.[0])
     } else {

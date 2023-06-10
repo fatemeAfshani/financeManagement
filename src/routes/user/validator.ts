@@ -1,4 +1,4 @@
-import { body, param } from 'express-validator'
+import { body, param, query } from 'express-validator'
 
 import { Methods, Roles, ShareHolderUser } from '../../types'
 import userDB from '../../database/user'
@@ -104,7 +104,8 @@ const userValidate = (method: Methods) => {
     }
     case Methods.GetOne: {
       return [
-        param('id', 'invalid product id')
+        query('id', 'invalid user id')
+          .optional()
           .isInt()
           .custom(async (id, { req }) => {
             const user = (await userDB.get({ id }))?.[0]
@@ -121,7 +122,7 @@ const userValidate = (method: Methods) => {
       ]
     }
     case Methods.Delete: {
-      return [param('id', 'invalid product id').isInt()]
+      return [param('id', 'invalid user id').isInt()]
     }
     default: {
       return []
