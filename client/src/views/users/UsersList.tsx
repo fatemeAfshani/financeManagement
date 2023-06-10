@@ -173,6 +173,7 @@ export default function UserList() {
             <CTableHeaderCell scope="col">Role</CTableHeaderCell>
             <CTableHeaderCell scope="col">Is Share Holder</CTableHeaderCell>
             <CTableHeaderCell scope="col">SharePercent</CTableHeaderCell>
+            <CTableHeaderCell scope="col">Is Deleted</CTableHeaderCell>
             <CTableHeaderCell scope="col">Update</CTableHeaderCell>
             <CTableHeaderCell scope="col">Delete</CTableHeaderCell>
           </CTableRow>
@@ -186,25 +187,30 @@ export default function UserList() {
                 <CTableDataCell>{user.role}</CTableDataCell>
                 <CTableDataCell>{user.isShareHolder ? 'yes' : 'no'}</CTableDataCell>
                 <CTableDataCell>{user.sharePercent}</CTableDataCell>
+                <CTableDataCell>{user.isDeleted ? 'yes' : 'no'}</CTableDataCell>
                 <CTableDataCell>
-                  <CButton
-                    color="warning"
-                    variant="outline"
-                    className="mx-3"
-                    onClick={() => clickHandlerUpdate(user.id)}
-                  >
-                    Update
-                  </CButton>
+                  {!user.isDeleted && (
+                    <CButton
+                      color="warning"
+                      variant="outline"
+                      className="mx-3"
+                      onClick={() => clickHandlerUpdate(user.id)}
+                    >
+                      Update
+                    </CButton>
+                  )}
                 </CTableDataCell>
                 <CTableDataCell>
-                  <CButton
-                    color="danger"
-                    variant="outline"
-                    className="mx-3"
-                    onClick={() => deleteHandler(user.id)}
-                  >
-                    Delete
-                  </CButton>
+                  {!user.isDeleted && (
+                    <CButton
+                      color="danger"
+                      variant="outline"
+                      className="mx-3"
+                      onClick={() => deleteHandler(user.id)}
+                    >
+                      Delete
+                    </CButton>
+                  )}
                 </CTableDataCell>
               </CTableRow>
             )

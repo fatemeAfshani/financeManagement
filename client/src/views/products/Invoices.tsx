@@ -66,7 +66,7 @@ const invoiceReducer = (state: InvoicesState, action: Action) => {
   }
 }
 
-export default function Stocks() {
+export default function Invoices() {
   const [state, dispatch] = useReducer(invoiceReducer, initialState)
   const { invoices, loading, error, total } = state
   const limit = 10
