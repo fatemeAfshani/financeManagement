@@ -13,7 +13,7 @@ const addOrUpdateShareHolders = async (req: Request, res: Response) => {
     await userDB.updateShareHolders(users, companyId!)
     res.sendStatus(200)
   } catch (e: any) {
-    logger.error(`error happend in add order: ${e}`)
+    logger.error(`error happend in add or update shareHolders: ${e}`)
     res.status(500).send({
       error: e.message
         ? translateErrorMessage(req.cookies?.language, e.message)

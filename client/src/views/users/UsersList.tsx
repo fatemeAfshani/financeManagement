@@ -102,15 +102,15 @@ export default function UserList() {
     getusers()
   }, [logout, user])
 
-  const clickHandlerUpdate = (productId: number) => {
-    navigate(`/product/update/${productId}`)
+  const clickHandlerUpdate = (userId: number) => {
+    navigate(`/users/update/${userId}`)
   }
 
-  const deleteHandler = async (productId: number) => {
+  const deleteHandler = async (userId: number) => {
     try {
       let response = await axios({
         method: 'DELETE',
-        url: `${process.env?.REACT_APP_BASE_URL}/users/${productId}`,
+        url: `${process.env?.REACT_APP_BASE_URL}/users/${userId}`,
         headers: {
           Authorization: `Bearer ${user?.token}`,
         },
