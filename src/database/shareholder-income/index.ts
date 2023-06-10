@@ -1,5 +1,5 @@
 import moment from 'jalali-moment'
-import { Company, ShareHolderIncome, User } from '../../types'
+import { Company, Count, ShareHolderIncome, User } from '../../types'
 import db from '../db'
 
 export type ShareHolderIncomeInput = {
@@ -89,10 +89,14 @@ const getSum = (
   return query
 }
 
+const count = (params: ShareHolderIncomeInput): Promise<Count[]> =>
+  db.table<ShareHolderIncome>('shareholder_income').where(params).count('*')
+
 export default {
   add,
   getAll,
   getAllWithLimit,
   get,
   getSum,
+  count,
 }

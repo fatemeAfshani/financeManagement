@@ -54,8 +54,8 @@ export const getIncomesOfAUserOrACompany = async (
   res: Response
 ) => {
   try {
-    const { limit = '10', offset = '0', forUser } = req.query
-    const { id, companyId } = req.user as User
+    const { limit = '10', offset = '0', id } = req.query
+    const { companyId } = req.user as User
 
     const params: {
       userId?: number
@@ -63,8 +63,8 @@ export const getIncomesOfAUserOrACompany = async (
       isCompanyIncome?: boolean
     } = {}
 
-    if (forUser === 'true') {
-      params.userId = id
+    if (id) {
+      params.userId = id as unknown as number
     } else {
       params.companyId = companyId
       params.isCompanyIncome = true
@@ -74,7 +74,9 @@ export const getIncomesOfAUserOrACompany = async (
       +limit,
       +offset * +limit
     )
-    res.status(200).send(incomes)
+
+    const incomesCount = (await shareHolderIncomeDB.count(params))?.[0]
+    res.status(200).send({ incomes, productsCount: +incomesCount.count })
   } catch (e: any) {
     logger.error(`error happend in get incomes of a user: ${e}`)
     res.status(500).send({

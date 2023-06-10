@@ -26,9 +26,10 @@ const getAll = (params: userInput): Promise<User[]> =>
       'companyId',
       'isShareHolder',
       'sharePercent',
-      'id'
+      'id',
+      'isDeleted'
     )
-    .where({ ...params, isDeleted: false })
+    .where({ ...params })
 
 const updateShareHolders = async (
   updatedUsers: ShareHolderUser[],

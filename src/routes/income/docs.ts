@@ -134,14 +134,19 @@
  *     parameters:
  *       - $ref: "#/components/parameters/limitQuery"
  *       - $ref: "#/components/parameters/offsetQuery"
- *       - $ref: "#/components/parameters/forUserQuery"
+ *       - $ref: "#/components/parameters/idQuery"
  *     responses:
  *       200:
  *         description: Successful
  *         content:
  *           application/json:
  *             schema:
- *               $ref: "#/components/schemas/ShareHolderIncome"
+ *               type: object
+ *               properties:
+ *                 incomes:
+ *                   $ref: "#/components/schemas/ShareHolderIncome"
+ *                 incomesCount:
+ *                   type: number
  *
  *       400:
  *         description: Bad Request

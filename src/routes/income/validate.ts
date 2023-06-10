@@ -1,7 +1,7 @@
-import { body, param, query } from 'express-validator'
+import { param, query } from 'express-validator'
 
-import { Methods, ShareHolderUser } from '../../types'
 import userDB from '../../database/user'
+import { Methods, Roles } from '../../types'
 
 const shareHolderValidate = (method: Methods) => {
   switch (method) {
@@ -20,7 +20,22 @@ const shareHolderValidate = (method: Methods) => {
       return [
         query('limit', 'invalid limit').optional().isInt(),
         query('offset', 'invalid offset').optional().isInt(),
-        query('forUser', 'invalid input').optional().isBoolean(),
+        query('id', 'invalid id')
+          .optional()
+          .isInt()
+          .custom(async (id, { req }) => {
+            const user = (await userDB.getAll({ id }))?.[0]
+            // only user itself or
+            // someOne in the same compnay with admin access can get user's income
+            if (
+              !user ||
+              (user.id !== req.user.id &&
+                (req.user.companyId !== user.companyId ||
+                  req.user.role !== Roles.ADMIN))
+            ) {
+              return Promise.reject('user not found')
+            }
+          }),
       ]
     }
 

@@ -67,6 +67,15 @@
  *       schema:
  *         type: boolean
  *
+ *
+ *     idQuery:
+ *       name: id
+ *       in: query
+ *       description: if exist returns incomes of this user otherwise it returns incomes of company
+ *       required: false
+ *       schema:
+ *         type: number
+ *
  *     fromDateQuery:
  *       name: fromDate
  *       in: query
