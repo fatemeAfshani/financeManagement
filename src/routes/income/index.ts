@@ -9,8 +9,9 @@ import {
 import errorHandler from '../../utils/middlewares/errorHandler'
 import shareHolderValidate from './validate'
 import {
+  getIncomesOfACompany,
   getIncomesOfAllUsersOfACompany,
-  getIncomesOfAUserOrACompany,
+  getIncomesOfAUser,
   getIncomesOfOneOrder,
 } from '../../controllers/income/getIncomes'
 import {
@@ -54,8 +55,18 @@ shareHolderIncomeRouter.get(
   hasViewerAccess,
   shareHolderValidate(Methods.GetOne),
   errorHandler,
-  getIncomesOfAUserOrACompany
+  getIncomesOfAUser
 )
+
+shareHolderIncomeRouter.get(
+  '/company',
+  isAuth,
+  hasAdminAccess,
+  shareHolderValidate(Methods.GetAll),
+  errorHandler,
+  getIncomesOfACompany
+)
+
 shareHolderIncomeRouter.get(
   '/user/total',
   isAuth,

@@ -127,8 +127,8 @@
  * /incomes/user:
  *   get:
  *     tags: [Incomes]
- *     summary: Returns all incomes of a company or user
- *     description: Returns all incomes of a company or user
+ *     summary: Returns all incomes of a  user
+ *     description: Returns all incomes of a user
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -157,6 +157,56 @@
  *
  *       401:
  *         description: unAuthorized
+ *
+ *       404:
+ *         description: not found
+ *
+ *       500:
+ *         description: Unexpected error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: "#/components/schemas/GeneralError"
+ *
+ */
+
+/**
+ * @swagger
+ * /incomes/company:
+ *   get:
+ *     tags: [Incomes]
+ *     summary: Returns all incomes of a  company
+ *     description: Returns all incomes of a company
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - $ref: "#/components/parameters/limitQuery"
+ *       - $ref: "#/components/parameters/offsetQuery"
+ *     responses:
+ *       200:
+ *         description: Successful
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 incomes:
+ *                   $ref: "#/components/schemas/ShareHolderIncome"
+ *                 incomesCount:
+ *                   type: number
+ *
+ *       400:
+ *         description: Bad Request
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: "#/components/schemas/GeneralError"
+ *
+ *       401:
+ *         description: unAuthorized
+ *
+ *       404:
+ *         description: not found
  *
  *       500:
  *         description: Unexpected error
