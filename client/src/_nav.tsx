@@ -3,6 +3,7 @@ import CIcon from '@coreui/icons-react'
 import {
   cilBasket,
   cilBuilding,
+  cilContact,
   cilDescription,
   cilNewspaper,
   cilSpeedometer,
@@ -165,9 +166,32 @@ export const adminNav = [
   },
   {
     component: CNavGroup,
+    name: 'Me',
+    to: '/me',
+    icon: <CIcon icon={cilUser} customClassName="nav-icon" />,
+    items: [
+      {
+        component: CNavItem,
+        name: 'Profile',
+        to: '/profile',
+      },
+      {
+        component: CNavItem,
+        name: 'Incomes',
+        to: '/me/incomes',
+      },
+      {
+        component: CNavItem,
+        name: 'Checkouts',
+        to: '/me/checkouts',
+      },
+    ],
+  },
+  {
+    component: CNavGroup,
     name: 'Users',
     to: '/users',
-    icon: <CIcon icon={cilUser} customClassName="nav-icon" />,
+    icon: <CIcon icon={cilContact} customClassName="nav-icon" />,
     items: [
       {
         component: CNavItem,
