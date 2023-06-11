@@ -39,14 +39,22 @@ export const getCheckoutsOfAUser = async (req: Request, res: Response) => {
       +limit,
       +offset * +limit
     )
-
-    const checkoutsCount = (
-      await shareHolderCheckoutDB.count({
-        userId: +searchId!,
-        companyId,
+    if (checkouts.length !== 0) {
+      const checkoutsCount = (
+        await shareHolderCheckoutDB.count({
+          userId: +searchId!,
+          companyId,
+        })
+      )?.[0]
+      res.status(200).send({ checkouts, checkoutsCount: +checkoutsCount.count })
+    } else {
+      res.status(404).send({
+        error: translateErrorMessage(
+          req.cookies?.language,
+          'no checkout found'
+        ),
       })
-    )?.[0]
-    res.status(200).send({ checkouts, checkoutsCount: +checkoutsCount.count })
+    }
   } catch (e: any) {
     logger.error(`error happend in get checkouts of a user: ${e}`)
     res.status(500).send({

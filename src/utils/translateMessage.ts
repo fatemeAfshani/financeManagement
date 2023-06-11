@@ -65,6 +65,7 @@ const translateMessage: object = {
     'تسویه حساب درآمد های حاصل از این سفارش انجام شده است، امکان به روز رسانی وجود ندارد ',
   'invalid language': 'زبان نامعتبر است',
   'no income found': 'درآمدی یافت نشد',
+  'no checkout found': 'تسویه حسابی یافت نشد',
 }
 
 export default translateMessage
