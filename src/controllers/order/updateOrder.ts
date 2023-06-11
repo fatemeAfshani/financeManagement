@@ -19,7 +19,7 @@ const updateOrder = async (req: Request, res: Response) => {
       return res.status(500).send({
         error: translateErrorMessage(
           req.cookies?.language,
-          'incomes of this order is already settled, can not update'
+          'incomes of this order are already settled, can not update'
         ),
       })
     }

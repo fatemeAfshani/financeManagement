@@ -61,7 +61,7 @@ const translateMessage: object = {
   'invalid input': 'ورودی نامعتبر است',
   'invalid from date': 'تاریخ شروع نامعتبر است',
   'invalid to date': 'تاریخ پایان نامعتبر است',
-  'incomes of this order is already settled, can not update':
+  'incomes of this order are already settled, can not update':
     'تسویه حساب درآمد های حاصل از این سفارش انجام شده است، امکان به روز رسانی وجود ندارد ',
   'invalid language': 'زبان نامعتبر است',
   'no income found': 'درآمدی یافت نشد',
