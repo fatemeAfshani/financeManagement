@@ -77,7 +77,7 @@ export type Company = {
 }
 
 export type ShareHolderIncome = {
-  id?: number
+  id: number
   companyId: number
   orderId: number
   userId?: number

@@ -14,6 +14,7 @@ import {
   CTableRow,
 } from '@coreui/react'
 import { useNavigate, useParams } from 'react-router-dom'
+import { convertDate } from '../../utils'
 
 type IncomeState = {
   error: string
@@ -74,9 +75,16 @@ export default function UserIncomes() {
   const pageCount = Math.ceil(total / limit)
   const [currentPage, setCurrentPage] = useState(1)
 
+  const [checkoutState, setCheckoutState] = useState({ error: '', success: false })
+
   const { id: userId } = useParams()
 
   const { user, logout } = useAuth()
+
+  const [checkoutData, setCheckoutData] = useState<{ incomeIds: number[]; amount: number }>({
+    incomeIds: [],
+    amount: 0,
+  })
 
   const navigate = useNavigate()
 
@@ -114,11 +122,64 @@ export default function UserIncomes() {
   const goBack = () => {
     navigate(-1)
   }
+
+  const handleCheckboxChange = (incomeId: number, incomeAmount: number) => {
+    if (checkoutData.incomeIds.includes(incomeId)) {
+      setCheckoutData((preData) => {
+        return {
+          incomeIds: preData.incomeIds.filter((id) => id !== incomeId),
+          amount: preData.amount - +incomeAmount,
+        }
+      })
+    } else {
+      setCheckoutData((preData) => {
+        return {
+          incomeIds: [...preData.incomeIds, incomeId],
+          amount: preData.amount + +incomeAmount,
+        }
+      })
+    }
+  }
+
+  const checkout = async () => {
+    try {
+      if (checkoutData.incomeIds.length === 0) {
+        return alert('Please choose some income and try again')
+      }
+      const description = prompt('Enter some description if you like:')
+
+      let response = await axios({
+        method: 'POST',
+        url: `${process.env?.REACT_APP_BASE_URL}/checkouts`,
+        headers: {
+          Authorization: `Bearer ${user?.token}`,
+        },
+        data: {
+          userId: +userId!,
+          amount: checkoutData.amount,
+          incomeIds: checkoutData.incomeIds,
+          description,
+        },
+      })
+      if (response.status === 200) {
+        setCheckoutState({ error: '', success: true })
+      }
+    } catch (error: any) {
+      if (error.response && error.response.status === 401) {
+        logout()
+      }
+      const errorMessage = error.response?.data?.error || 'something went wrong'
+      setCheckoutState({ success: false, error: errorMessage })
+    }
+  }
   return (
     <>
       <h3 className="my-3"> User {userId} Income </h3>
-      <button type="button" className="btn btn-primary my-3" onClick={goBack}>
+      <button type="button" className="btn btn-primary m-2 " onClick={goBack}>
         Back
+      </button>
+      <button type="button" className="btn btn-info text-white m-2" onClick={checkout}>
+        Checkout
       </button>
       {error && (
         <CAlert color="danger" dismissible>
@@ -130,7 +191,16 @@ export default function UserIncomes() {
           <span className="visually-hidden">Loading...</span>
         </div>
       )}
-
+      {checkoutState.error && (
+        <CAlert color="danger" dismissible>
+          <strong>{checkoutState.error}</strong>
+        </CAlert>
+      )}{' '}
+      {checkoutState.success && (
+        <CAlert color="success" dismissible>
+          <strong>incomes are settled successfully</strong>
+        </CAlert>
+      )}
       <CTable className=" fs-5 table  bg-white table-striped" hover>
         <CTableHead>
           <CTableRow>
@@ -151,9 +221,22 @@ export default function UserIncomes() {
                 <CTableDataCell>{income.userId}</CTableDataCell>
                 <CTableDataCell>{income.amount}</CTableDataCell>
                 <CTableDataCell>{income.sharePercent}</CTableDataCell>
-                <CTableDataCell>{income.date}</CTableDataCell>
+                <CTableDataCell>{income.date && convertDate(income.date)}</CTableDataCell>
                 <CTableDataCell>{income.isSettled ? 'Yes' : 'No'}</CTableDataCell>
-                <CTableDataCell>{!income.isSettled && <button>checkout</button>}</CTableDataCell>
+                <CTableDataCell>
+                  {!income.isSettled ? (
+                    <div className="form-check form-switch">
+                      <input
+                        className="form-check-input"
+                        type="checkbox"
+                        id="flexSwitchCheck"
+                        onChange={() => handleCheckboxChange(income.id, income.amount)}
+                      ></input>
+                    </div>
+                  ) : (
+                    '_'
+                  )}
+                </CTableDataCell>
               </CTableRow>
             )
           })}
