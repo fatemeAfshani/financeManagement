@@ -20,6 +20,7 @@ const AddInvoice = React.lazy(() => import('./views/invoices/Add'))
 // Orders
 const Orders = React.lazy(() => import('./views/orders/OrdersList'))
 const AddOrders = React.lazy(() => import('./views/orders/Add'))
+const OrderIncomes = React.lazy(() => import('./views/orders/OrderIncomes'))
 
 // Users
 const UserList = React.lazy(() => import('./views/users/UsersList'))
@@ -56,6 +57,7 @@ const routes = [
   { path: '/invoices/add', name: 'add Invoice', element: AddInvoice, exact: true },
   { path: '/orders/list', name: 'Orders', element: Orders, exact: true },
   { path: '/orders/add', name: 'add Order', element: AddOrders, exact: true },
+  { path: '/orders/income/:id', name: 'Order income', element: OrderIncomes, exact: true },
   { path: '/users/list', name: 'Users list', element: UserList, exact: true },
   { path: '/users/update/:id', name: 'update user', element: UpdateUser, exact: true },
   { path: '/users/income/:id', name: 'user invome', element: UserIncomes, exact: true },

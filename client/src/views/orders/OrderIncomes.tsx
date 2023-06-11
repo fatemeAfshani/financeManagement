@@ -1,11 +1,9 @@
 import axios from 'axios'
-import React, { useEffect, useReducer, useState } from 'react'
+import React, { useEffect, useReducer } from 'react'
 import { useAuth } from '../../components/context/AuthContext'
 import { API_ACTIONS, ShareHolderIncome } from '../../types'
 import {
   CAlert,
-  CPagination,
-  CPaginationItem,
   CTable,
   CTableBody,
   CTableDataCell,
@@ -19,23 +17,21 @@ type IncomeState = {
   error: string
   loading: boolean
   incomes: ShareHolderIncome[]
-  total: number
 }
+
 const initialState: IncomeState = {
   error: '',
   loading: false,
   incomes: [],
-  total: 0,
 }
 
 type Action = {
   type: API_ACTIONS
   incomes?: ShareHolderIncome[]
-  incomesCount?: number
   error?: string
 }
 
-const userIncomesReducer = (state: IncomeState, action: Action) => {
+const orderIncomesReducer = (state: IncomeState, action: Action) => {
   switch (action.type) {
     case API_ACTIONS.CALL_API: {
       return {
@@ -49,7 +45,6 @@ const userIncomesReducer = (state: IncomeState, action: Action) => {
         ...state,
         loading: false,
         incomes: action.incomes || [],
-        total: action.incomesCount || 0,
       }
     }
     case API_ACTIONS.ERROR: {
@@ -66,15 +61,11 @@ const userIncomesReducer = (state: IncomeState, action: Action) => {
   }
 }
 
-export default function UserIncomes() {
-  const [state, dispatch] = useReducer(userIncomesReducer, initialState)
-  const { incomes, loading, error, total } = state
+export default function OrderIncomes() {
+  const [state, dispatch] = useReducer(orderIncomesReducer, initialState)
+  const { incomes, loading, error } = state
 
-  const limit = 10
-  const pageCount = Math.ceil(total / limit)
-  const [currentPage, setCurrentPage] = useState(1)
-
-  const { id: userId } = useParams()
+  const { id: orderId } = useParams()
 
   const { user, logout } = useAuth()
 
@@ -85,9 +76,7 @@ export default function UserIncomes() {
     const getStocks = async () => {
       try {
         const response = await axios({
-          url: `${process.env?.REACT_APP_BASE_URL}/incomes/user?id=${userId}&offset=${
-            currentPage - 1
-          }`,
+          url: `${process.env?.REACT_APP_BASE_URL}/incomes/order/${orderId}`,
           method: 'GET',
           headers: {
             Authorization: `Bearer ${user?.token}`,
@@ -96,8 +85,7 @@ export default function UserIncomes() {
 
         dispatch({
           type: API_ACTIONS.SUCCESS,
-          incomes: response.data.incomes,
-          incomesCount: response.data.incomesCount,
+          incomes: response.data,
         })
       } catch (error: any) {
         if (error.response && error.response.status === 401) {
@@ -109,14 +97,14 @@ export default function UserIncomes() {
     }
 
     getStocks()
-  }, [currentPage, logout, user, userId])
+  }, [logout, user, orderId])
 
   const goBack = () => {
     navigate(-1)
   }
   return (
     <>
-      <h3 className="my-3"> User {userId} Income </h3>
+      <h3 className="my-3"> Order {orderId} Income </h3>
       <button type="button" className="btn btn-primary my-3" onClick={goBack}>
         Back
       </button>
@@ -134,56 +122,31 @@ export default function UserIncomes() {
       <CTable className=" fs-5 table  bg-white table-striped" hover>
         <CTableHead>
           <CTableRow>
-            <CTableHeaderCell scope="col">OrderId</CTableHeaderCell>
             <CTableHeaderCell scope="col">UserId</CTableHeaderCell>
+            <CTableHeaderCell scope="col">Is Company Income</CTableHeaderCell>
             <CTableHeaderCell scope="col">Amount</CTableHeaderCell>
             <CTableHeaderCell scope="col">Share Percent</CTableHeaderCell>
             <CTableHeaderCell scope="col">Date</CTableHeaderCell>
             <CTableHeaderCell scope="col">Is Settled</CTableHeaderCell>
-            <CTableHeaderCell scope="col">Check Out</CTableHeaderCell>
+            <CTableHeaderCell scope="col">CheckOutId</CTableHeaderCell>
           </CTableRow>
         </CTableHead>
         <CTableBody>
           {incomes.map((income) => {
             return (
               <CTableRow key={income.id}>
-                <CTableDataCell>{income.orderId}</CTableDataCell>
                 <CTableDataCell>{income.userId}</CTableDataCell>
+                <CTableDataCell>{income.isCompanyIncome ? 'Yes' : 'No'}</CTableDataCell>
                 <CTableDataCell>{income.amount}</CTableDataCell>
                 <CTableDataCell>{income.sharePercent}</CTableDataCell>
                 <CTableDataCell>{income.date}</CTableDataCell>
                 <CTableDataCell>{income.isSettled ? 'Yes' : 'No'}</CTableDataCell>
-                <CTableDataCell>{!income.isSettled && <button>checkout</button>}</CTableDataCell>
+                <CTableDataCell>{income.checkoutId || '_'} </CTableDataCell>
               </CTableRow>
             )
           })}
         </CTableBody>
       </CTable>
-      <CPagination className=" " aria-label="Page navigation">
-        <CPaginationItem
-          onClick={() => setCurrentPage((prePage) => prePage - 1)}
-          disabled={currentPage === 1}
-        >
-          Previous
-        </CPaginationItem>
-        {currentPage !== 1 && (
-          <CPaginationItem onClick={() => setCurrentPage((prePage) => prePage - 1)}>
-            {currentPage - 1}
-          </CPaginationItem>
-        )}
-        <CPaginationItem active>{currentPage}</CPaginationItem>
-        {currentPage !== pageCount && (
-          <CPaginationItem onClick={() => setCurrentPage((prePage) => prePage + 1)}>
-            {currentPage + 1}
-          </CPaginationItem>
-        )}
-        <CPaginationItem
-          onClick={() => setCurrentPage((prePage) => prePage + 1)}
-          disabled={currentPage === pageCount}
-        >
-          Next
-        </CPaginationItem>
-      </CPagination>
     </>
   )
 }

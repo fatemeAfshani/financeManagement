@@ -1,5 +1,6 @@
 import {
   CAlert,
+  CButton,
   CPagination,
   CPaginationItem,
   CTable,
@@ -16,6 +17,7 @@ import { API_ACTIONS, Order } from '../../types'
 import CustomerDataModal from './modals/customerDataModal'
 import ProductsModal from './modals/ProductsModal'
 import { convertDate } from '../../utils'
+import { useNavigate } from 'react-router-dom'
 
 type OrderState = {
   error: string
@@ -75,6 +77,7 @@ export default function OrderList() {
   const pageCount = Math.ceil(total / limit)
   const [currentPage, setCurrentPage] = useState(1)
   const { user, logout } = useAuth()
+  const navigate = useNavigate()
 
   useEffect(() => {
     dispatch({ type: API_ACTIONS.CALL_API })
@@ -105,6 +108,10 @@ export default function OrderList() {
     getorders()
   }, [logout, user, currentPage])
 
+  const clickHandlerIncome = (orderId: number) => {
+    navigate(`/orders/income/${orderId}`)
+  }
+
   return (
     <>
       <h3 className="my-3">Orders list</h3>
@@ -132,6 +139,8 @@ export default function OrderList() {
             <CTableHeaderCell scope="col">TotalProfit</CTableHeaderCell>
             <CTableHeaderCell scope="col">SellFrom</CTableHeaderCell>
             <CTableHeaderCell scope="col">Products</CTableHeaderCell>
+            <CTableHeaderCell scope="col">Income</CTableHeaderCell>
+            <CTableHeaderCell scope="col">Update</CTableHeaderCell>
           </CTableRow>
         </CTableHead>
         <CTableBody>
@@ -164,6 +173,19 @@ export default function OrderList() {
                 <CTableDataCell>{order.sellFrom}</CTableDataCell>
                 <CTableDataCell>
                   <ProductsModal data={order.products} id={order.id}></ProductsModal>
+                </CTableDataCell>
+                <CTableDataCell>
+                  <CButton
+                    color="success"
+                    variant="outline"
+                    className="mx-3"
+                    onClick={() => clickHandlerIncome(order.id)}
+                  >
+                    Incomes
+                  </CButton>{' '}
+                </CTableDataCell>
+                <CTableDataCell>
+                  <button>update</button>
                 </CTableDataCell>
               </CTableRow>
             )
