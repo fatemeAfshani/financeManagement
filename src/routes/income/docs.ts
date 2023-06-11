@@ -101,8 +101,12 @@
  *         content:
  *           application/json:
  *             schema:
- *               $ref: "#/components/schemas/ShareHolderIncome"
- *
+ *               type: object
+ *               properties:
+ *                 incomes:
+ *                   $ref: "#/components/schemas/ShareHolderIncome"
+ *                 incomesCount:
+ *                   type: number
  *       400:
  *         description: Bad Request
  *         content:
@@ -112,6 +116,9 @@
  *
  *       401:
  *         description: unAuthorized
+ *
+ *       404:
+ *         description: not found
  *
  *       500:
  *         description: Unexpected error
