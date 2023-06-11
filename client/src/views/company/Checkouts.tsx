@@ -12,29 +12,30 @@ import {
 import React, { useEffect, useReducer, useState } from 'react'
 import axios from 'axios'
 import { useAuth } from '../../components/context/AuthContext'
-import { API_ACTIONS, ShareHolderIncome } from '../../types'
+import { API_ACTIONS, ShareHolderCheckout } from '../../types'
+import { convertDate } from '../../utils'
 
-type InvoiceState = {
+type CheckoutState = {
   error: string
   loading: boolean
-  incomes: ShareHolderIncome[]
+  checkouts: ShareHolderCheckout[]
   total: number
 }
-const initialState: InvoiceState = {
+const initialState: CheckoutState = {
   error: '',
   loading: false,
-  incomes: [],
+  checkouts: [],
   total: 0,
 }
 
 type Action = {
   type: API_ACTIONS
-  incomes?: ShareHolderIncome[]
-  incomesCount?: number
+  checkouts?: ShareHolderCheckout[]
+  checkoutsCount?: number
   error?: string
 }
 
-const myIncomeReducer = (state: InvoiceState, action: Action) => {
+const IncomeReducer = (state: CheckoutState, action: Action) => {
   switch (action.type) {
     case API_ACTIONS.CALL_API: {
       return {
@@ -47,8 +48,8 @@ const myIncomeReducer = (state: InvoiceState, action: Action) => {
       return {
         ...state,
         loading: false,
-        incomes: action.incomes || [],
-        total: action.incomesCount || 0,
+        checkouts: action.checkouts || [],
+        total: action.checkoutsCount || 0,
       }
     }
     case API_ACTIONS.ERROR: {
@@ -65,9 +66,9 @@ const myIncomeReducer = (state: InvoiceState, action: Action) => {
   }
 }
 
-export default function MyIncomes() {
-  const [state, dispatch] = useReducer(myIncomeReducer, initialState)
-  const { incomes, loading, error, total } = state
+export default function Checkouts() {
+  const [state, dispatch] = useReducer(IncomeReducer, initialState)
+  const { checkouts, loading, error, total } = state
 
   const limit = 10
   const pageCount = Math.ceil(total / limit)
@@ -77,10 +78,10 @@ export default function MyIncomes() {
 
   useEffect(() => {
     dispatch({ type: API_ACTIONS.CALL_API })
-    const getincomes = async () => {
+    const getcheckouts = async () => {
       try {
         const response = await axios({
-          url: `${process.env?.REACT_APP_BASE_URL}/incomes/user?offset=${currentPage - 1}`,
+          url: `${process.env?.REACT_APP_BASE_URL}/checkouts?offset=${currentPage - 1}`,
           method: 'GET',
           headers: {
             Authorization: `Bearer ${user?.token}`,
@@ -89,8 +90,8 @@ export default function MyIncomes() {
 
         dispatch({
           type: API_ACTIONS.SUCCESS,
-          incomes: response.data.incomes,
-          incomesCount: response.data.incomesCount,
+          checkouts: response.data.checkouts,
+          checkoutsCount: response.data.checkoutsCount,
         })
       } catch (error: any) {
         if (error.response && error.response.status === 401) {
@@ -101,12 +102,12 @@ export default function MyIncomes() {
       }
     }
 
-    getincomes()
+    getcheckouts()
   }, [logout, user, currentPage])
 
   return (
     <>
-      <h3 className="my-3">My Income</h3>
+      <h3 className="my-3">Company Checkouts</h3>
       {error && (
         <CAlert color="danger" dismissible>
           <strong>{error}</strong>
@@ -120,22 +121,22 @@ export default function MyIncomes() {
       <CTable className=" fs-5 table  bg-white table-striped" hover>
         <CTableHead>
           <CTableRow>
-            <CTableHeaderCell scope="col">Order Id</CTableHeaderCell>
-            <CTableHeaderCell scope="col">Date</CTableHeaderCell>
+            <CTableHeaderCell scope="col">Checkout Id</CTableHeaderCell>
             <CTableHeaderCell scope="col">Amount</CTableHeaderCell>
-            <CTableHeaderCell scope="col">Share Percent</CTableHeaderCell>
-            <CTableHeaderCell scope="col">Is Settled</CTableHeaderCell>
+            <CTableHeaderCell scope="col">Description</CTableHeaderCell>
+            <CTableHeaderCell scope="col">User Id</CTableHeaderCell>
+            <CTableHeaderCell scope="col">Date</CTableHeaderCell>
           </CTableRow>
         </CTableHead>
         <CTableBody>
-          {incomes.map((income) => {
+          {checkouts.map((checkout) => {
             return (
-              <CTableRow key={income.id}>
-                <CTableDataCell>{income.orderId}</CTableDataCell>
-                <CTableDataCell>{income.date}</CTableDataCell>
-                <CTableDataCell>{income.amount}</CTableDataCell>
-                <CTableDataCell>{income.sharePercent}</CTableDataCell>
-                <CTableDataCell>{income.isSettled ? 'Yes' : 'No'}</CTableDataCell>
+              <CTableRow key={checkout.id}>
+                <CTableDataCell scope="row">{checkout.id}</CTableDataCell>
+                <CTableDataCell>{checkout.amount}</CTableDataCell>
+                <CTableDataCell>{checkout.description || '_'}</CTableDataCell>
+                <CTableDataCell>{checkout.userId || 'company'}</CTableDataCell>
+                <CTableDataCell>{checkout.date && convertDate(checkout.date)}</CTableDataCell>
               </CTableRow>
             )
           })}

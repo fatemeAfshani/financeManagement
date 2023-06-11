@@ -30,7 +30,7 @@ const ProductsModal = ({ data, id }: TableModalProps) => {
         className="mx-3"
         onClick={() => setVisible(!visible)}
       >
-        view detail
+        details
       </CButton>
       <CModal alignment="center" visible={visible} onClose={() => setVisible(false)}>
         <CModalHeader>

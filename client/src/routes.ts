@@ -4,7 +4,8 @@ const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
 
 //me
 const Profile = React.lazy(() => import('./views/me/Profile'))
-const MyIncomes = React.lazy(() => import('./views/me/incomes'))
+const MyIncomes = React.lazy(() => import('./views/me/Incomes'))
+const MyCheckouts = React.lazy(() => import('./views/me/Checkouts'))
 
 // Products
 const Products = React.lazy(() => import('./views/products/ProductsList'))
@@ -29,11 +30,16 @@ const UserList = React.lazy(() => import('./views/users/UsersList'))
 const UpdateUser = React.lazy(() => import('./views/users/Update'))
 const UserIncomes = React.lazy(() => import('./views/users/UserIncomes'))
 
+// Company
+const CompanyCheckouts = React.lazy(() => import('./views/company/Checkouts'))
+const CompanyIncomes = React.lazy(() => import('./views/company/Incomes'))
+
 const routes = [
   { path: '/', exact: true, name: 'Home' },
   { path: '/dashboard', name: 'Dashboard', element: Dashboard },
   { path: '/profile', name: 'Profile', element: Profile },
   { path: '/me/incomes', name: 'My Incomes', element: MyIncomes, exact: true },
+  { path: '/me/checkouts', name: 'My Checkouts', element: MyCheckouts, exact: true },
   { path: '/products/list', name: 'Products', element: Products, exact: true },
   { path: '/product/stock/:id', name: 'Product stock', element: ProductStocks, exact: true },
   {
@@ -64,6 +70,8 @@ const routes = [
   { path: '/users/list', name: 'Users list', element: UserList, exact: true },
   { path: '/users/update/:id', name: 'update user', element: UpdateUser, exact: true },
   { path: '/users/income/:id', name: 'user invome', element: UserIncomes, exact: true },
+  { path: '/company/checkouts', name: 'Company checkouts', element: CompanyCheckouts, exact: true },
+  { path: '/company/incomes', name: 'Company incomes', element: CompanyIncomes, exact: true },
 ]
 
 export default routes

@@ -214,7 +214,7 @@ export const adminNav = [
       {
         component: CNavItem,
         name: 'Checkouts',
-        to: '/comopany/checkouts',
+        to: '/company/checkouts',
       },
     ],
   },

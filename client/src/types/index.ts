@@ -88,3 +88,12 @@ export type ShareHolderIncome = {
   checkoutId?: string
   isCompanyIncome?: boolean
 }
+
+export type ShareHolderCheckout = {
+  companyId: number
+  amount: number
+  description?: string
+  userId?: number
+  date: string
+  id: number
+}
