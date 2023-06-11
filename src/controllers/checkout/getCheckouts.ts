@@ -14,7 +14,12 @@ export const getCheckoutsOfACompany = async (req: Request, res: Response) => {
       +limit,
       +offset * +limit
     )
-    res.status(200).send(checkouts)
+    const checkoutsCount = (
+      await shareHolderCheckoutDB.count({
+        companyId,
+      })
+    )?.[0]
+    res.status(200).send({ checkouts, checkoutsCount: +checkoutsCount.count })
   } catch (e: any) {
     logger.error(`error happend in get checkouts of a company: ${e}`)
     res.status(500).send({
@@ -25,16 +30,23 @@ export const getCheckoutsOfACompany = async (req: Request, res: Response) => {
 
 export const getCheckoutsOfAUser = async (req: Request, res: Response) => {
   try {
-    const { limit = '10', offset = '0' } = req.query
-    const { id } = req.params
-    const { companyId } = req.user as User
+    const { limit = '10', offset = '0', id } = req.query
+    const { companyId, id: userId } = req.user as User
+    const searchId = id || userId
 
     const checkouts = await shareHolderCheckoutDB.getAllWithLimit(
-      { userId: +id, companyId },
+      { userId: +searchId!, companyId },
       +limit,
       +offset * +limit
     )
-    res.status(200).send(checkouts)
+
+    const checkoutsCount = (
+      await shareHolderCheckoutDB.count({
+        userId: +searchId!,
+        companyId,
+      })
+    )?.[0]
+    res.status(200).send({ checkouts, checkoutsCount: +checkoutsCount.count })
   } catch (e: any) {
     logger.error(`error happend in get checkouts of a user: ${e}`)
     res.status(500).send({

@@ -1,6 +1,6 @@
 import { body, param, query } from 'express-validator'
 
-import { Methods } from '../../types'
+import { Methods, Roles } from '../../types'
 import userDB from '../../database/user'
 
 const checkoutValitate = (method: Methods) => {
@@ -46,7 +46,21 @@ const checkoutValitate = (method: Methods) => {
       return [
         query('limit', 'invalid limit').optional().isInt(),
         query('offset', 'invalid offset').optional().isInt(),
-        param('id', 'invalid id').isInt(),
+        query('id', 'invalid id')
+          .isInt()
+          .optional()
+          .custom(async (id, { req }) => {
+            const user = (await userDB.get({ id }))?.[0]
+            // only user itself or someOne in the same compnay with admin access can get user's data
+            if (
+              !user ||
+              (user.id !== req.user.id &&
+                (req.user.companyId !== user.companyId ||
+                  req.user.role !== Roles.ADMIN))
+            ) {
+              return Promise.reject('user not found')
+            }
+          }),
       ]
     }
     default: {

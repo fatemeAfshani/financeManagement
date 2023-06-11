@@ -38,7 +38,7 @@ checkoutRouter.get(
   getCheckoutsOfACompany
 )
 checkoutRouter.get(
-  '/:id',
+  '/checkout/:id',
   isAuth,
   hasAdminAccess,
   checkoutValitate(Methods.GetOne),
@@ -47,7 +47,7 @@ checkoutRouter.get(
 )
 
 checkoutRouter.get(
-  '/user/:id',
+  '/user',
   isAuth,
   hasViewerAccess,
   checkoutValitate(Methods.GetAllOfOneType),

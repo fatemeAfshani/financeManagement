@@ -1,4 +1,4 @@
-import { ShareHolderIncome, ShareHolderCheckout } from '../../types'
+import { ShareHolderIncome, ShareHolderCheckout, Count } from '../../types'
 import db from '../db'
 
 type ShareHolderCheckoutInput = {
@@ -77,8 +77,12 @@ const getAllWithLimit = (
     .offset(offset)
     .orderBy('id', 'desc')
 
+const count = (params: ShareHolderCheckoutInput): Promise<Count[]> =>
+  db.table<ShareHolderCheckout>('shareholder_checkout').where(params).count('*')
+
 export default {
   add,
   get,
   getAllWithLimit,
+  count,
 }

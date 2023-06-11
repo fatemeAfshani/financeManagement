@@ -101,7 +101,7 @@
 
 /**
  * @swagger
- * /checkouts/{id}:
+ * /checkouts/checkout/{id}:
  *   get:
  *     tags: [Checkouts]
  *     summary: Returns one checkout
@@ -155,7 +155,12 @@
  *         content:
  *           application/json:
  *             schema:
- *               $ref: "#/components/schemas/ShareHolderCheckout"
+ *               type: object
+ *               properties:
+ *                 checkouts:
+ *                   $ref: "#/components/schemas/ShareHolderCheckout"
+ *                 checkoutsCount:
+ *                   type: number
  *
  *       400:
  *         description: Bad Request
@@ -178,7 +183,7 @@
 
 /**
  * @swagger
- * /checkouts/user/{id}:
+ * /checkouts/user:
  *   get:
  *     tags: [Checkouts]
  *     summary: Returns all checkouts of a user
@@ -188,14 +193,19 @@
  *     parameters:
  *       - $ref: "#/components/parameters/limitQuery"
  *       - $ref: "#/components/parameters/offsetQuery"
- *       - $ref: "#/components/parameters/idParam"
+ *       - $ref: "#/components/parameters/idQuery"
  *     responses:
  *       200:
  *         description: Successful
  *         content:
  *           application/json:
  *             schema:
- *               $ref: "#/components/schemas/ShareHolderCheckout"
+ *               type: object
+ *               properties:
+ *                 checkouts:
+ *                   $ref: "#/components/schemas/ShareHolderCheckout"
+ *                 checkoutsCount:
+ *                   type: number
  *
  *       400:
  *         description: Bad Request
