@@ -1,25 +1,17 @@
-import {
-  CForm,
-  CCol,
-  CFormInput,
-  CButton,
-  CAlert,
-  CFormSelect,
-  CListGroup,
-  CListGroupItem,
-} from '@coreui/react'
+import { CForm, CCol, CFormInput, CButton, CAlert, CFormSelect } from '@coreui/react'
 import axios from 'axios'
 import React, { useEffect, useReducer, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useAuth } from '../../components/context/AuthContext'
-import { API_ACTIONS, Product } from '../../types'
+import { API_ACTIONS } from '../../types'
 
-type AddOrderState = {
+type UpdateOrderState = {
   error: string
   message: string
   loading: boolean
 }
 
-const initialState: AddOrderState = {
+const initialState: UpdateOrderState = {
   error: '',
   loading: false,
   message: '',
@@ -30,7 +22,7 @@ type Action = {
   message?: string
 }
 
-const AddOrderReducer = (state: AddOrderState, action: Action) => {
+const updateOrderReducer = (state: UpdateOrderState, action: Action) => {
   switch (action.type) {
     case API_ACTIONS.CALL_API: {
       return {
@@ -62,21 +54,14 @@ const AddOrderReducer = (state: AddOrderState, action: Action) => {
   }
 }
 
-type Data = {
-  products: Product[]
-  errorMessage: string
-}
-
-type OrderProduct = {
-  productId: number
-  amount: number
-  sellPrice: number
-  name: string
-}
-
-export default function AddOrder() {
-  const [state, dispatch] = useReducer(AddOrderReducer, initialState)
+export default function UpdateOrder() {
+  const [state, dispatch] = useReducer(updateOrderReducer, initialState)
   const { message, loading, error } = state
+
+  const { id: orderId } = useParams()
+
+  const navigate = useNavigate()
+
   const [order, setOrder] = useState({
     name: '',
     address: '',
@@ -91,55 +76,39 @@ export default function AddOrder() {
     discount: 0,
   })
 
-  const [orderProducts, setOrderProducts] = useState<OrderProduct[]>([])
-
-  const [searchName, setSearchName] = useState('')
-  const [data, setData] = useState<Data>({
-    products: [],
-    errorMessage: '',
-  })
   const { user, logout } = useAuth()
 
   useEffect(() => {
-    const getProducts = async () => {
+    const getProduct = async () => {
       try {
-        const url = searchName
-          ? `${process.env?.REACT_APP_BASE_URL}/products/search/name?name=${searchName}`
-          : `${process.env?.REACT_APP_BASE_URL}/products`
-
         const response = await axios({
-          url,
+          url: `${process.env?.REACT_APP_BASE_URL}/orders/${orderId}`,
           method: 'GET',
           headers: {
             Authorization: `Bearer ${user?.token}`,
           },
         })
-
-        setData({ errorMessage: '', products: response.data.products || response.data })
+        const { products, ...rest } = response.data
+        setOrder(rest)
       } catch (error: any) {
         if (error.response && error.response.status === 401) {
           logout()
         }
-
         const errorMessage = error.response?.data?.error || 'something went wrong'
-        setData({ errorMessage, products: [] })
+        dispatch({ type: API_ACTIONS.ERROR, error: errorMessage })
       }
     }
-
-    getProducts()
-  }, [searchName, user, logout])
+    getProduct()
+  }, [orderId, logout, user])
 
   const clickHandler = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     dispatch({ type: API_ACTIONS.CALL_API })
     try {
       await axios({
-        url: `${process.env?.REACT_APP_BASE_URL}/orders`,
+        url: `${process.env?.REACT_APP_BASE_URL}/orders/${orderId}`,
         method: 'POST',
-        data: {
-          ...order,
-          products: [...orderProducts],
-        },
+        data: order,
         headers: {
           Authorization: `Bearer ${user?.token}`,
         },
@@ -147,7 +116,7 @@ export default function AddOrder() {
 
       dispatch({
         type: API_ACTIONS.SUCCESS,
-        message: 'order added successfullty',
+        message: 'order updated successfullty',
       })
     } catch (error: any) {
       if (error.response && error.response.status === 401) {
@@ -158,10 +127,15 @@ export default function AddOrder() {
       dispatch({ type: API_ACTIONS.ERROR, error: errorMessage })
     }
   }
-
+  const goBack = () => {
+    navigate(-1)
+  }
   return (
     <>
-      <h3 className="my-3">Add New Order</h3>
+      <h3 className="my-3">Update Order {orderId} </h3>
+      <button type="button" className="btn btn-primary my-3" onClick={goBack}>
+        Back
+      </button>
       {error && (
         <CAlert color="danger" dismissible>
           <strong>{error}</strong>
@@ -175,11 +149,6 @@ export default function AddOrder() {
       {message && (
         <CAlert color="success" dismissible>
           <strong>{message}</strong>
-        </CAlert>
-      )}
-      {data.errorMessage && (
-        <CAlert color="danger" dismissible>
-          <strong>{data.errorMessage}</strong>
         </CAlert>
       )}
       <CForm className="row g-3 fs-5 my-3 p-3 bg-white" onSubmit={clickHandler}>
@@ -348,102 +317,7 @@ export default function AddOrder() {
             label="Discount"
           />
         </CCol>
-        <CCol xs={12}>
-          <CListGroup>
-            {orderProducts.length > 0 &&
-              orderProducts.map((product) => {
-                return (
-                  <CListGroupItem key={product.productId}>
-                    <span className="mx-2">{product.name}</span>
-                    <CButton
-                      variant="outline"
-                      className="mx-2"
-                      onClick={() => {
-                        const newProducts = orderProducts.map((oProduct) => {
-                          if (oProduct.productId === product.productId) {
-                            oProduct.amount -= 1
-                          }
-                          return oProduct
-                        })
-                        setOrderProducts(newProducts)
-                      }}
-                    >
-                      -
-                    </CButton>
-                    <span className="mx-2">{product.amount}</span>
-                    <CButton
-                      className="mx-2"
-                      variant="outline"
-                      onClick={() => {
-                        const newProducts = orderProducts.map((oProduct) => {
-                          if (oProduct.productId === product.productId) {
-                            oProduct.amount += 1
-                          }
-                          return oProduct
-                        })
-                        setOrderProducts(newProducts)
-                      }}
-                    >
-                      +
-                    </CButton>
-                    <CButton
-                      className="mx-2"
-                      color="danger"
-                      variant="outline"
-                      onClick={() => {
-                        const filteredProducts = orderProducts.filter(
-                          (pro) => pro.productId !== product.productId,
-                        )
-                        setOrderProducts(filteredProducts)
-                      }}
-                    >
-                      delete
-                    </CButton>
-                  </CListGroupItem>
-                )
-              })}
-          </CListGroup>
-        </CCol>
-        <CCol xs={12}>
-          <CFormInput
-            type="text"
-            id="name"
-            placeholder="enter product name"
-            value={searchName}
-            onChange={(e) => setSearchName(e.target.value)}
-            label="Product"
-          />
-          <CFormSelect
-            htmlSize={7}
-            multiple
-            className="fs-5"
-            aria-label="size 7 select example"
-            onChange={(e) => {
-              setOrderProducts((preOrderProducts) => {
-                const newProduct = JSON.parse(e.target.value)
 
-                const objIndex = preOrderProducts.findIndex(
-                  (x) => x.productId === newProduct.productId,
-                )
-                if (objIndex === -1) {
-                  return [...preOrderProducts, newProduct]
-                }
-                return [...preOrderProducts]
-              })
-            }}
-          >
-            {data.products.map((product) => {
-              return (
-                <option
-                  value={`{"productId": ${product.id}, "sellPrice": ${product.price}, "amount": 1, "name": "${product.name}"}`}
-                  key={product.id}
-                >
-                  {product.name}
-                </option>
-              )
-            })}
-          </CFormSelect>
-        </CCol>
         <CCol xs={12}>
           <CButton type="submit">Submit</CButton>
         </CCol>

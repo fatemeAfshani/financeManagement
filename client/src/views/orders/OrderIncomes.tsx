@@ -12,6 +12,7 @@ import {
   CTableRow,
 } from '@coreui/react'
 import { useNavigate, useParams } from 'react-router-dom'
+import { convertDate } from '../../utils'
 
 type IncomeState = {
   error: string
@@ -139,7 +140,7 @@ export default function OrderIncomes() {
                 <CTableDataCell>{income.isCompanyIncome ? 'Yes' : 'No'}</CTableDataCell>
                 <CTableDataCell>{income.amount}</CTableDataCell>
                 <CTableDataCell>{income.sharePercent}</CTableDataCell>
-                <CTableDataCell>{income.date}</CTableDataCell>
+                <CTableDataCell>{income.date && convertDate(income.date)}</CTableDataCell>
                 <CTableDataCell>{income.isSettled ? 'Yes' : 'No'}</CTableDataCell>
                 <CTableDataCell>{income.checkoutId || '_'} </CTableDataCell>
               </CTableRow>

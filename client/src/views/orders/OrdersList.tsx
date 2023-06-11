@@ -112,6 +112,10 @@ export default function OrderList() {
     navigate(`/orders/income/${orderId}`)
   }
 
+  const clickHandlerUpdate = (orderId: number) => {
+    navigate(`/orders/update/${orderId}`)
+  }
+
   return (
     <>
       <h3 className="my-3">Orders list</h3>
@@ -185,7 +189,14 @@ export default function OrderList() {
                   </CButton>{' '}
                 </CTableDataCell>
                 <CTableDataCell>
-                  <button>update</button>
+                  <CButton
+                    color="warning"
+                    variant="outline"
+                    className="mx-3"
+                    onClick={() => clickHandlerUpdate(order.id)}
+                  >
+                    Update
+                  </CButton>{' '}
                 </CTableDataCell>
               </CTableRow>
             )
