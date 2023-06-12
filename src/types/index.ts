@@ -46,6 +46,7 @@ export type Company = {
   name: string
   createdAt: string
   sharePercent?: number
+  uuid: string
 }
 
 export type OrderProduct = {

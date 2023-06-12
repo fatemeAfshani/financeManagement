@@ -70,9 +70,9 @@
  *               password:
  *                 type: string
  *                 description: password must be min 6 character
- *               companyId:
- *                 type: number
- *                 description: id of company if company Already exists
+ *               code:
+ *                 type: string
+ *                 description: company unique code if company Already exists
  *               companyName:
  *                 type: string
  *                 description: name of the company if it is new

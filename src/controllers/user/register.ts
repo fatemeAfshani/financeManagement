@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
 import moment from 'jalali-moment'
+import { uuid } from 'uuidv4'
 
 import userDB from '../../database/user'
 import companyDB from '../../database/company'
@@ -9,9 +10,8 @@ import { enCodePassword, translateErrorMessage } from '../../utils'
 
 const register = async (req: Request, res: Response) => {
   try {
-    const { username, password, companyName } = req.body
-    let { companyId } = req.body
-
+    const { username, password, companyName, code } = req.body
+    let companyId
     let role = Roles.VIEWER
     const hashedPassword = enCodePassword(password)
     if (companyName) {
@@ -19,6 +19,7 @@ const register = async (req: Request, res: Response) => {
         await companyDB.add({
           name: companyName,
           createdAt: moment().format('jYYjMMjDD'),
+          uuid: uuid(),
         })
       )?.[0]
 
@@ -28,7 +29,19 @@ const register = async (req: Request, res: Response) => {
       logger.info(
         `create new company with name: ${companyName} and id: ${companyId}`
       )
+    } else if (code) {
+      const company = (await companyDB.get({ uuid: code }))?.[0]
+      if (!company || company.uuid !== code) {
+        return res.status(400).send({
+          error: translateErrorMessage(
+            req.cookies?.language,
+            'no company found'
+          ),
+        })
+      }
+      companyId = company.id
     }
+
     if (!companyId) {
       return res.status(400).send({
         error: translateErrorMessage(req.cookies?.language, 'no company found'),

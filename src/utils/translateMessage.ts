@@ -66,6 +66,7 @@ const translateMessage: object = {
   'invalid language': 'زبان نامعتبر است',
   'no income found': 'درآمدی یافت نشد',
   'no checkout found': 'تسویه حسابی یافت نشد',
+  'invalid uuid': 'کد یکتا نامعتبر است',
 }
 
 export default translateMessage

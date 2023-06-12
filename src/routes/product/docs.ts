@@ -71,7 +71,7 @@
  *     idQuery:
  *       name: id
  *       in: query
- *       description: if exist returns incomes of this user otherwise it returns incomes of company
+ *       description: if exist returns data of this user otherwise it returns data of company
  *       required: false
  *       schema:
  *         type: number

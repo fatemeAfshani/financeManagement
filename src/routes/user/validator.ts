@@ -21,15 +21,8 @@ const userValidate = (method: Methods) => {
           .isString()
           .isLength({ min: 6 })
           .notEmpty(),
-        body('companyId', 'invalid company')
-          .isInt()
-          .optional()
-          .custom(async (companyId) => {
-            const company = (await companyDB.get({ id: companyId }))?.[0]
-            if (!company) {
-              return Promise.reject('company not found')
-            }
-          }),
+        body('code', 'invalid code').isString().optional(),
+
         body('companyName', 'invalid company name')
           .isString()
           .optional()
