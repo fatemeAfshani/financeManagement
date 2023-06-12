@@ -56,6 +56,9 @@ const search = (
     .whereILike('name', `%${name}%`)
     .limit(limit)
 
+const getSum = (companyId: number): Promise<{ count: string }[]> =>
+  db.table<Product>('product').count('*').where({ companyId })
+
 export default {
   getAll,
   getOne,
@@ -65,4 +68,5 @@ export default {
   deleteAll,
   count,
   search,
+  getSum,
 }

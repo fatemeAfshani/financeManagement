@@ -83,6 +83,8 @@ const countOfOneProduct = (
     .where({ companyId, productId })
     .count('*')
 
+const getSum = (companyId: number): Promise<{ count: string }[]> =>
+  db.table<ProductInvoice>('product_invoice').count('*').where({ companyId })
 export default {
   getAll,
   getOne,
@@ -90,4 +92,5 @@ export default {
   getAllForOneProduct,
   count,
   countOfOneProduct,
+  getSum,
 }

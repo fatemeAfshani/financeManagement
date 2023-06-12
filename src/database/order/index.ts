@@ -1,5 +1,6 @@
 import {
   Count,
+  DateInput,
   Order,
   OrderProduct,
   OrderProductInput,
@@ -167,6 +168,21 @@ const add = (
 const count = (companyId: number): Promise<Count[]> =>
   db.table<Order>('order').where({ companyId }).count('*')
 
+const getSum = (
+  params: OrderInput,
+  fromDate?: DateInput,
+  toDate?: DateInput
+): Promise<{ count: string }[]> => {
+  const query = db.table<Order>('order').count('*').where(params)
+  if (fromDate) {
+    query.andWhere('date', '>=', fromDate)
+  }
+  if (toDate) {
+    query.andWhere('date', '<=', toDate)
+  }
+  return query
+}
+
 export default {
   getAll,
   getOne,
@@ -174,4 +190,5 @@ export default {
   getAllWithArrayInput,
   update,
   count,
+  getSum,
 }
