@@ -13,6 +13,7 @@ import React, { useEffect, useReducer, useState } from 'react'
 import axios from 'axios'
 import { useAuth } from '../../components/context/AuthContext'
 import { API_ACTIONS, ProductInvoice } from '../../types'
+import { convertDate } from '../../utils'
 
 type InvoiceState = {
   error: string
@@ -134,7 +135,7 @@ export default function InvoiceList() {
                 <CTableDataCell>{invoice.name}</CTableDataCell>
                 <CTableDataCell>{invoice.amount}</CTableDataCell>
                 <CTableDataCell>{invoice.pricePerOne}</CTableDataCell>
-                <CTableDataCell>{invoice.date}</CTableDataCell>
+                <CTableDataCell>{invoice.date && convertDate(invoice.date)}</CTableDataCell>
               </CTableRow>
             )
           })}
