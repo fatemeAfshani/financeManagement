@@ -23,14 +23,6 @@ products-total:{companyId}
 orders-total:{companyId}
 invoices-total:{companyId}
 users-total:{companyId}
-
-orders-thisweek:{companyId}
-orders-lastweek:{companyId}
-orders-lastmonth:{companyId}
-
-income-thisweek:{companyId}
-income-lastweek:{companyId}
-income-lastmonth:{companyId}
 */
 
 export const getUserTotal = async (req: Request, res: Response) => {

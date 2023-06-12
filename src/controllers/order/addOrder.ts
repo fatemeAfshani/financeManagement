@@ -30,12 +30,6 @@ const addOrder = async (req: Request, res: Response) => {
       `company:${companyId}-income-notsettled`,
       `company-allusers:${companyId}-income`,
       `company-allusers:${companyId}-income-notsettled`,
-      `income-thisweek:${companyId}`,
-      `income-lastweek:${companyId}`,
-      `income-lastmonth:${companyId}`,
-      `orders-thisweek:${companyId}`,
-      `orders-lastweek:${companyId}`,
-      `orders-lastmonth:${companyId}`,
       `orders-total:${companyId}`,
     ])
     res.status(200).send({ orderId })

@@ -35,9 +35,6 @@ const updateOrder = async (req: Request, res: Response) => {
       `company:${companyId}-income-notsettled`,
       `company-allusers:${companyId}-income`,
       `company-allusers:${companyId}-income-notsettled`,
-      `income-thisweek:${companyId}`,
-      `income-lastwee:-${companyId}`,
-      `income-lastmonth:${companyId}`,
     ])
 
     res.sendStatus(200)
