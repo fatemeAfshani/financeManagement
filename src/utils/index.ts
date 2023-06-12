@@ -24,16 +24,15 @@ export const checkPassword = async (
   hashedPassword: string
 ): Promise<boolean> => bcrypt.compare(password, hashedPassword)
 
-export const deleteRedisData = async (companyId: number, users: User[]) => {
-  await redisClient.del([
-    `company:${companyId}-income-all`,
-    `company:${companyId}-income`,
-    `company:${companyId}-income-not-settled`,
-  ])
+export const deleteRedisData = async (keys: string[]) => {
+  await redisClient.del(keys)
+}
+
+export const deleteUserRedisData = async (users: User[]) => {
   users.forEach(async (user) => {
     await redisClient.del([
       `user:${user.id}-income`,
-      `user:${user.id}-income-not-settled`,
+      `user:${user.id}-income-notsettled`,
     ])
   })
 }
