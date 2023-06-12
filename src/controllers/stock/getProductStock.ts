@@ -8,8 +8,8 @@ export const getStocks = async (req: Request, res: Response) => {
   try {
     const { limit = '10', offset = '0' } = req.query
     const { companyId } = req.user as User
-    const stocks = await stockDB.getAll(+limit, +offset * +limit, companyId!)
-    const stocksCount = (await stockDB.count(companyId!))?.[0]
+    const stocks = await stockDB.getAll(+limit, +offset * +limit, companyId)
+    const stocksCount = (await stockDB.count(companyId))?.[0]
     res.status(200).send({ stocks, stocksCount: +stocksCount.count })
   } catch (e) {
     logger.error(`error happend in get stocks: ${e}`)

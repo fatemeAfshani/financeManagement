@@ -1,6 +1,6 @@
 import { body, param, query } from 'express-validator'
 
-import { Methods, Roles } from '../../types'
+import { Methods } from '../../types'
 import userDB from '../../database/user'
 
 const checkoutValitate = (method: Methods) => {
@@ -56,7 +56,7 @@ const checkoutValitate = (method: Methods) => {
               !user ||
               (user.id !== req.user.id &&
                 (req.user.companyId !== user.companyId ||
-                  req.user.role !== Roles.ADMIN))
+                  req.user.role !== 'admin'))
             ) {
               return Promise.reject('user not found')
             }

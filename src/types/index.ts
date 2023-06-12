@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-shadow */
 export type Product = {
   id?: number
@@ -24,12 +25,14 @@ export type ProductStock = {
   buyPrice: number
 }
 
+export type Role = 'admin' | 'viewer'
+
 export type User = {
   id?: number
   username: string
   password: string
-  role: string
-  companyId?: number
+  role: Role
+  companyId: number
   isShareHolder: boolean
   sharePercent: number
   isDeleted: boolean
@@ -108,7 +111,8 @@ export type OrderProductInput = {
   name: string
 }
 
-// eslint-disable-next-line no-shadow
+export type DateInput = string | undefined
+
 export const enum Methods {
   Add = 'ADD',
   GetAll = 'GETALL',
@@ -123,17 +127,6 @@ export const enum Methods {
   Search = 'SEARCH',
 }
 
-export enum Roles {
-  ADMIN = 'admin',
-  VIEWER = 'viewer',
-}
+export type SellFrom = 'site' | 'instagram'
 
-export enum SellFrom {
-  SITE = 'site',
-  INSTAGRAM = 'instagram',
-}
-
-export enum Language {
-  FA = 'fa',
-  EN = 'en',
-}
+export type Language = 'fa' | 'en'

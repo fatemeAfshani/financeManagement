@@ -1,7 +1,7 @@
 import { param, query } from 'express-validator'
 
 import userDB from '../../database/user'
-import { Methods, Roles } from '../../types'
+import { Methods } from '../../types'
 
 const shareHolderValidate = (method: Methods) => {
   switch (method) {
@@ -31,7 +31,7 @@ const shareHolderValidate = (method: Methods) => {
               !user ||
               (user.id !== req.user.id &&
                 (req.user.companyId !== user.companyId ||
-                  req.user.role !== Roles.ADMIN))
+                  req.user.role !== 'admin'))
             ) {
               return Promise.reject('user not found')
             }

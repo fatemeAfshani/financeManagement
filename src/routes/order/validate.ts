@@ -1,6 +1,6 @@
 import { body, param, query } from 'express-validator'
 
-import { Methods, OrderProductInput, SellFrom } from '../../types'
+import { Methods, OrderProductInput } from '../../types'
 import productDB from '../../database/product'
 
 const orderValitate = (method: Methods) => {
@@ -33,7 +33,7 @@ const orderValitate = (method: Methods) => {
           .isString()
           .optional()
           .custom(async (sellFrom) => {
-            if (sellFrom && !Object.values(SellFrom).includes(sellFrom)) {
+            if (sellFrom && !['site', 'instagram'].includes(sellFrom)) {
               return Promise.reject('invalid source of sell')
             }
           }),
@@ -109,7 +109,7 @@ const orderValitate = (method: Methods) => {
           .isString()
           .optional()
           .custom(async (sellFrom) => {
-            if (sellFrom && !Object.values(SellFrom).includes(sellFrom)) {
+            if (sellFrom && !['site', 'instagram'].includes(sellFrom)) {
               return Promise.reject('invalid source of sell')
             }
           }),

@@ -8,7 +8,7 @@ const deleteProduct = async (req: Request, res: Response) => {
   try {
     const { id } = req.params
     const { companyId } = req.user as User
-    const product = await productDB.deleteOne(+id, companyId!)
+    const product = await productDB.deleteOne(+id, companyId)
     if (product) {
       res.sendStatus(200)
     } else {

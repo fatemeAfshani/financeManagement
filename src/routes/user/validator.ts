@@ -1,6 +1,6 @@
 import { body, param, query } from 'express-validator'
 
-import { Methods, Roles, ShareHolderUser } from '../../types'
+import { Methods, ShareHolderUser } from '../../types'
 import userDB from '../../database/user'
 import companyDB from '../../database/company'
 
@@ -79,7 +79,7 @@ const userValidate = (method: Methods) => {
           .isString()
           .notEmpty()
           .custom(async (role) => {
-            if (!Object.values(Roles).includes(role)) {
+            if (!['admin', 'viewer'].includes(role)) {
               return Promise.reject('invalid role')
             }
           }),
@@ -107,7 +107,7 @@ const userValidate = (method: Methods) => {
               !user ||
               (user.id !== req.user.id &&
                 (req.user.companyId !== user.companyId ||
-                  req.user.role !== Roles.ADMIN))
+                  req.user.role !== 'admin'))
             ) {
               return Promise.reject('user not found')
             }

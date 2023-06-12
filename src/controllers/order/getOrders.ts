@@ -9,7 +9,7 @@ export const getOrders = async (req: Request, res: Response) => {
   try {
     const { limit = '10', offset = '0' } = req.query
     const { companyId } = req.user as User
-    const orders = await orderDB.getAll(+limit, +offset * +limit, companyId!)
+    const orders = await orderDB.getAll(+limit, +offset * +limit, companyId)
     const orderIds = orders.map((order) => order.id!)
     const orderProducts = await orderProductDB.getAll(orderIds)
     orders.forEach((order) => {
@@ -19,7 +19,7 @@ export const getOrders = async (req: Request, res: Response) => {
       )
     })
 
-    const ordersCount = (await orderDB.count(companyId!))?.[0]
+    const ordersCount = (await orderDB.count(companyId))?.[0]
     res.status(200).send({ orders, ordersCount: +ordersCount.count })
   } catch (e) {
     logger.error(`error happend in get invoices: ${e}`)

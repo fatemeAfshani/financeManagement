@@ -12,7 +12,7 @@ export const getIncomesOfOneOrder = async (req: Request, res: Response) => {
 
     const incomes = await shareHolderIncomeDB.get({
       orderId: +id,
-      companyId: companyId!,
+      companyId,
     })
     if (incomes.length > 0) {
       return res.status(200).send(incomes)
@@ -36,15 +36,13 @@ export const getIncomesOfAllUsersOfACompany = async (
     const { limit = '10', offset = '0' } = req.query
     const { companyId } = req.user as User
     const incomes = await shareHolderIncomeDB.getAllWithLimit(
-      { companyId: companyId! },
+      { companyId },
       +limit,
       +offset * +limit
     )
 
     if (incomes.length !== 0) {
-      const incomesCount = (
-        await shareHolderIncomeDB.count({ companyId: companyId! })
-      )?.[0]
+      const incomesCount = (await shareHolderIncomeDB.count({ companyId }))?.[0]
       res.status(200).send({ incomes, incomesCount: +incomesCount.count })
     } else {
       res.status(404).send({

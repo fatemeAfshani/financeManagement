@@ -10,7 +10,7 @@ export const getCheckoutsOfACompany = async (req: Request, res: Response) => {
     const { limit = '10', offset = '0' } = req.query
     const { companyId } = req.user as User
     const checkouts = await shareHolderCheckoutDB.getAllWithLimit(
-      { companyId: companyId! },
+      { companyId },
       +limit,
       +offset * +limit
     )
@@ -69,7 +69,7 @@ export const getACheckout = async (req: Request, res: Response) => {
     const { companyId } = req.user as User
     const checkout = (
       await shareHolderCheckoutDB.get({
-        companyId: companyId!,
+        companyId,
         id: +id,
       })
     )?.[0]

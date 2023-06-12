@@ -7,7 +7,7 @@ import { translateErrorMessage } from '../../utils'
 const getCompany = async (req: Request, res: Response) => {
   try {
     const { companyId } = req.user as User
-    const company = await companyDB.get({ id: companyId! })
+    const company = await companyDB.get({ id: companyId })
     if (company?.[0]) {
       res.status(200).send(company?.[0])
     } else {

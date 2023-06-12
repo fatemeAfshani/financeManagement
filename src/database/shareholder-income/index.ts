@@ -1,5 +1,5 @@
 import moment from 'jalali-moment'
-import { Company, Count, ShareHolderIncome, User } from '../../types'
+import { Company, Count, DateInput, ShareHolderIncome, User } from '../../types'
 import db from '../db'
 
 export type ShareHolderIncomeInput = {
@@ -9,8 +9,6 @@ export type ShareHolderIncomeInput = {
   isCompanyIncome?: boolean
   isSettled?: boolean
 }
-
-type DateInput = string | undefined
 
 const add = async (
   orderId: number,
@@ -71,23 +69,8 @@ const getAll = (ids: number[]): Promise<ShareHolderIncome[]> =>
     .whereIn('id', ids)
     .orderBy('id', 'desc')
 
-const getSum = (
-  params: ShareHolderIncomeInput,
-  fromDate: DateInput,
-  toDate: DateInput
-): Promise<{ sum: number }[]> => {
-  const query = db
-    .table<ShareHolderIncome>('shareholder_income')
-    .sum('amount')
-    .where(params)
-  if (fromDate) {
-    query.andWhere('date', '>=', fromDate)
-  }
-  if (toDate) {
-    query.andWhere('date', '<=', toDate)
-  }
-  return query
-}
+const getSum = (params: ShareHolderIncomeInput): Promise<{ sum: number }[]> =>
+  db.table<ShareHolderIncome>('shareholder_income').sum('amount').where(params)
 
 const count = (params: ShareHolderIncomeInput): Promise<Count[]> =>
   db.table<ShareHolderIncome>('shareholder_income').where(params).count('*')

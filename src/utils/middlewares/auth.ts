@@ -3,7 +3,7 @@ import { NextFunction, Request, Response } from 'express'
 import jwt from 'jsonwebtoken'
 import logger from '../../logger'
 import userDB from '../../database/user'
-import { Roles, User } from '../../types'
+import { User } from '../../types'
 import { translateErrorMessage } from '..'
 
 export const isAuth = async (
@@ -39,7 +39,7 @@ export const hasAdminAccess = async (
 ) => {
   try {
     const { role } = req.user as User
-    if (role !== Roles.ADMIN) {
+    if (role !== 'admin') {
       return res.status(403).send({
         error: translateErrorMessage(
           req.cookies?.language,
@@ -61,7 +61,7 @@ export const hasViewerAccess = async (
 ) => {
   try {
     const { role } = req.user as User
-    if (role !== Roles.ADMIN && role !== Roles.VIEWER) {
+    if (role !== 'admin' && role !== 'viewer') {
       return res.status(403).send({
         error: translateErrorMessage(
           req.cookies?.language,

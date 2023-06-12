@@ -1,6 +1,6 @@
 import { body } from 'express-validator'
 
-import { Language, Methods } from '../../types'
+import { Methods } from '../../types'
 
 const cookieValidate = (method: Methods) => {
   switch (method) {
@@ -9,7 +9,7 @@ const cookieValidate = (method: Methods) => {
         body('lang', 'invalid language')
           .isString()
           .custom(async (lang) => {
-            if (!Object.values(Language).includes(lang)) {
+            if (!['en', 'fa'].includes(lang)) {
               return Promise.reject('invalid language')
             }
           }),

@@ -2,7 +2,7 @@ import { Request, Response } from 'express'
 
 import userDB from '../../database/user'
 import logger from '../../logger'
-import { Roles, User } from '../../types'
+import { User } from '../../types'
 import { translateErrorMessage } from '../../utils'
 
 const updateUser = async (req: Request, res: Response) => {
@@ -10,7 +10,7 @@ const updateUser = async (req: Request, res: Response) => {
     const { id, role, username } = req.body
     const { companyId, role: requestRole } = req.user as User
 
-    if (requestRole !== Roles.ADMIN) {
+    if (requestRole !== 'admin') {
       return res.status(403).send({
         error: translateErrorMessage(
           req.cookies?.language,
@@ -18,7 +18,7 @@ const updateUser = async (req: Request, res: Response) => {
         ),
       })
     }
-    const result = await userDB.update(id, role, username, companyId!)
+    const result = await userDB.update(id, role, username, companyId)
     if (result) {
       res.sendStatus(200)
     } else {

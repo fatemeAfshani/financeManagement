@@ -8,7 +8,7 @@ const deleteUser = async (req: Request, res: Response) => {
   try {
     const { id } = req.params
     const { companyId } = req.user as User
-    const user = await UserDB.deleteOne(+id, companyId!)
+    const user = await UserDB.deleteOne(+id, companyId)
     if (user) {
       res.sendStatus(200)
     } else {

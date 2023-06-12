@@ -8,12 +8,8 @@ export const getInvoices = async (req: Request, res: Response) => {
   try {
     const { limit = '10', offset = '0' } = req.query
     const { companyId } = req.user as User
-    const invoices = await invoiceDB.getAll(
-      +limit,
-      +offset * +limit,
-      companyId!
-    )
-    const invoicesCount = (await invoiceDB.count(companyId!))?.[0]
+    const invoices = await invoiceDB.getAll(+limit, +offset * +limit, companyId)
+    const invoicesCount = (await invoiceDB.count(companyId))?.[0]
     res.status(200).send({ invoices, invoicesCount: +invoicesCount.count })
   } catch (e) {
     logger.error(`error happend in get invoices: ${e}`)
@@ -62,7 +58,7 @@ export const getInvoicesOfOneProduct = async (req: Request, res: Response) => {
     )
     if (invoices.length !== 0) {
       const invoicesCount = (
-        await invoiceDB.countOfOneProduct(companyId!, +id)
+        await invoiceDB.countOfOneProduct(companyId, +id)
       )?.[0]
       res.status(200).send({ invoices, invoicesCount: +invoicesCount.count })
     } else {

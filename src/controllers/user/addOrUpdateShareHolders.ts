@@ -10,7 +10,7 @@ const addOrUpdateShareHolders = async (req: Request, res: Response) => {
     const { users } = req.body
     const { companyId } = req.user as User
 
-    await userDB.updateShareHolders(users, companyId!)
+    await userDB.updateShareHolders(users, companyId)
     res.sendStatus(200)
   } catch (e: any) {
     logger.error(`error happend in add or update shareHolders: ${e}`)
