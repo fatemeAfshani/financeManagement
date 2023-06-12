@@ -93,57 +93,61 @@ export default function AddProduct() {
 
   return (
     <>
-      <h3 className="my-3">Add New Product</h3>
-      {error && (
-        <CAlert color="danger" dismissible>
-          <strong>{error}</strong>
-        </CAlert>
-      )}
-      {loading && (
-        <div className="spinner-border text-info" role="status">
-          <span className="visually-hidden">Loading...</span>
-        </div>
-      )}
-      {message && (
-        <CAlert color="success" dismissible>
-          <strong>{message}</strong>
-        </CAlert>
-      )}
-      <CForm className="row g-3 fs-5 my-3 p-3 bg-white" onSubmit={clickHandler}>
-        <CCol md={6}>
-          <CFormInput
-            type="name"
-            id="inputName"
-            placeholder="enter product name"
-            value={product.name}
-            onChange={(e) =>
-              setProduct((preProduct) => {
-                return { ...preProduct, name: e.target.value }
-              })
-            }
-            label="Product Name"
-          />
-        </CCol>
+      {user?.role === 'admin' && (
+        <>
+          <h3 className="my-3">Add New Product</h3>
+          {error && (
+            <CAlert color="danger" dismissible>
+              <strong>{error}</strong>
+            </CAlert>
+          )}
+          {loading && (
+            <div className="spinner-border text-info" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </div>
+          )}
+          {message && (
+            <CAlert color="success" dismissible>
+              <strong>{message}</strong>
+            </CAlert>
+          )}
+          <CForm className="row g-3 fs-5 my-3 p-3 bg-white" onSubmit={clickHandler}>
+            <CCol md={6}>
+              <CFormInput
+                type="name"
+                id="inputName"
+                placeholder="enter product name"
+                value={product.name}
+                onChange={(e) =>
+                  setProduct((preProduct) => {
+                    return { ...preProduct, name: e.target.value }
+                  })
+                }
+                label="Product Name"
+              />
+            </CCol>
 
-        <CCol md={6}>
-          <CFormInput
-            type="number"
-            step="0.1"
-            id="inputPrice"
-            placeholder="enter price"
-            value={product.price}
-            onChange={(e) =>
-              setProduct((preProduct) => {
-                return { ...preProduct, price: +e.target.value }
-              })
-            }
-            label="Price"
-          />
-        </CCol>
-        <CCol xs={12}>
-          <CButton type="submit">Submit</CButton>
-        </CCol>
-      </CForm>
+            <CCol md={6}>
+              <CFormInput
+                type="number"
+                step="0.1"
+                id="inputPrice"
+                placeholder="enter price"
+                value={product.price}
+                onChange={(e) =>
+                  setProduct((preProduct) => {
+                    return { ...preProduct, price: +e.target.value }
+                  })
+                }
+                label="Price"
+              />
+            </CCol>
+            <CCol xs={12}>
+              <CButton type="submit">Submit</CButton>
+            </CCol>
+          </CForm>
+        </>
+      )}
     </>
   )
 }

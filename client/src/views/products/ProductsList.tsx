@@ -173,8 +173,12 @@ export default function ProductList() {
             <CTableHeaderCell scope="col">Stock</CTableHeaderCell>
             <CTableHeaderCell scope="col">Invoices</CTableHeaderCell>
             <CTableHeaderCell scope="col">Orders</CTableHeaderCell>
-            <CTableHeaderCell scope="col">Update</CTableHeaderCell>
-            <CTableHeaderCell scope="col">Delete</CTableHeaderCell>
+            {user?.role === 'admin' && (
+              <>
+                <CTableHeaderCell scope="col">Update</CTableHeaderCell>
+                <CTableHeaderCell scope="col">Delete</CTableHeaderCell>
+              </>
+            )}
           </CTableRow>
         </CTableHead>
         <CTableBody>
@@ -215,26 +219,30 @@ export default function ProductList() {
                     View
                   </CButton>
                 </CTableDataCell>
-                <CTableDataCell>
-                  <CButton
-                    color="warning"
-                    variant="outline"
-                    className="mx-3"
-                    onClick={() => clickHandlerUpdate(product.id)}
-                  >
-                    Update
-                  </CButton>
-                </CTableDataCell>
-                <CTableDataCell>
-                  <CButton
-                    color="danger"
-                    variant="outline"
-                    className="mx-3"
-                    onClick={() => deleteHandler(product.id)}
-                  >
-                    Delete
-                  </CButton>
-                </CTableDataCell>
+                {user?.role === 'admin' && (
+                  <>
+                    <CTableDataCell>
+                      <CButton
+                        color="warning"
+                        variant="outline"
+                        className="mx-3"
+                        onClick={() => clickHandlerUpdate(product.id)}
+                      >
+                        Update
+                      </CButton>
+                    </CTableDataCell>
+                    <CTableDataCell>
+                      <CButton
+                        color="danger"
+                        variant="outline"
+                        className="mx-3"
+                        onClick={() => deleteHandler(product.id)}
+                      >
+                        Delete
+                      </CButton>
+                    </CTableDataCell>
+                  </>
+                )}
               </CTableRow>
             )
           })}

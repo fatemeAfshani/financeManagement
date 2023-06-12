@@ -161,98 +161,102 @@ export default function Incomes() {
   }
   return (
     <>
-      <h3 className="my-3">Company Income</h3>
-      <button type="button" className="btn btn-info text-white m-2" onClick={checkout}>
-        Checkout
-      </button>
-      {error && (
-        <CAlert color="danger" dismissible>
-          <strong>{error}</strong>
-        </CAlert>
-      )}
-      {loading && (
-        <div className="spinner-border text-info" role="status">
-          <span className="visually-hidden">Loading...</span>
-        </div>
-      )}
-      {checkoutState.error && (
-        <CAlert color="danger" dismissible>
-          <strong>{checkoutState.error}</strong>
-        </CAlert>
-      )}{' '}
-      {checkoutState.success && (
-        <CAlert color="success" dismissible>
-          <strong>incomes are settled successfully</strong>
-        </CAlert>
-      )}
-      <CTable className=" fs-5 table  bg-white table-striped" hover>
-        <CTableHead>
-          <CTableRow>
-            <CTableHeaderCell scope="col">Id</CTableHeaderCell>
-            <CTableHeaderCell scope="col">Order Id</CTableHeaderCell>
-            <CTableHeaderCell scope="col">Amount</CTableHeaderCell>
-            <CTableHeaderCell scope="col">Share Percent</CTableHeaderCell>
-            <CTableHeaderCell scope="col">Is Settled</CTableHeaderCell>
-            <CTableHeaderCell scope="col">Checkout Id</CTableHeaderCell>
-            <CTableHeaderCell scope="col">Date</CTableHeaderCell>
-            <CTableHeaderCell scope="col">Checkout</CTableHeaderCell>
-          </CTableRow>
-        </CTableHead>
-        <CTableBody>
-          {incomes.map((income) => {
-            return (
-              <CTableRow key={income.id}>
-                <CTableDataCell>{income.id}</CTableDataCell>
-                <CTableDataCell>{income.orderId}</CTableDataCell>
-                <CTableDataCell>{income.amount}</CTableDataCell>
-                <CTableDataCell>{income.sharePercent}</CTableDataCell>
-                <CTableDataCell>{income.isSettled ? 'Yes' : 'No'}</CTableDataCell>
-                <CTableDataCell>{income.checkoutId || '_'}</CTableDataCell>
-                <CTableDataCell>{income.date && convertDate(income.date)}</CTableDataCell>
-                <CTableDataCell>
-                  {!income.isSettled ? (
-                    <div className="form-check form-switch">
-                      <input
-                        className="form-check-input"
-                        type="checkbox"
-                        id="flexSwitchCheck"
-                        onChange={() => handleCheckboxChange(income.id, income.amount)}
-                      ></input>
-                    </div>
-                  ) : (
-                    '_'
-                  )}
-                </CTableDataCell>
+      {user?.role === 'admin' && (
+        <>
+          <h3 className="my-3">Company Income</h3>
+          <button type="button" className="btn btn-info text-white m-2" onClick={checkout}>
+            Checkout
+          </button>
+          {error && (
+            <CAlert color="danger" dismissible>
+              <strong>{error}</strong>
+            </CAlert>
+          )}
+          {loading && (
+            <div className="spinner-border text-info" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </div>
+          )}
+          {checkoutState.error && (
+            <CAlert color="danger" dismissible>
+              <strong>{checkoutState.error}</strong>
+            </CAlert>
+          )}{' '}
+          {checkoutState.success && (
+            <CAlert color="success" dismissible>
+              <strong>incomes are settled successfully</strong>
+            </CAlert>
+          )}
+          <CTable className=" fs-5 table  bg-white table-striped" hover>
+            <CTableHead>
+              <CTableRow>
+                <CTableHeaderCell scope="col">Id</CTableHeaderCell>
+                <CTableHeaderCell scope="col">Order Id</CTableHeaderCell>
+                <CTableHeaderCell scope="col">Amount</CTableHeaderCell>
+                <CTableHeaderCell scope="col">Share Percent</CTableHeaderCell>
+                <CTableHeaderCell scope="col">Is Settled</CTableHeaderCell>
+                <CTableHeaderCell scope="col">Checkout Id</CTableHeaderCell>
+                <CTableHeaderCell scope="col">Date</CTableHeaderCell>
+                <CTableHeaderCell scope="col">Checkout</CTableHeaderCell>
               </CTableRow>
-            )
-          })}
-        </CTableBody>
-      </CTable>
-      <CPagination className=" " aria-label="Page navigation">
-        <CPaginationItem
-          onClick={() => setCurrentPage((prePage) => prePage - 1)}
-          disabled={currentPage === 1}
-        >
-          Previous
-        </CPaginationItem>
-        {currentPage !== 1 && (
-          <CPaginationItem onClick={() => setCurrentPage((prePage) => prePage - 1)}>
-            {currentPage - 1}
-          </CPaginationItem>
-        )}
-        <CPaginationItem active>{currentPage}</CPaginationItem>
-        {currentPage !== pageCount && (
-          <CPaginationItem onClick={() => setCurrentPage((prePage) => prePage + 1)}>
-            {currentPage + 1}
-          </CPaginationItem>
-        )}
-        <CPaginationItem
-          onClick={() => setCurrentPage((prePage) => prePage + 1)}
-          disabled={currentPage === pageCount}
-        >
-          Next
-        </CPaginationItem>
-      </CPagination>
+            </CTableHead>
+            <CTableBody>
+              {incomes.map((income) => {
+                return (
+                  <CTableRow key={income.id}>
+                    <CTableDataCell>{income.id}</CTableDataCell>
+                    <CTableDataCell>{income.orderId}</CTableDataCell>
+                    <CTableDataCell>{income.amount}</CTableDataCell>
+                    <CTableDataCell>{income.sharePercent}</CTableDataCell>
+                    <CTableDataCell>{income.isSettled ? 'Yes' : 'No'}</CTableDataCell>
+                    <CTableDataCell>{income.checkoutId || '_'}</CTableDataCell>
+                    <CTableDataCell>{income.date && convertDate(income.date)}</CTableDataCell>
+                    <CTableDataCell>
+                      {!income.isSettled ? (
+                        <div className="form-check form-switch">
+                          <input
+                            className="form-check-input"
+                            type="checkbox"
+                            id="flexSwitchCheck"
+                            onChange={() => handleCheckboxChange(income.id, income.amount)}
+                          ></input>
+                        </div>
+                      ) : (
+                        '_'
+                      )}
+                    </CTableDataCell>
+                  </CTableRow>
+                )
+              })}
+            </CTableBody>
+          </CTable>
+          <CPagination className=" " aria-label="Page navigation">
+            <CPaginationItem
+              onClick={() => setCurrentPage((prePage) => prePage - 1)}
+              disabled={currentPage === 1}
+            >
+              Previous
+            </CPaginationItem>
+            {currentPage !== 1 && (
+              <CPaginationItem onClick={() => setCurrentPage((prePage) => prePage - 1)}>
+                {currentPage - 1}
+              </CPaginationItem>
+            )}
+            <CPaginationItem active>{currentPage}</CPaginationItem>
+            {currentPage !== pageCount && (
+              <CPaginationItem onClick={() => setCurrentPage((prePage) => prePage + 1)}>
+                {currentPage + 1}
+              </CPaginationItem>
+            )}
+            <CPaginationItem
+              onClick={() => setCurrentPage((prePage) => prePage + 1)}
+              disabled={currentPage === pageCount}
+            >
+              Next
+            </CPaginationItem>
+          </CPagination>
+        </>
+      )}
     </>
   )
 }

@@ -143,8 +143,12 @@ export default function OrderList() {
             <CTableHeaderCell scope="col">TotalProfit</CTableHeaderCell>
             <CTableHeaderCell scope="col">SellFrom</CTableHeaderCell>
             <CTableHeaderCell scope="col">Products</CTableHeaderCell>
-            <CTableHeaderCell scope="col">Income</CTableHeaderCell>
-            <CTableHeaderCell scope="col">Update</CTableHeaderCell>
+            {user?.role === 'admin' && (
+              <>
+                <CTableHeaderCell scope="col">Income</CTableHeaderCell>
+                <CTableHeaderCell scope="col">Update</CTableHeaderCell>
+              </>
+            )}
           </CTableRow>
         </CTableHead>
         <CTableBody>
@@ -178,26 +182,30 @@ export default function OrderList() {
                 <CTableDataCell>
                   <ProductsModal data={order.products} id={order.id}></ProductsModal>
                 </CTableDataCell>
-                <CTableDataCell>
-                  <CButton
-                    color="success"
-                    variant="outline"
-                    className="mx-3"
-                    onClick={() => clickHandlerIncome(order.id)}
-                  >
-                    Incomes
-                  </CButton>{' '}
-                </CTableDataCell>
-                <CTableDataCell>
-                  <CButton
-                    color="warning"
-                    variant="outline"
-                    className="mx-3"
-                    onClick={() => clickHandlerUpdate(order.id)}
-                  >
-                    Update
-                  </CButton>{' '}
-                </CTableDataCell>
+                {user?.role === 'admin' && (
+                  <>
+                    <CTableDataCell>
+                      <CButton
+                        color="success"
+                        variant="outline"
+                        className="mx-3"
+                        onClick={() => clickHandlerIncome(order.id)}
+                      >
+                        Incomes
+                      </CButton>{' '}
+                    </CTableDataCell>
+                    <CTableDataCell>
+                      <CButton
+                        color="warning"
+                        variant="outline"
+                        className="mx-3"
+                        onClick={() => clickHandlerUpdate(order.id)}
+                      >
+                        Update
+                      </CButton>{' '}
+                    </CTableDataCell>
+                  </>
+                )}
               </CTableRow>
             )
           })}

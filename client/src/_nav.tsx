@@ -39,11 +39,6 @@ export const userNav = [
         name: 'Stocks',
         to: '/products/stock',
       },
-      {
-        component: CNavItem,
-        name: 'Add',
-        to: '/products/add',
-      },
     ],
   },
   {
@@ -56,11 +51,6 @@ export const userNav = [
         component: CNavItem,
         name: 'List',
         to: '/invoices/list',
-      },
-      {
-        component: CNavItem,
-        name: 'Add',
-        to: '/invoices/add',
       },
     ],
   },
@@ -75,10 +65,41 @@ export const userNav = [
         name: 'List',
         to: '/orders/list',
       },
+    ],
+  },
+  {
+    component: CNavGroup,
+    name: 'Me',
+    to: '/me',
+    icon: <CIcon icon={cilUser} customClassName="nav-icon" />,
+    items: [
       {
         component: CNavItem,
-        name: 'Add',
-        to: '/orders/add',
+        name: 'Profile',
+        to: '/profile',
+      },
+      {
+        component: CNavItem,
+        name: 'Incomes',
+        to: '/me/incomes',
+      },
+      {
+        component: CNavItem,
+        name: 'Checkouts',
+        to: '/me/checkouts',
+      },
+    ],
+  },
+  {
+    component: CNavGroup,
+    name: 'Company',
+    to: '/company',
+    icon: <CIcon icon={cilBuilding} customClassName="nav-icon" />,
+    items: [
+      {
+        component: CNavItem,
+        name: 'Profile',
+        to: '/company/profile',
       },
     ],
   },

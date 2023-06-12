@@ -134,91 +134,95 @@ export default function AddInvoice() {
 
   return (
     <>
-      <h3 className="my-3">Add New Invoice</h3>
-      {error && (
-        <CAlert color="danger" dismissible>
-          <strong>{error}</strong>
-        </CAlert>
-      )}
-      {loading && (
-        <div className="spinner-border text-info" role="status">
-          <span className="visually-hidden">Loading...</span>
-        </div>
-      )}
-      {message && (
-        <CAlert color="success" dismissible>
-          <strong>{message}</strong>
-        </CAlert>
-      )}
-      {data.errorMessage && (
-        <CAlert color="danger" dismissible>
-          <strong>{data.errorMessage}</strong>
-        </CAlert>
-      )}
-      <CForm className="row g-3 fs-5 my-3 p-3 bg-white" onSubmit={clickHandler}>
-        <CCol xs={12}>
-          <CFormInput
-            type="text"
-            id="name"
-            placeholder="enter product name"
-            value={searchName}
-            onChange={(e) => setSearchName(e.target.value)}
-            label="Product"
-          />
-          <CFormSelect
-            htmlSize={7}
-            multiple
-            className="fs-5"
-            aria-label="size 7 select example"
-            onChange={(e) =>
-              setInvoice((preInvoice) => {
-                return { ...preInvoice, productId: +e.target.value }
-              })
-            }
-          >
-            {data.products.map((product) => {
-              return (
-                <option value={product.id} key={product.id}>
-                  {product.name}
-                </option>
-              )
-            })}
-          </CFormSelect>
-        </CCol>
+      {user?.role === 'admin' && (
+        <>
+          <h3 className="my-3">Add New Invoice</h3>
+          {error && (
+            <CAlert color="danger" dismissible>
+              <strong>{error}</strong>
+            </CAlert>
+          )}
+          {loading && (
+            <div className="spinner-border text-info" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </div>
+          )}
+          {message && (
+            <CAlert color="success" dismissible>
+              <strong>{message}</strong>
+            </CAlert>
+          )}
+          {data.errorMessage && (
+            <CAlert color="danger" dismissible>
+              <strong>{data.errorMessage}</strong>
+            </CAlert>
+          )}
+          <CForm className="row g-3 fs-5 my-3 p-3 bg-white" onSubmit={clickHandler}>
+            <CCol xs={12}>
+              <CFormInput
+                type="text"
+                id="name"
+                placeholder="enter product name"
+                value={searchName}
+                onChange={(e) => setSearchName(e.target.value)}
+                label="Product"
+              />
+              <CFormSelect
+                htmlSize={7}
+                multiple
+                className="fs-5"
+                aria-label="size 7 select example"
+                onChange={(e) =>
+                  setInvoice((preInvoice) => {
+                    return { ...preInvoice, productId: +e.target.value }
+                  })
+                }
+              >
+                {data.products.map((product) => {
+                  return (
+                    <option value={product.id} key={product.id}>
+                      {product.name}
+                    </option>
+                  )
+                })}
+              </CFormSelect>
+            </CCol>
 
-        <CCol xs={12}>
-          <CFormInput
-            type="number"
-            id="amount"
-            placeholder="enter amount"
-            value={invoice.amount}
-            onChange={(e) =>
-              setInvoice((preInvoice) => {
-                return { ...preInvoice, amount: +e.target.value }
-              })
-            }
-            label="Amount"
-          />
-        </CCol>
-        <CCol xs={12}>
-          <CFormInput
-            type="number"
-            step="0.10"
-            id="pricePerOne"
-            placeholder="enter price per one"
-            value={invoice.pricePerOne}
-            onChange={(e) =>
-              setInvoice((preInvoice) => {
-                return { ...preInvoice, pricePerOne: +e.target.value }
-              })
-            }
-            label="Price Per One"
-          />
-        </CCol>
-        <CCol xs={12}>
-          <CButton type="submit">Submit</CButton>
-        </CCol>
-      </CForm>
+            <CCol xs={12}>
+              <CFormInput
+                type="number"
+                id="amount"
+                placeholder="enter amount"
+                value={invoice.amount}
+                onChange={(e) =>
+                  setInvoice((preInvoice) => {
+                    return { ...preInvoice, amount: +e.target.value }
+                  })
+                }
+                label="Amount"
+              />
+            </CCol>
+            <CCol xs={12}>
+              <CFormInput
+                type="number"
+                step="0.10"
+                id="pricePerOne"
+                placeholder="enter price per one"
+                value={invoice.pricePerOne}
+                onChange={(e) =>
+                  setInvoice((preInvoice) => {
+                    return { ...preInvoice, pricePerOne: +e.target.value }
+                  })
+                }
+                label="Price Per One"
+              />
+            </CCol>
+            <CCol xs={12}>
+              <CButton type="submit">Submit</CButton>
+            </CCol>
+          </CForm>
+        </>
+      )}
     </>
   )
 }

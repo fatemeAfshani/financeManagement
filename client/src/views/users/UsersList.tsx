@@ -132,106 +132,112 @@ export default function UserList() {
   }
   return (
     <>
-      <h3 className="my-3">Users list</h3>
-      {error && (
-        <CAlert color="danger" dismissible>
-          <strong>{error}</strong>
-        </CAlert>
-      )}
-      {loading && (
-        <div className="spinner-border text-info" role="status">
-          <span className="visually-hidden">Loading...</span>
-        </div>
-      )}
-      {deleteState.error && (
-        <CAlert color="danger" dismissible>
-          <strong>{deleteState.error}</strong>
-        </CAlert>
-      )}{' '}
-      {deleteState.success && (
-        <CAlert color="success" dismissible>
-          <strong>Product deleted successfully</strong>
-        </CAlert>
-      )}
-      <CTable className=" fs-5 table  bg-white table-striped" hover>
-        <CTableHead>
-          <CTableRow>
-            <CTableHeaderCell scope="col">CompanyName</CTableHeaderCell>
-            <CTableHeaderCell scope="col">Share Percent</CTableHeaderCell>
-            <CTableHeaderCell scope="col">Create Date</CTableHeaderCell>
-          </CTableRow>
-        </CTableHead>
-        <CTableBody>
-          <CTableRow>
-            <CTableDataCell>{company?.name}</CTableDataCell>
-            <CTableDataCell>{company?.sharePercent}</CTableDataCell>
-            <CTableDataCell>{company?.createdAt && convertDate(company.createdAt)}</CTableDataCell>
-          </CTableRow>
-        </CTableBody>
-      </CTable>
-      <CTable className=" fs-5 table  bg-white table-striped" hover>
-        <CTableHead>
-          <CTableRow>
-            <CTableHeaderCell scope="col">Id</CTableHeaderCell>
-            <CTableHeaderCell scope="col">Username</CTableHeaderCell>
-            <CTableHeaderCell scope="col">Role</CTableHeaderCell>
-            <CTableHeaderCell scope="col">Is Share Holder</CTableHeaderCell>
-            <CTableHeaderCell scope="col">SharePercent</CTableHeaderCell>
-            <CTableHeaderCell scope="col">Is Deleted</CTableHeaderCell>
-            <CTableHeaderCell scope="col">Incomes</CTableHeaderCell>
-            <CTableHeaderCell scope="col">Update</CTableHeaderCell>
-            <CTableHeaderCell scope="col">Delete</CTableHeaderCell>
-          </CTableRow>
-        </CTableHead>
-        <CTableBody>
-          {users.map((user) => {
-            return (
-              <CTableRow key={user.id}>
-                <CTableHeaderCell scope="row">{user.id}</CTableHeaderCell>
-                <CTableDataCell>{user.username}</CTableDataCell>
-                <CTableDataCell>{user.role}</CTableDataCell>
-                <CTableDataCell>{user.isShareHolder ? 'yes' : 'no'}</CTableDataCell>
-                <CTableDataCell>{user.sharePercent}</CTableDataCell>
-                <CTableDataCell>{user.isDeleted ? 'yes' : 'no'}</CTableDataCell>
+      {user?.role === 'admin' && (
+        <>
+          <h3 className="my-3">Users list</h3>
+          {error && (
+            <CAlert color="danger" dismissible>
+              <strong>{error}</strong>
+            </CAlert>
+          )}
+          {loading && (
+            <div className="spinner-border text-info" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </div>
+          )}
+          {deleteState.error && (
+            <CAlert color="danger" dismissible>
+              <strong>{deleteState.error}</strong>
+            </CAlert>
+          )}{' '}
+          {deleteState.success && (
+            <CAlert color="success" dismissible>
+              <strong>Product deleted successfully</strong>
+            </CAlert>
+          )}
+          <CTable className=" fs-5 table  bg-white table-striped" hover>
+            <CTableHead>
+              <CTableRow>
+                <CTableHeaderCell scope="col">CompanyName</CTableHeaderCell>
+                <CTableHeaderCell scope="col">Share Percent</CTableHeaderCell>
+                <CTableHeaderCell scope="col">Create Date</CTableHeaderCell>
+              </CTableRow>
+            </CTableHead>
+            <CTableBody>
+              <CTableRow>
+                <CTableDataCell>{company?.name}</CTableDataCell>
+                <CTableDataCell>{company?.sharePercent}</CTableDataCell>
                 <CTableDataCell>
-                  <CButton
-                    color="info"
-                    variant="outline"
-                    className="mx-3"
-                    onClick={() => clickHandlerIncome(user.id)}
-                  >
-                    Incomes
-                  </CButton>
-                </CTableDataCell>
-                <CTableDataCell>
-                  {!user.isDeleted && (
-                    <CButton
-                      color="warning"
-                      variant="outline"
-                      className="mx-3"
-                      onClick={() => clickHandlerUpdate(user.id)}
-                    >
-                      Update
-                    </CButton>
-                  )}
-                </CTableDataCell>
-                <CTableDataCell>
-                  {!user.isDeleted && (
-                    <CButton
-                      color="danger"
-                      variant="outline"
-                      className="mx-3"
-                      onClick={() => deleteHandler(user.id)}
-                    >
-                      Delete
-                    </CButton>
-                  )}
+                  {company?.createdAt && convertDate(company.createdAt)}
                 </CTableDataCell>
               </CTableRow>
-            )
-          })}
-        </CTableBody>
-      </CTable>
+            </CTableBody>
+          </CTable>
+          <CTable className=" fs-5 table  bg-white table-striped" hover>
+            <CTableHead>
+              <CTableRow>
+                <CTableHeaderCell scope="col">Id</CTableHeaderCell>
+                <CTableHeaderCell scope="col">Username</CTableHeaderCell>
+                <CTableHeaderCell scope="col">Role</CTableHeaderCell>
+                <CTableHeaderCell scope="col">Is Share Holder</CTableHeaderCell>
+                <CTableHeaderCell scope="col">SharePercent</CTableHeaderCell>
+                <CTableHeaderCell scope="col">Is Deleted</CTableHeaderCell>
+                <CTableHeaderCell scope="col">Incomes</CTableHeaderCell>
+                <CTableHeaderCell scope="col">Update</CTableHeaderCell>
+                <CTableHeaderCell scope="col">Delete</CTableHeaderCell>
+              </CTableRow>
+            </CTableHead>
+            <CTableBody>
+              {users.map((user) => {
+                return (
+                  <CTableRow key={user.id}>
+                    <CTableHeaderCell scope="row">{user.id}</CTableHeaderCell>
+                    <CTableDataCell>{user.username}</CTableDataCell>
+                    <CTableDataCell>{user.role}</CTableDataCell>
+                    <CTableDataCell>{user.isShareHolder ? 'yes' : 'no'}</CTableDataCell>
+                    <CTableDataCell>{user.sharePercent}</CTableDataCell>
+                    <CTableDataCell>{user.isDeleted ? 'yes' : 'no'}</CTableDataCell>
+                    <CTableDataCell>
+                      <CButton
+                        color="info"
+                        variant="outline"
+                        className="mx-3"
+                        onClick={() => clickHandlerIncome(user.id)}
+                      >
+                        Incomes
+                      </CButton>
+                    </CTableDataCell>
+                    <CTableDataCell>
+                      {!user.isDeleted && (
+                        <CButton
+                          color="warning"
+                          variant="outline"
+                          className="mx-3"
+                          onClick={() => clickHandlerUpdate(user.id)}
+                        >
+                          Update
+                        </CButton>
+                      )}
+                    </CTableDataCell>
+                    <CTableDataCell>
+                      {!user.isDeleted && (
+                        <CButton
+                          color="danger"
+                          variant="outline"
+                          className="mx-3"
+                          onClick={() => deleteHandler(user.id)}
+                        >
+                          Delete
+                        </CButton>
+                      )}
+                    </CTableDataCell>
+                  </CTableRow>
+                )
+              })}
+            </CTableBody>
+          </CTable>
+        </>
+      )}
     </>
   )
 }

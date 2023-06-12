@@ -14,7 +14,6 @@ import axios from 'axios'
 import { useAuth } from '../../components/context/AuthContext'
 import { API_ACTIONS, ProductInvoice } from '../../types'
 import { useNavigate, useParams } from 'react-router-dom'
-import { convertDate } from '../../utils'
 
 type InvoicesState = {
   error: string
@@ -145,7 +144,7 @@ export default function Invoices() {
                 <CTableDataCell>{invoice.productId}</CTableDataCell>
                 <CTableDataCell>{invoice.amount}</CTableDataCell>
                 <CTableDataCell>{invoice.pricePerOne}</CTableDataCell>
-                <CTableDataCell>{invoice.date && convertDate(invoice.date)}</CTableDataCell>
+                <CTableDataCell>{invoice.date}</CTableDataCell>
               </CTableRow>
             )
           })}

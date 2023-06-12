@@ -165,102 +165,106 @@ export default function UpdateUser() {
   }
   return (
     <>
-      <h3 className="my-3">Update User {userId}</h3>
-      <button type="button" className="btn btn-primary my-3" onClick={goBack}>
-        Back
-      </button>
-      {error && (
-        <CAlert color="danger" dismissible>
-          <strong>{error}</strong>
-        </CAlert>
-      )}
-      {loading && (
-        <div className="spinner-border text-info" role="status">
-          <span className="visually-hidden">Loading...</span>
-        </div>
-      )}
-      {message && (
-        <CAlert color="success" dismissible>
-          <strong>{message}</strong>
-        </CAlert>
-      )}
-      <CForm className="row g-3 fs-5 my-3 p-3 bg-white" onSubmit={userUpdateHandler}>
-        <CCol xs={6}>
-          <CFormInput
-            type="name"
-            id="username"
-            placeholder="enter username"
-            value={userData.username}
-            onChange={(e) =>
-              setUser((preUser) => {
-                return { ...preUser, username: e.target.value }
-              })
-            }
-            label="Username"
-          />
-        </CCol>
-        <CCol xs={6}>
-          <label htmlFor="select role" className="form-label">
-            Role
-          </label>
+      {user?.role === 'admin' && (
+        <>
+          <h3 className="my-3">Update User {userId}</h3>
+          <button type="button" className="btn btn-primary my-3" onClick={goBack}>
+            Back
+          </button>
+          {error && (
+            <CAlert color="danger" dismissible>
+              <strong>{error}</strong>
+            </CAlert>
+          )}
+          {loading && (
+            <div className="spinner-border text-info" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </div>
+          )}
+          {message && (
+            <CAlert color="success" dismissible>
+              <strong>{message}</strong>
+            </CAlert>
+          )}
+          <CForm className="row g-3 fs-5 my-3 p-3 bg-white" onSubmit={userUpdateHandler}>
+            <CCol xs={6}>
+              <CFormInput
+                type="name"
+                id="username"
+                placeholder="enter username"
+                value={userData.username}
+                onChange={(e) =>
+                  setUser((preUser) => {
+                    return { ...preUser, username: e.target.value }
+                  })
+                }
+                label="Username"
+              />
+            </CCol>
+            <CCol xs={6}>
+              <label htmlFor="select role" className="form-label">
+                Role
+              </label>
 
-          <select
-            className="form-select"
-            aria-label="select role"
-            value={userData.role}
-            onChange={(e) =>
-              setUser((preUser) => {
-                return { ...preUser, role: e.target.value }
-              })
-            }
-          >
-            <option value="admin">Admin</option>
-            <option value="viewer">Viewer</option>
-          </select>
-        </CCol>
-        <CCol xs={12}>
-          <CButton type="submit">Submit</CButton>
-        </CCol>
-      </CForm>
-      <CForm className="row g-3 fs-5 my-3 p-3 bg-white" onSubmit={shareHolderUpdateHandler}>
-        <CCol xs={6}>
-          <label htmlFor="select role" className="form-label">
-            Role
-          </label>
+              <select
+                className="form-select"
+                aria-label="select role"
+                value={userData.role}
+                onChange={(e) =>
+                  setUser((preUser) => {
+                    return { ...preUser, role: e.target.value }
+                  })
+                }
+              >
+                <option value="admin">Admin</option>
+                <option value="viewer">Viewer</option>
+              </select>
+            </CCol>
+            <CCol xs={12}>
+              <CButton type="submit">Submit</CButton>
+            </CCol>
+          </CForm>
+          <CForm className="row g-3 fs-5 my-3 p-3 bg-white" onSubmit={shareHolderUpdateHandler}>
+            <CCol xs={6}>
+              <label htmlFor="select role" className="form-label">
+                Role
+              </label>
 
-          <select
-            className="form-select"
-            aria-label="select role"
-            value={userData.isShareHolder ? 'true' : 'false'}
-            onChange={(e) =>
-              setUser((preUser) => {
-                return { ...preUser, isShareHolder: e.target.value === 'true' ? true : false }
-              })
-            }
-          >
-            <option value="true">Yes</option>
-            <option value="false">No</option>
-          </select>
-        </CCol>
-        <CCol xs={6}>
-          <CFormInput
-            type="number"
-            step="0.1"
-            id="sharePercent"
-            placeholder="enter sharePercent"
-            value={userData.sharePercent}
-            onChange={(e) =>
-              setUser((preDate) => {
-                return { ...preDate, sharePercent: +e.target.value }
-              })
-            }
-            label="Share Percent"
-          />
-        </CCol>
-        <CCol xs={12}>
-          <CButton type="submit">Submit</CButton>
-        </CCol>
-      </CForm>
+              <select
+                className="form-select"
+                aria-label="select role"
+                value={userData.isShareHolder ? 'true' : 'false'}
+                onChange={(e) =>
+                  setUser((preUser) => {
+                    return { ...preUser, isShareHolder: e.target.value === 'true' ? true : false }
+                  })
+                }
+              >
+                <option value="true">Yes</option>
+                <option value="false">No</option>
+              </select>
+            </CCol>
+            <CCol xs={6}>
+              <CFormInput
+                type="number"
+                step="0.1"
+                id="sharePercent"
+                placeholder="enter sharePercent"
+                value={userData.sharePercent}
+                onChange={(e) =>
+                  setUser((preDate) => {
+                    return { ...preDate, sharePercent: +e.target.value }
+                  })
+                }
+                label="Share Percent"
+              />
+            </CCol>
+            <CCol xs={12}>
+              <CButton type="submit">Submit</CButton>
+            </CCol>
+          </CForm>
+        </>
+      )}
     </>
   )
 }

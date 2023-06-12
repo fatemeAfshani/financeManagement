@@ -107,66 +107,70 @@ export default function Checkouts() {
 
   return (
     <>
-      <h3 className="my-3">Company Checkouts</h3>
-      {error && (
-        <CAlert color="danger" dismissible>
-          <strong>{error}</strong>
-        </CAlert>
-      )}
-      {loading && (
-        <div className="spinner-border text-info" role="status">
-          <span className="visually-hidden">Loading...</span>
-        </div>
-      )}
-      <CTable className=" fs-5 table  bg-white table-striped" hover>
-        <CTableHead>
-          <CTableRow>
-            <CTableHeaderCell scope="col">Checkout Id</CTableHeaderCell>
-            <CTableHeaderCell scope="col">Amount</CTableHeaderCell>
-            <CTableHeaderCell scope="col">Description</CTableHeaderCell>
-            <CTableHeaderCell scope="col">User Id</CTableHeaderCell>
-            <CTableHeaderCell scope="col">Date</CTableHeaderCell>
-          </CTableRow>
-        </CTableHead>
-        <CTableBody>
-          {checkouts.map((checkout) => {
-            return (
-              <CTableRow key={checkout.id}>
-                <CTableDataCell scope="row">{checkout.id}</CTableDataCell>
-                <CTableDataCell>{checkout.amount}</CTableDataCell>
-                <CTableDataCell>{checkout.description || '_'}</CTableDataCell>
-                <CTableDataCell>{checkout.userId || 'company'}</CTableDataCell>
-                <CTableDataCell>{checkout.date && convertDate(checkout.date)}</CTableDataCell>
+      {user?.role === 'admin' && (
+        <>
+          <h3 className="my-3">Company Checkouts</h3>
+          {error && (
+            <CAlert color="danger" dismissible>
+              <strong>{error}</strong>
+            </CAlert>
+          )}
+          {loading && (
+            <div className="spinner-border text-info" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </div>
+          )}
+          <CTable className=" fs-5 table  bg-white table-striped" hover>
+            <CTableHead>
+              <CTableRow>
+                <CTableHeaderCell scope="col">Checkout Id</CTableHeaderCell>
+                <CTableHeaderCell scope="col">Amount</CTableHeaderCell>
+                <CTableHeaderCell scope="col">Description</CTableHeaderCell>
+                <CTableHeaderCell scope="col">User Id</CTableHeaderCell>
+                <CTableHeaderCell scope="col">Date</CTableHeaderCell>
               </CTableRow>
-            )
-          })}
-        </CTableBody>
-      </CTable>
-      <CPagination className=" " aria-label="Page navigation">
-        <CPaginationItem
-          onClick={() => setCurrentPage((prePage) => prePage - 1)}
-          disabled={currentPage === 1}
-        >
-          Previous
-        </CPaginationItem>
-        {currentPage !== 1 && (
-          <CPaginationItem onClick={() => setCurrentPage((prePage) => prePage - 1)}>
-            {currentPage - 1}
-          </CPaginationItem>
-        )}
-        <CPaginationItem active>{currentPage}</CPaginationItem>
-        {currentPage !== pageCount && (
-          <CPaginationItem onClick={() => setCurrentPage((prePage) => prePage + 1)}>
-            {currentPage + 1}
-          </CPaginationItem>
-        )}
-        <CPaginationItem
-          onClick={() => setCurrentPage((prePage) => prePage + 1)}
-          disabled={currentPage === pageCount}
-        >
-          Next
-        </CPaginationItem>
-      </CPagination>
+            </CTableHead>
+            <CTableBody>
+              {checkouts.map((checkout) => {
+                return (
+                  <CTableRow key={checkout.id}>
+                    <CTableDataCell scope="row">{checkout.id}</CTableDataCell>
+                    <CTableDataCell>{checkout.amount}</CTableDataCell>
+                    <CTableDataCell>{checkout.description || '_'}</CTableDataCell>
+                    <CTableDataCell>{checkout.userId || 'company'}</CTableDataCell>
+                    <CTableDataCell>{checkout.date && convertDate(checkout.date)}</CTableDataCell>
+                  </CTableRow>
+                )
+              })}
+            </CTableBody>
+          </CTable>
+          <CPagination className=" " aria-label="Page navigation">
+            <CPaginationItem
+              onClick={() => setCurrentPage((prePage) => prePage - 1)}
+              disabled={currentPage === 1}
+            >
+              Previous
+            </CPaginationItem>
+            {currentPage !== 1 && (
+              <CPaginationItem onClick={() => setCurrentPage((prePage) => prePage - 1)}>
+                {currentPage - 1}
+              </CPaginationItem>
+            )}
+            <CPaginationItem active>{currentPage}</CPaginationItem>
+            {currentPage !== pageCount && (
+              <CPaginationItem onClick={() => setCurrentPage((prePage) => prePage + 1)}>
+                {currentPage + 1}
+              </CPaginationItem>
+            )}
+            <CPaginationItem
+              onClick={() => setCurrentPage((prePage) => prePage + 1)}
+              disabled={currentPage === pageCount}
+            >
+              Next
+            </CPaginationItem>
+          </CPagination>
+        </>
+      )}
     </>
   )
 }
