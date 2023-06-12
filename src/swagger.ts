@@ -19,6 +19,7 @@ const options: swaggerJsdoc.OAS3Options = {
     './src/routes/income/docs.ts',
     './src/routes/checkout/docs.ts',
     './src/routes/cookie/docs.ts',
+    './src/routes/chartData/docs.ts',
   ],
 }
 

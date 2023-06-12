@@ -21,6 +21,7 @@ import shareHolderIncomeRouter from './routes/income'
 import checkoutRouter from './routes/checkout'
 import cookieRouter from './routes/cookie'
 import companyRouter from './routes/company'
+import chartRouter from './routes/chartData'
 
 const app = express()
 app.use(express.json())
@@ -64,6 +65,7 @@ app.use('/incomes', shareHolderIncomeRouter)
 app.use('/checkouts', checkoutRouter)
 app.use('/cookies', cookieRouter)
 app.use('/company', companyRouter)
+app.use('/chart', chartRouter)
 
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   logger.error(`error handler: ${err}`)
