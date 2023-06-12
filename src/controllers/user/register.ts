@@ -5,14 +5,18 @@ import { uuid } from 'uuidv4'
 import userDB from '../../database/user'
 import companyDB from '../../database/company'
 import logger from '../../logger'
-import { Roles } from '../../types'
-import { enCodePassword, translateErrorMessage } from '../../utils'
+import { Role } from '../../types'
+import {
+  deleteRedisData,
+  enCodePassword,
+  translateErrorMessage,
+} from '../../utils'
 
 const register = async (req: Request, res: Response) => {
   try {
     const { username, password, companyName, code } = req.body
     let companyId
-    let role = Roles.VIEWER
+    let role: Role = 'viewer'
     const hashedPassword = enCodePassword(password)
     if (companyName) {
       const company = (
@@ -24,7 +28,7 @@ const register = async (req: Request, res: Response) => {
       )?.[0]
 
       companyId = company.id
-      role = Roles.ADMIN
+      role = 'admin'
 
       logger.info(
         `create new company with name: ${companyName} and id: ${companyId}`
@@ -54,6 +58,7 @@ const register = async (req: Request, res: Response) => {
       role,
       companyId,
     })
+    await deleteRedisData([`users-total:${companyId}`])
 
     logger.info(`customer registered with username: ${username}`)
     res.status(200).send({ username, companyId })

@@ -4,7 +4,11 @@ import orderDB from '../../database/order'
 import shareholderIncomeDB from '../../database/shareholder-income'
 import logger from '../../logger'
 import { User } from '../../types'
-import { deleteRedisData, translateErrorMessage } from '../../utils'
+import {
+  deleteRedisData,
+  deleteUserRedisData,
+  translateErrorMessage,
+} from '../../utils'
 
 const updateOrder = async (req: Request, res: Response) => {
   try {
@@ -23,9 +27,18 @@ const updateOrder = async (req: Request, res: Response) => {
         ),
       })
     }
-    const { totalProfit } = await orderDB.update(order, +id, companyId!)
-    const users = await shareholderIncomeDB.add(+id, totalProfit, companyId!)
-    await deleteRedisData(companyId!, users)
+    const { totalProfit } = await orderDB.update(order, +id, companyId)
+    const users = await shareholderIncomeDB.add(+id, totalProfit, companyId)
+    await deleteUserRedisData(users)
+    await deleteRedisData([
+      `company:${companyId}-income`,
+      `company:${companyId}-income-notsettled`,
+      `company-allusers:${companyId}-income`,
+      `company-allusers:${companyId}-income-notsettled`,
+      `income-thisweek:${companyId}`,
+      `income-lastwee:-${companyId}`,
+      `income-lastmonth:${companyId}`,
+    ])
 
     res.sendStatus(200)
   } catch (e: any) {

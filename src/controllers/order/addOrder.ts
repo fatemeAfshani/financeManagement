@@ -1,11 +1,14 @@
 import { Request, Response } from 'express'
-import redisClient from '../../redis'
 
 import orderDB from '../../database/order'
 import shareHOlderIncomeDB from '../../database/shareholder-income'
 import logger from '../../logger'
 import { User } from '../../types'
-import { deleteRedisData, translateErrorMessage } from '../../utils'
+import {
+  deleteRedisData,
+  deleteUserRedisData,
+  translateErrorMessage,
+} from '../../utils'
 
 const addOrder = async (req: Request, res: Response) => {
   try {
@@ -20,12 +23,21 @@ const addOrder = async (req: Request, res: Response) => {
         error: translateErrorMessage(req.cookies?.language, 'error happened'),
       })
     }
-    const users = await shareHOlderIncomeDB.add(
-      orderId,
-      totalProfit,
-      companyId!
-    )
-    await deleteRedisData(companyId!, users)
+    const users = await shareHOlderIncomeDB.add(orderId, totalProfit, companyId)
+    await deleteUserRedisData(users)
+    await deleteRedisData([
+      `company:${companyId}-income`,
+      `company:${companyId}-income-notsettled`,
+      `company-allusers:${companyId}-income`,
+      `company-allusers:${companyId}-income-notsettled`,
+      `income-thisweek:${companyId}`,
+      `income-lastweek:${companyId}`,
+      `income-lastmonth:${companyId}`,
+      `orders-thisweek:${companyId}`,
+      `orders-lastweek:${companyId}`,
+      `orders-lastmonth:${companyId}`,
+      `orders-total:${companyId}`,
+    ])
     res.status(200).send({ orderId })
   } catch (e: any) {
     logger.error(`error happend in add order: ${e}`)

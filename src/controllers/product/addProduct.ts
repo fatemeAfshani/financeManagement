@@ -2,12 +2,13 @@ import { Request, Response } from 'express'
 import productDB from '../../database/product'
 import logger from '../../logger'
 import { User } from '../../types'
-import { translateErrorMessage } from '../../utils'
+import { deleteRedisData, translateErrorMessage } from '../../utils'
 
 const addProduct = async (req: Request, res: Response) => {
   try {
     const { companyId } = req.user as User
     await productDB.add({ ...req.body, companyId })
+    await deleteRedisData([`products-total:-${companyId}`])
     res.sendStatus(200)
   } catch (e) {
     logger.error(`error happend in add Product: ${e}`)

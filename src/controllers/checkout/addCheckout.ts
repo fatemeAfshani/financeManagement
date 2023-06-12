@@ -4,7 +4,7 @@ import moment from 'jalali-moment'
 import checkoutDB from '../../database/shareholder-checkout'
 import logger from '../../logger'
 import { ShareHolderCheckout, User } from '../../types'
-import { translateErrorMessage } from '../../utils'
+import { deleteRedisData, translateErrorMessage } from '../../utils'
 
 const addCheckout = async (req: Request, res: Response) => {
   try {
@@ -17,6 +17,18 @@ const addCheckout = async (req: Request, res: Response) => {
       date: moment().format('jYYjMMjDD'),
     }
     await checkoutDB.add(checkout, incomeIds)
+    if (checkoutData?.userId) {
+      await deleteRedisData([
+        `user-${checkoutData?.userId}-income-notsettled`,
+        `company-allusers-${companyId}-income-notsettled`,
+      ])
+    } else {
+      await deleteRedisData([
+        `company-${companyId}-income-notsettled
+`,
+        `company-allusers-${companyId}-income-notsettled`,
+      ])
+    }
     res.sendStatus(200)
   } catch (e: any) {
     logger.error(`error happend in add checkout: ${e}`)
