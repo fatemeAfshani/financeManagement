@@ -74,14 +74,8 @@ export const getIncomesOfACompany = async (req: Request, res: Response) => {
       +offset * +limit
     )
 
-    if (incomes.length !== 0) {
-      const incomesCount = (await shareHolderIncomeDB.count(params))?.[0]
-      res.status(200).send({ incomes, incomesCount: +incomesCount.count })
-    } else {
-      res.status(404).send({
-        error: translateErrorMessage(req.cookies?.language, 'no income found'),
-      })
-    }
+    const incomesCount = (await shareHolderIncomeDB.count(params))?.[0]
+    res.status(200).send({ incomes, incomesCount: +incomesCount.count })
   } catch (e: any) {
     logger.error(`error happend in get incomes of a user: ${e}`)
     res.status(500).send({

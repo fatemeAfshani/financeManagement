@@ -212,8 +212,6 @@
  *       401:
  *         description: unAuthorized
  *
- *       404:
- *         description: not found
  *
  *       500:
  *         description: Unexpected error
