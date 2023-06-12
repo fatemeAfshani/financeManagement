@@ -25,22 +25,6 @@
  *         isShareHolder: true
  *         sharePercent: 10
  *
- *     Company:
- *       type: object
- *       properties:
- *         id:
- *           type: number
- *         name:
- *           type: string
- *         createdAt:
- *           type: string
- *         sharePercent:
- *           type: number
- *       example:
- *         name: "company"
- *         sharePercent: 10
- *         id: 1
- *         createdAt: "020123"
  *
  */
 
