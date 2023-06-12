@@ -208,6 +208,11 @@ export const adminNav = [
     items: [
       {
         component: CNavItem,
+        name: 'Profile',
+        to: '/company/profile',
+      },
+      {
+        component: CNavItem,
         name: 'Incomes',
         to: '/company/incomes',
       },

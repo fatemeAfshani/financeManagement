@@ -32,6 +32,7 @@ const UpdateUser = React.lazy(() => import('./views/users/Update'))
 const UserIncomes = React.lazy(() => import('./views/users/UserIncomes'))
 
 // Company
+const CompanyProfile = React.lazy(() => import('./views/company/Profile'))
 const CompanyCheckouts = React.lazy(() => import('./views/company/Checkouts'))
 const CompanyIncomes = React.lazy(() => import('./views/company/Incomes'))
 
@@ -74,6 +75,7 @@ const routes = [
   { path: '/users/income/:id', name: 'user invome', element: UserIncomes, exact: true },
   { path: '/company/checkouts', name: 'Company checkouts', element: CompanyCheckouts, exact: true },
   { path: '/company/incomes', name: 'Company incomes', element: CompanyIncomes, exact: true },
+  { path: '/company/profile', name: 'Company profile', element: CompanyProfile, exact: true },
 ]
 
 export default routes
