@@ -1,450 +1,567 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 import {
-  CAvatar,
+  CAlert,
   CButton,
   CButtonGroup,
   CCard,
   CCardBody,
-  CCardFooter,
-  CCardHeader,
   CCol,
-  CProgress,
   CRow,
-  CTable,
-  CTableBody,
-  CTableDataCell,
-  CTableHead,
-  CTableHeaderCell,
-  CTableRow,
+  CWidgetStatsC,
+  CWidgetStatsF,
 } from '@coreui/react'
-import { CChartLine } from '@coreui/react-chartjs'
-import { getStyle, hexToRgba } from '@coreui/utils'
-import CIcon from '@coreui/icons-react'
 import {
-  cibGoogle,
-  cibFacebook,
-  cibLinkedin,
-  cibTwitter,
-  cilCloudDownload,
   cilPeople,
+  cilBasket,
   cilUser,
-  cilUserFemale,
-  cifUs,
-  cibCcMastercard,
+  cilNewspaper,
+  cilStorage,
+  cilDollar,
+  cilMoney,
+  cilLibraryBuilding,
 } from '@coreui/icons'
-import avatar1 from './../../assets/images/avatar.jpg'
+import { CChartBar, CChartLine } from '@coreui/react-chartjs'
+import { getStyle, hexToRgba } from '@coreui/utils'
 
-// import avatar1 from 'src/assets/images/avatars/1.jpg'
-// import avatar2 from 'src/assets/images/avatars/2.jpg'
-// import avatar3 from 'src/assets/images/avatars/3.jpg'
-// import avatar4 from 'src/assets/images/avatars/4.jpg'
-// import avatar5 from 'src/assets/images/avatars/5.jpg'
-// import avatar6 from 'src/assets/images/avatars/6.jpg'
+import CIcon from '@coreui/icons-react'
+import { useAuth } from '../../components/context/AuthContext'
+import axios from 'axios'
+import { convertDate } from '../../utils'
 
-// import WidgetsBrand from '../widgets/WidgetsBrand'
-// import WidgetsDropdown from '../widgets/WidgetsDropdown'
+type OrderData = {
+  date: string
+  count: string
+}
+
+type IncomeData = {
+  date: string
+  sum: string
+}
+
+type Period = 'thisweek' | 'lastmonth' | 'last3month'
 
 const Dashboard = () => {
-  const random = (min: any, max: any) => Math.floor(Math.random() * (max - min + 1) + min)
-
-  const progressExample = [
-    { title: 'Visits', value: '29.703 Users', percent: 40, color: 'success' },
-    { title: 'Unique', value: '24.093 Users', percent: 20, color: 'info' },
-    { title: 'Pageviews', value: '78.706 Views', percent: 60, color: 'warning' },
-    { title: 'New Users', value: '22.123 Users', percent: 80, color: 'danger' },
-    { title: 'Bounce Rate', value: 'Average Rate', percent: 40.15, color: 'primary' },
-  ]
-
-  const progressGroupExample1 = [
-    { title: 'Monday', value1: 34, value2: 78 },
-    { title: 'Tuesday', value1: 56, value2: 94 },
-    { title: 'Wednesday', value1: 12, value2: 67 },
-    { title: 'Thursday', value1: 43, value2: 91 },
-    { title: 'Friday', value1: 22, value2: 73 },
-    { title: 'Saturday', value1: 53, value2: 82 },
-    { title: 'Sunday', value1: 9, value2: 69 },
-  ]
-
-  const progressGroupExample2 = [
-    { title: 'Male', icon: cilUser, value: 53 },
-    { title: 'Female', icon: cilUserFemale, value: 43 },
-  ]
-
-  const progressGroupExample3 = [
-    { title: 'Organic Search', icon: cibGoogle, percent: 56, value: '191,235' },
-    { title: 'Facebook', icon: cibFacebook, percent: 15, value: '51,223' },
-    { title: 'Twitter', icon: cibTwitter, percent: 11, value: '37,564' },
-    { title: 'LinkedIn', icon: cibLinkedin, percent: 8, value: '27,319' },
-  ]
-
-  const tableExample = [
-    {
-      avatar: { src: avatar1, status: 'success' },
-      user: {
-        name: 'Yiorgos Avraamu',
-        new: true,
-        registered: 'Jan 1, 2021',
-      },
-      country: { name: 'USA', flag: cifUs },
-      usage: {
-        value: 50,
-        period: 'Jun 11, 2021 - Jul 10, 2021',
-        color: 'success',
-      },
-      payment: { name: 'Mastercard', icon: cibCcMastercard },
-      activity: '10 sec ago',
+  const [error, setError] = useState({
+    totalError: '',
+    companyError: '',
+    userError: '',
+    orderError: '',
+    incomesError: '',
+  })
+  const [data, setData] = useState({
+    total: {
+      totalProducts: 0,
+      totalOrders: 0,
+      totalUsers: 0,
+      totalInvoices: 0,
     },
-  ]
-  //   {
-  //     avatar: { src: avatar2, status: 'danger' },
-  //     user: {
-  //       name: 'Avram Tarasios',
-  //       new: false,
-  //       registered: 'Jan 1, 2021',
-  //     },
-  //     country: { name: 'Brazil', flag: cifBr },
-  //     usage: {
-  //       value: 22,
-  //       period: 'Jun 11, 2021 - Jul 10, 2021',
-  //       color: 'info',
-  //     },
-  //     payment: { name: 'Visa', icon: cibCcVisa },
-  //     activity: '5 minutes ago',
-  //   },
-  //   {
-  //     avatar: { src: avatar3, status: 'warning' },
-  //     user: { name: 'Quintin Ed', new: true, registered: 'Jan 1, 2021' },
-  //     country: { name: 'India', flag: cifIn },
-  //     usage: {
-  //       value: 74,
-  //       period: 'Jun 11, 2021 - Jul 10, 2021',
-  //       color: 'warning',
-  //     },
-  //     payment: { name: 'Stripe', icon: cibCcStripe },
-  //     activity: '1 hour ago',
-  //   },
-  //   {
-  //     avatar: { src: avatar4, status: 'secondary' },
-  //     user: { name: 'Enéas Kwadwo', new: true, registered: 'Jan 1, 2021' },
-  //     country: { name: 'France', flag: cifFr },
-  //     usage: {
-  //       value: 98,
-  //       period: 'Jun 11, 2021 - Jul 10, 2021',
-  //       color: 'danger',
-  //     },
-  //     payment: { name: 'PayPal', icon: cibCcPaypal },
-  //     activity: 'Last month',
-  //   },
-  //   {
-  //     avatar: { src: avatar5, status: 'success' },
-  //     user: {
-  //       name: 'Agapetus Tadeáš',
-  //       new: true,
-  //       registered: 'Jan 1, 2021',
-  //     },
-  //     country: { name: 'Spain', flag: cifEs },
-  //     usage: {
-  //       value: 22,
-  //       period: 'Jun 11, 2021 - Jul 10, 2021',
-  //       color: 'primary',
-  //     },
-  //     payment: { name: 'Google Wallet', icon: cibCcApplePay },
-  //     activity: 'Last week',
-  //   },
-  //   {
-  //     avatar: { src: avatar6, status: 'danger' },
-  //     user: {
-  //       name: 'Friderik Dávid',
-  //       new: true,
-  //       registered: 'Jan 1, 2021',
-  //     },
-  //     country: { name: 'Poland', flag: cifPl },
-  //     usage: {
-  //       value: 43,
-  //       period: 'Jun 11, 2021 - Jul 10, 2021',
-  //       color: 'success',
-  //     },
-  //     payment: { name: 'Amex', icon: cibCcAmex },
-  //     activity: 'Last week',
-  //   },
-  // ]
+    company: {
+      totalIncome: 0,
+      totalIncomeNotSettled: 0,
+      companyTotalIncome: 0,
+      companyTotalIncomeNotSettled: 0,
+    },
+    user: {
+      totalIncome: 0,
+      totalIncomeNotSettled: 0,
+    },
+  })
+
+  const [orders, setOrders] = useState<{ period: Period; data: OrderData[] }>({
+    period: 'thisweek',
+    data: [],
+  })
+
+  const [incomes, setIncomes] = useState<{ period: Period; data: IncomeData[] }>({
+    period: 'thisweek',
+    data: [],
+  })
+  const { user, logout } = useAuth()
+  useEffect(() => {
+    const getUserData = async () => {
+      try {
+        const response = await axios({
+          url: `${process.env?.REACT_APP_BASE_URL}/chart/user`,
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${user?.token}`,
+          },
+        })
+
+        setData((pre) => {
+          return { ...pre, user: response.data }
+        })
+      } catch (error: any) {
+        if (error.response && error.response.status === 401) {
+          logout()
+        }
+        const errorMessage = error.response?.data?.error || 'something went wrong'
+        setError((pre) => {
+          return { ...pre, userError: errorMessage }
+        })
+      }
+    }
+    const getTotalData = async () => {
+      try {
+        const response = await axios({
+          url: `${process.env?.REACT_APP_BASE_URL}/chart/total`,
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${user?.token}`,
+          },
+        })
+
+        setData((pre) => {
+          return { ...pre, total: response.data }
+        })
+      } catch (error: any) {
+        if (error.response && error.response.status === 401) {
+          logout()
+        }
+        const errorMessage = error.response?.data?.error || 'something went wrong'
+        setError((pre) => {
+          return { ...pre, totalError: errorMessage }
+        })
+      }
+    }
+    const getCompanyData = async () => {
+      try {
+        const response = await axios({
+          url: `${process.env?.REACT_APP_BASE_URL}/chart/company`,
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${user?.token}`,
+          },
+        })
+
+        setData((pre) => {
+          return { ...pre, company: response.data }
+        })
+      } catch (error: any) {
+        if (error.response && error.response.status === 401) {
+          logout()
+        }
+        const errorMessage = error.response?.data?.error || 'something went wrong'
+        setError((pre) => {
+          return { ...pre, companyError: errorMessage }
+        })
+      }
+    }
+
+    getUserData()
+    getCompanyData()
+    getTotalData()
+  }, [user, logout])
+
+  useEffect(() => {
+    const getOrders = async () => {
+      try {
+        const period = orders.period || 'thisweek'
+        const response = await axios({
+          url: `${process.env?.REACT_APP_BASE_URL}/chart/orders?period=${period}`,
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${user?.token}`,
+          },
+        })
+        setOrders((pre) => {
+          return { ...pre, data: response.data }
+        })
+      } catch (error: any) {
+        if (error.response && error.response.status === 401) {
+          logout()
+        }
+        const errorMessage = error.response?.data?.error || 'something went wrong'
+        setError((pre) => {
+          return { ...pre, ordersError: errorMessage }
+        })
+      }
+    }
+
+    getOrders()
+  }, [user, logout, orders.period])
+
+  useEffect(() => {
+    const getIncomes = async () => {
+      try {
+        const period = incomes.period || 'thisweek'
+        const response = await axios({
+          url: `${process.env?.REACT_APP_BASE_URL}/chart/income?period=${period}`,
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${user?.token}`,
+          },
+        })
+        setIncomes((pre) => {
+          return { ...pre, data: response.data }
+        })
+      } catch (error: any) {
+        if (error.response && error.response.status === 401) {
+          logout()
+        }
+        const errorMessage = error.response?.data?.error || 'something went wrong'
+        setError((pre) => {
+          return { ...pre, incomesError: errorMessage }
+        })
+      }
+    }
+
+    getIncomes()
+  }, [user, logout, incomes.period])
 
   return (
     <>
-      {/* <WidgetsDropdown /> */}
-      <CCard className="mb-4">
-        <CCardBody>
-          <CRow>
-            <CCol sm={5}>
-              <h4 id="traffic" className="card-title mb-0">
-                Traffic
-              </h4>
-              <div className="small text-medium-emphasis">January - July 2021</div>
-            </CCol>
-            <CCol sm={7} className="d-none d-md-block">
-              <CButton color="primary" className="float-end">
-                <CIcon icon={cilCloudDownload} />
-              </CButton>
-              <CButtonGroup className="float-end me-3">
-                {['Day', 'Month', 'Year'].map((value) => (
-                  <CButton
-                    color="outline-secondary"
-                    key={value}
-                    className="mx-0"
-                    active={value === 'Month'}
-                  >
-                    {value}
-                  </CButton>
-                ))}
-              </CButtonGroup>
-            </CCol>
-          </CRow>
-          <CChartLine
-            style={{ height: '300px', marginTop: '40px' }}
-            data={{
-              labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-              datasets: [
-                {
-                  label: 'My First dataset',
-                  backgroundColor: hexToRgba(getStyle('--cui-info')!, 10),
-                  borderColor: getStyle('--cui-info'),
-                  pointHoverBackgroundColor: getStyle('--cui-info'),
-                  borderWidth: 2,
-                  data: [
-                    random(50, 200),
-                    random(50, 200),
-                    random(50, 200),
-                    random(50, 200),
-                    random(50, 200),
-                    random(50, 200),
-                    random(50, 200),
-                  ],
-                  fill: true,
-                },
-                {
-                  label: 'My Second dataset',
-                  backgroundColor: 'transparent',
-                  borderColor: getStyle('--cui-success'),
-                  pointHoverBackgroundColor: getStyle('--cui-success'),
-                  borderWidth: 2,
-                  data: [
-                    random(50, 200),
-                    random(50, 200),
-                    random(50, 200),
-                    random(50, 200),
-                    random(50, 200),
-                    random(50, 200),
-                    random(50, 200),
-                  ],
-                },
-                {
-                  label: 'My Third dataset',
-                  backgroundColor: 'transparent',
-                  borderColor: getStyle('--cui-danger'),
-                  pointHoverBackgroundColor: getStyle('--cui-danger'),
-                  borderWidth: 1,
-                  borderDash: [8, 5],
-                  data: [65, 65, 65, 65, 65, 65, 65],
-                },
-              ],
-            }}
-            options={{
-              maintainAspectRatio: false,
-              plugins: {
-                legend: {
-                  display: false,
-                },
-              },
-              scales: {
-                x: {
-                  grid: {
-                    drawOnChartArea: false,
-                  },
-                },
-                y: {
-                  ticks: {
-                    // beginAtZero: true,
-                    maxTicksLimit: 5,
-                    stepSize: Math.ceil(250 / 5),
-                    // max: 250,
-                  },
-                },
-              },
-              elements: {
-                line: {
-                  tension: 0.4,
-                },
-                point: {
-                  radius: 0,
-                  hitRadius: 10,
-                  hoverRadius: 4,
-                  hoverBorderWidth: 3,
-                },
-              },
-            }}
-          />
-        </CCardBody>
-        <CCardFooter>
-          <CRow xs={{ cols: 1 }} md={{ cols: 5 }} className="text-center">
-            {progressExample.map((item, index) => (
-              <CCol className="mb-sm-2 mb-0" key={index}>
-                <div className="text-medium-emphasis">{item.title}</div>
-                <strong>
-                  {item.value} ({item.percent}%)
-                </strong>
-                <CProgress thin className="mt-2" color={item.color} value={item.percent} />
-              </CCol>
-            ))}
-          </CRow>
-        </CCardFooter>
-      </CCard>
-
-      {/* <WidgetsBrand withCharts /> */}
-
+      {error.companyError && (
+        <CAlert color="danger" dismissible>
+          <strong>{error.companyError}</strong>
+        </CAlert>
+      )}{' '}
+      {error.userError && (
+        <CAlert color="danger" dismissible>
+          <strong>{error.userError}</strong>
+        </CAlert>
+      )}{' '}
+      {error.totalError && (
+        <CAlert color="danger" dismissible>
+          <strong>{error.totalError}</strong>
+        </CAlert>
+      )}{' '}
+      {error.orderError && (
+        <CAlert color="danger" dismissible>
+          <strong>{error.orderError}</strong>
+        </CAlert>
+      )}{' '}
+      {error.incomesError && (
+        <CAlert color="danger" dismissible>
+          <strong>{error.incomesError}</strong>
+        </CAlert>
+      )}{' '}
       <CRow>
-        <CCol xs>
+        <CRow>
+          <CCol xs={12} sm={6} lg={3}>
+            <CWidgetStatsF
+              className="mb-3"
+              icon={<CIcon width={24} icon={cilStorage} size="xl" />}
+              title="Total Products"
+              value={data.total.totalProducts}
+              color="primary"
+            />
+          </CCol>
+          <CCol xs={12} sm={6} lg={3}>
+            <CWidgetStatsF
+              className="mb-3"
+              icon={<CIcon width={24} icon={cilUser} size="xl" />}
+              title="Total Users"
+              value={data.total.totalUsers}
+              color="info"
+            />
+          </CCol>
+          <CCol xs={12} sm={6} lg={3}>
+            <CWidgetStatsF
+              className="mb-3"
+              icon={<CIcon width={24} icon={cilBasket} size="xl" />}
+              title="Total Orders"
+              value={data.total.totalOrders}
+              color="warning"
+            />
+          </CCol>
+          <CCol xs={12} sm={6} lg={3}>
+            <CWidgetStatsF
+              className="mb-3"
+              icon={<CIcon width={24} icon={cilNewspaper} size="xl" />}
+              title="Total Invoices"
+              value={data.total.totalInvoices}
+              color="danger"
+            />
+          </CCol>
+        </CRow>
+        <CRow>
+          <CCol sm={6}>
+            <CWidgetStatsC
+              color="primary"
+              icon={<CIcon icon={cilDollar} height={36} />}
+              value={`$${data.user.totalIncome}`}
+              title="My Income"
+              inverse
+              progress={{ value: 75 }}
+              className="mb-4"
+            />
+          </CCol>
+          <CCol sm={6}>
+            <CWidgetStatsC
+              color="dark"
+              icon={<CIcon icon={cilMoney} height={36} />}
+              value={`$${data.user.totalIncomeNotSettled}`}
+              title="My UnSettled Income"
+              inverse
+              progress={{ value: 75 }}
+              className="mb-4"
+            />
+          </CCol>
+        </CRow>
+        <CRow>
           <CCard className="mb-4">
-            <CCardHeader>Traffic {' & '} Sales</CCardHeader>
             <CCardBody>
               <CRow>
-                <CCol xs={12} md={6} xl={6}>
-                  <CRow>
-                    <CCol sm={6}>
-                      <div className="border-start border-start-4 border-start-info py-1 px-3">
-                        <div className="text-medium-emphasis small">New Clients</div>
-                        <div className="fs-5 fw-semibold">9,123</div>
-                      </div>
-                    </CCol>
-                    <CCol sm={6}>
-                      <div className="border-start border-start-4 border-start-danger py-1 px-3 mb-3">
-                        <div className="text-medium-emphasis small">Recurring Clients</div>
-                        <div className="fs-5 fw-semibold">22,643</div>
-                      </div>
-                    </CCol>
-                  </CRow>
-
-                  <hr className="mt-0" />
-                  {progressGroupExample1.map((item, index) => (
-                    <div className="progress-group mb-4" key={index}>
-                      <div className="progress-group-prepend">
-                        <span className="text-medium-emphasis small">{item.title}</span>
-                      </div>
-                      <div className="progress-group-bars">
-                        <CProgress thin color="info" value={item.value1} />
-                        <CProgress thin color="danger" value={item.value2} />
-                      </div>
-                    </div>
-                  ))}
+                <CCol sm={5}>
+                  <h4 id="traffic" className="card-title mb-0">
+                    Orders Count
+                  </h4>
+                  <div className="small text-medium-emphasis">
+                    The number of orders placed per day
+                  </div>
                 </CCol>
+                <CCol sm={7} className="d-none d-md-block">
+                  <CButtonGroup className="float-end me-3">
+                    <CButton
+                      onClick={() => {
+                        setOrders((pre) => {
+                          return { ...pre, period: 'last3month' }
+                        })
+                      }}
+                      color="outline-secondary"
+                      key={'last3month'}
+                      className="mx-0"
+                      active={orders.period === 'last3month'}
+                    >
+                      Last 3 Month
+                    </CButton>
 
-                <CCol xs={12} md={6} xl={6}>
-                  <CRow>
-                    <CCol sm={6}>
-                      <div className="border-start border-start-4 border-start-warning py-1 px-3 mb-3">
-                        <div className="text-medium-emphasis small">Pageviews</div>
-                        <div className="fs-5 fw-semibold">78,623</div>
-                      </div>
-                    </CCol>
-                    <CCol sm={6}>
-                      <div className="border-start border-start-4 border-start-success py-1 px-3 mb-3">
-                        <div className="text-medium-emphasis small">Organic</div>
-                        <div className="fs-5 fw-semibold">49,123</div>
-                      </div>
-                    </CCol>
-                  </CRow>
-
-                  <hr className="mt-0" />
-
-                  {progressGroupExample2.map((item, index) => (
-                    <div className="progress-group mb-4" key={index}>
-                      <div className="progress-group-header">
-                        <CIcon className="me-2" icon={item.icon} size="lg" />
-                        <span>{item.title}</span>
-                        <span className="ms-auto fw-semibold">{item.value}%</span>
-                      </div>
-                      <div className="progress-group-bars">
-                        <CProgress thin color="warning" value={item.value} />
-                      </div>
-                    </div>
-                  ))}
-
-                  <div className="mb-5"></div>
-
-                  {progressGroupExample3.map((item, index) => (
-                    <div className="progress-group" key={index}>
-                      <div className="progress-group-header">
-                        <CIcon className="me-2" icon={item.icon} size="lg" />
-                        <span>{item.title}</span>
-                        <span className="ms-auto fw-semibold">
-                          {item.value}{' '}
-                          <span className="text-medium-emphasis small">({item.percent}%)</span>
-                        </span>
-                      </div>
-                      <div className="progress-group-bars">
-                        <CProgress thin color="success" value={item.percent} />
-                      </div>
-                    </div>
-                  ))}
+                    <CButton
+                      onClick={() => {
+                        setOrders((pre) => {
+                          return { ...pre, period: 'lastmonth' }
+                        })
+                      }}
+                      color="outline-secondary"
+                      key={'lastmonth'}
+                      className="mx-0"
+                      active={orders.period === 'lastmonth'}
+                    >
+                      Las Month
+                    </CButton>
+                    <CButton
+                      onClick={() => {
+                        setOrders((pre) => {
+                          return { ...pre, period: 'thisweek' }
+                        })
+                      }}
+                      color="outline-secondary"
+                      key={'thisweek'}
+                      className="mx-0"
+                      active={orders.period === 'thisweek'}
+                    >
+                      This Week
+                    </CButton>
+                  </CButtonGroup>
                 </CCol>
               </CRow>
 
-              <br />
-
-              <CTable align="middle" className="mb-0 border" hover responsive>
-                <CTableHead color="light">
-                  <CTableRow>
-                    <CTableHeaderCell className="text-center">
-                      <CIcon icon={cilPeople} />
-                    </CTableHeaderCell>
-                    <CTableHeaderCell>User</CTableHeaderCell>
-                    <CTableHeaderCell className="text-center">Country</CTableHeaderCell>
-                    <CTableHeaderCell>Usage</CTableHeaderCell>
-                    <CTableHeaderCell className="text-center">Payment Method</CTableHeaderCell>
-                    <CTableHeaderCell>Activity</CTableHeaderCell>
-                  </CTableRow>
-                </CTableHead>
-                <CTableBody>
-                  {tableExample.map((item, index) => (
-                    <CTableRow v-for="item in tableItems" key={index}>
-                      <CTableDataCell className="text-center">
-                        <CAvatar size="md" src={item.avatar.src} status={item.avatar.status} />
-                      </CTableDataCell>
-                      <CTableDataCell>
-                        <div>{item.user.name}</div>
-                        <div className="small text-medium-emphasis">
-                          <span>{item.user.new ? 'New' : 'Recurring'}</span> | Registered:{' '}
-                          {item.user.registered}
-                        </div>
-                      </CTableDataCell>
-                      <CTableDataCell className="text-center">
-                        <CIcon size="xl" icon={item.country.flag} title={item.country.name} />
-                      </CTableDataCell>
-                      <CTableDataCell>
-                        <div className="clearfix">
-                          <div className="float-start">
-                            <strong>{item.usage.value}%</strong>
-                          </div>
-                          <div className="float-end">
-                            <small className="text-medium-emphasis">{item.usage.period}</small>
-                          </div>
-                        </div>
-                        <CProgress thin color={item.usage.color} value={item.usage.value} />
-                      </CTableDataCell>
-                      <CTableDataCell className="text-center">
-                        <CIcon size="xl" icon={item.payment.icon} />
-                      </CTableDataCell>
-                      <CTableDataCell>
-                        <div className="small text-medium-emphasis">Last login</div>
-                        <strong>{item.activity}</strong>
-                      </CTableDataCell>
-                    </CTableRow>
-                  ))}
-                </CTableBody>
-              </CTable>
+              <CChartLine
+                style={{ height: '300px', marginTop: '40px' }}
+                data={{
+                  labels: orders.data.map((order) => convertDate(order.date)),
+                  datasets: [
+                    {
+                      label: 'Total Count',
+                      backgroundColor: hexToRgba(getStyle('--cui-info')!, 10),
+                      borderColor: '#803763',
+                      pointHoverBackgroundColor: getStyle('--cui-info'),
+                      borderWidth: 2,
+                      data: orders.data.map((order) => +order.count),
+                      fill: true,
+                    },
+                  ],
+                }}
+                options={{
+                  maintainAspectRatio: false,
+                  plugins: {
+                    legend: {
+                      display: false,
+                    },
+                  },
+                  scales: {
+                    x: {
+                      grid: {
+                        drawOnChartArea: false,
+                      },
+                    },
+                    y: {
+                      ticks: {
+                        maxTicksLimit: 5,
+                        stepSize: 10,
+                      },
+                    },
+                  },
+                  elements: {
+                    line: {
+                      tension: 0.4,
+                    },
+                    point: {
+                      radius: 0,
+                      hitRadius: 10,
+                      hoverRadius: 4,
+                      hoverBorderWidth: 3,
+                    },
+                  },
+                }}
+              />
             </CCardBody>
           </CCard>
-        </CCol>
+        </CRow>
+        <CRow>
+          <CCol sm={6} md={3}>
+            <CWidgetStatsC
+              color="success"
+              icon={<CIcon icon={cilPeople} height={36} />}
+              value={`$${data.company.totalIncome}`}
+              title="Company Income"
+              inverse
+              progress={{ value: 75 }}
+              className="mb-4"
+            />
+          </CCol>
+          <CCol sm={6} md={3}>
+            <CWidgetStatsC
+              color="info"
+              icon={<CIcon icon={cilPeople} height={36} />}
+              value={`$${data.company.totalIncomeNotSettled}`}
+              title="Company UnSettled Income"
+              inverse
+              progress={{ value: 75 }}
+              className="mb-4"
+            />
+          </CCol>
+          <CCol sm={6} md={3}>
+            <CWidgetStatsC
+              color="warning"
+              icon={<CIcon icon={cilLibraryBuilding} height={36} />}
+              value={`$${data.company.companyTotalIncome}`}
+              title="Company Share Income"
+              inverse
+              progress={{ value: 75 }}
+              className="mb-4"
+            />
+          </CCol>
+          <CCol sm={6} md={3}>
+            <CWidgetStatsC
+              color="danger"
+              icon={<CIcon icon={cilLibraryBuilding} height={36} />}
+              value={`$${data.company.companyTotalIncomeNotSettled}`}
+              title="Company UnSettled Share Income"
+              inverse
+              progress={{ value: 75 }}
+              className="mb-4"
+            />
+          </CCol>
+        </CRow>
+        <CRow>
+          <CCard className="mb-4">
+            <CCardBody>
+              <CRow>
+                <CCol sm={5}>
+                  <h4 id="traffic" className="card-title mb-0">
+                    Total Income
+                  </h4>
+                  <div className="small text-medium-emphasis">
+                    The total profit of orders placed per day
+                  </div>
+                </CCol>
+                <CCol sm={7} className="d-none d-md-block">
+                  <CButtonGroup className="float-end me-3">
+                    <CButton
+                      onClick={() => {
+                        setIncomes((pre) => {
+                          return { ...pre, period: 'last3month' }
+                        })
+                      }}
+                      color="outline-secondary"
+                      key={'last3month'}
+                      className="mx-0"
+                      active={incomes.period === 'last3month'}
+                    >
+                      Last 3 Month
+                    </CButton>
+
+                    <CButton
+                      onClick={() => {
+                        setIncomes((pre) => {
+                          return { ...pre, period: 'lastmonth' }
+                        })
+                      }}
+                      color="outline-secondary"
+                      key={'lastmonth'}
+                      className="mx-0"
+                      active={incomes.period === 'lastmonth'}
+                    >
+                      Las Month
+                    </CButton>
+                    <CButton
+                      onClick={() => {
+                        setIncomes((pre) => {
+                          return { ...pre, period: 'thisweek' }
+                        })
+                      }}
+                      color="outline-secondary"
+                      key={'thisweek'}
+                      className="mx-0"
+                      active={incomes.period === 'thisweek'}
+                    >
+                      This Week
+                    </CButton>
+                  </CButtonGroup>
+                </CCol>
+              </CRow>
+
+              <CChartBar
+                style={{ height: '300px', marginTop: '40px' }}
+                data={{
+                  labels: incomes.data.map((income) => convertDate(income.date)),
+                  datasets: [
+                    {
+                      label: 'Total Income',
+                      backgroundColor: '#803763',
+                      data: incomes.data.map((income) => +income.sum),
+                    },
+                  ],
+                }}
+                options={{
+                  maintainAspectRatio: false,
+                  plugins: {
+                    legend: {
+                      display: false,
+                    },
+                  },
+                  scales: {
+                    x: {
+                      grid: {
+                        drawOnChartArea: false,
+                      },
+                    },
+                    y: {
+                      ticks: {
+                        maxTicksLimit: 5,
+                        stepSize: 10,
+                      },
+                    },
+                  },
+                  elements: {
+                    line: {
+                      tension: 0.4,
+                    },
+                    point: {
+                      radius: 0,
+                      hitRadius: 10,
+                      hoverRadius: 4,
+                      hoverBorderWidth: 3,
+                    },
+                  },
+                }}
+              />
+            </CCardBody>
+          </CCard>
+        </CRow>
       </CRow>
     </>
   )
