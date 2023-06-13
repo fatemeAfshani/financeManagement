@@ -67,6 +67,7 @@ const translateMessage: object = {
   'no income found': 'درآمدی یافت نشد',
   'no checkout found': 'تسویه حسابی یافت نشد',
   'invalid uuid': 'کد فروشگاه نامعتبر است',
+  'invalid period': 'دوره زمانی نامعتبر است',
 }
 
 export default translateMessage
