@@ -1,4 +1,4 @@
-import { Company, Role, ShareHolderUser, User } from '../../types'
+import { Company, Count, Role, ShareHolderUser, User } from '../../types'
 import db from '../db'
 
 type userInput = {
@@ -88,7 +88,7 @@ const update = async (
 const deleteOne = (id: number, companyId: number): Promise<number> =>
   db.table<User>('user').update({ isDeleted: true }).where({ id, companyId })
 
-const getSum = (companyId: number): Promise<{ count: string }[]> =>
+const count = (companyId: number): Promise<Count[]> =>
   db.table<User>('user').count('*').where({ companyId })
 
 export default {
@@ -98,5 +98,5 @@ export default {
   updateShareHolders,
   update,
   deleteOne,
-  getSum,
+  count,
 }
