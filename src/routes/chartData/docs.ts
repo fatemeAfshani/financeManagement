@@ -139,3 +139,87 @@
  *               $ref: "#/components/schemas/GeneralError"
  *
  */
+
+/**
+ * @swagger
+ * /chart/orders:
+ *   get:
+ *     tags: [ChartData]
+ *     summary: get count of orders for each day in period
+ *     description: get count of orders for each day in period
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - $ref: "#/components/parameters/periodQuery"
+ *     responses:
+ *       200:
+ *         description: Successful
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 date:
+ *                   type: string
+ *                 count:
+ *                   type: string
+ *             example:
+ *               [{date: '020323', count: 12}, {date: '020322', count: 10}]
+ *       401:
+ *         description: unAuthorized
+ *       400:
+ *         description: Bad Request
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: "#/components/schemas/GeneralError"
+ *       500:
+ *         description: Unexpected error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: "#/components/schemas/GeneralError"
+ *
+ */
+
+/**
+ * @swagger
+ * /chart/income:
+ *   get:
+ *     tags: [ChartData]
+ *     summary: get sum of total profit for each day in period
+ *     description: get sum of total profit for each day in period
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - $ref: "#/components/parameters/periodQuery"
+ *     responses:
+ *       200:
+ *         description: Successful
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 date:
+ *                   type: string
+ *                 sum:
+ *                   type: string
+ *             example:
+ *               [{date: '020323', sum: 12}, {date: '020322', sum: 10}]
+ *       401:
+ *         description: unAuthorized
+ *       400:
+ *         description: Bad Request
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: "#/components/schemas/GeneralError"
+ *       500:
+ *         description: Unexpected error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: "#/components/schemas/GeneralError"
+ *
+ */

@@ -62,6 +62,28 @@ const getOne = (data: OrderInput): Promise<Order[]> =>
     .select('*')
     .where({ ...data })
 
+const getCountWithDate = (
+  orderDates: string[],
+  companyId: number
+): Promise<{ orderDate: string; count: string }[]> =>
+  db
+    .table<Order>('order')
+    .select(db.raw('"orderDate", count(*)'))
+    .whereIn('orderDate', orderDates)
+    .andWhere({ companyId })
+    .groupBy('orderDate')
+
+const getSumWithDate = (
+  orderDates: string[],
+  companyId: number
+): Promise<{ orderDate: string; sum: string }[]> =>
+  db
+    .table<Order>('order')
+    .select(db.raw('"orderDate", sum("totalProfit")'))
+    .whereIn('orderDate', orderDates)
+    .andWhere({ companyId })
+    .groupBy('orderDate')
+
 const update = (
   updatedOrder: OrderUpdateInput,
   id: number,
@@ -168,21 +190,6 @@ const add = (
 const count = (companyId: number): Promise<Count[]> =>
   db.table<Order>('order').where({ companyId }).count('*')
 
-const getSum = (
-  params: OrderInput,
-  fromDate?: DateInput,
-  toDate?: DateInput
-): Promise<{ count: string }[]> => {
-  const query = db.table<Order>('order').count('*').where(params)
-  if (fromDate) {
-    query.andWhere('date', '>=', fromDate)
-  }
-  if (toDate) {
-    query.andWhere('date', '<=', toDate)
-  }
-  return query
-}
-
 export default {
   getAll,
   getOne,
@@ -190,5 +197,6 @@ export default {
   getAllWithArrayInput,
   update,
   count,
-  getSum,
+  getCountWithDate,
+  getSumWithDate,
 }

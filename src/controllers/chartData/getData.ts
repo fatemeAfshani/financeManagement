@@ -193,7 +193,7 @@ export const getTotalNumbers = async (req: Request, res: Response) => {
     if (productResponse) {
       totalProducts = +productResponse
     } else {
-      const productResult = (await productDB.getSum(companyId))?.[0]
+      const productResult = (await productDB.count(companyId))?.[0]
       totalProducts = +productResult.count
       await redisClient.set(`products-total:${companyId}`, totalProducts, {
         EX: 60 * 60 * 24,
@@ -206,7 +206,7 @@ export const getTotalNumbers = async (req: Request, res: Response) => {
     if (orderResponse) {
       totalOrders = +orderResponse
     } else {
-      const orderResult = (await orderDB.getSum({ companyId }))?.[0]
+      const orderResult = (await orderDB.count(companyId))?.[0]
 
       totalOrders = +orderResult.count
       await redisClient.set(`orders-total:${companyId}`, totalOrders, {
@@ -220,7 +220,7 @@ export const getTotalNumbers = async (req: Request, res: Response) => {
     if (userResponse) {
       totalUsers = +userResponse
     } else {
-      const userResult = (await userDB.getSum(companyId))?.[0]
+      const userResult = (await userDB.count(companyId))?.[0]
 
       totalUsers = +userResult.count
       await redisClient.set(`users-total:${companyId}`, totalUsers, {
@@ -234,7 +234,7 @@ export const getTotalNumbers = async (req: Request, res: Response) => {
     if (invoiceResponse) {
       totalInvoices = +invoiceResponse
     } else {
-      const invoiceResult = (await invoiceDB.getSum(companyId))?.[0]
+      const invoiceResult = (await invoiceDB.count(companyId))?.[0]
 
       totalInvoices = +invoiceResult.count
       await redisClient.set(`invoices-total:${companyId}`, totalInvoices, {

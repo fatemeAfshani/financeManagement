@@ -108,6 +108,13 @@
  *       schema:
  *         type: string
  *
+ *     periodQuery:
+ *       name: period
+ *       in: query
+ *       description: in which period we want data to be
+ *       required: true
+ *       schema:
+ *         type: string
  *
  *   securitySchemes:
  *     bearerAuth:
