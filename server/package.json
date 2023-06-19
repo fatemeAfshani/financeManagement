@@ -9,7 +9,6 @@
     "start": "ts-node ./src/server.ts",
     "dev": "eslint --fix ./src & ts-node-dev --respawn ./src/server.ts",
     "lint": "eslint --fix --ext .js,.ts ./src",
-    "doc": " apidoc -i ./src/ -o doc/",
     "test": "NODE_ENV=test && jest",
     "test2": "NODE_ENV=test && jest --coverage"
   },

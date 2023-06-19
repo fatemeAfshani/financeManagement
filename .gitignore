@@ -7,6 +7,5 @@ doc
 
 # client
 build
-yarn.lock
 .vscode/settings.json
 client/yarn-error.log
