@@ -3,11 +3,6 @@ import logger from './logger'
 
 const { REDIS_URL } = process.env
 
-logger.info(
-  `#### redis process.env
-  ${REDIS_URL},`
-)
-
 const client = Redis.createClient({
   url: REDIS_URL || 'redis://localhost:6379',
 })
