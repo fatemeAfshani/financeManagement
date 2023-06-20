@@ -6,12 +6,13 @@
   "license": "MIT",
   "author": "Fateme Afshani",
   "scripts": {
-    "build": "env-cmd -f .env.develop react-scripts build",
+    "build": "react-scripts build",
     "eject": "react-scripts eject",
     "lint": "eslint \"src/**/*.js\"",
     "dev": "eslint --fix ./src  & env-cmd -f .env.develop react-scripts start",
-    "start": "env-cmd -f react-scripts start"
+    "start": "react-scripts start"
   },
+  "proxy": "http://localhost:3000",
   "dependencies": {
     "@coreui/chartjs": "^3.1.1",
     "@coreui/coreui": "^4.2.6",
@@ -32,6 +33,7 @@
     "react-dom": "^18.2.0",
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.8.2",
+    "react-scripts": "^5.0.1",
     "simplebar-react": "^2.4.3"
   },
   "devDependencies": {
@@ -41,7 +43,6 @@
     "eslint-config-prettier": "^8.7.0",
     "eslint-plugin-prettier": "^4.2.1",
     "prettier": "2.8.4",
-    "react-scripts": "5.0.1",
     "sass": "^1.58.3",
     "typescript": "^5.1.3"
   },
