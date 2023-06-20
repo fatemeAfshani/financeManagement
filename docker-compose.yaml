@@ -26,11 +26,7 @@ services:
     volumes:
       - redisdata:/data
   client:
-    build:
-      context:
-        ./client
-        # Name of the dockerfile
-      dockerfile: Dockerfile
+    image: client:1.0
     ports:
       - '3001:80'
 
