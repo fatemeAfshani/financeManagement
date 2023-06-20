@@ -7,7 +7,7 @@ const { DB_CLIENT, DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME } =
 const db = knex({
   client: DB_CLIENT,
   connection: {
-    host: DB_HOST,
+    host: DB_HOST || '127.0.0.1',
     port: DB_PORT ? +DB_PORT : 5432,
     user: DB_USER,
     password: DB_PASSWORD,

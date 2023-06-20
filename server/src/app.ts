@@ -67,6 +67,13 @@ app.use('/cookies', cookieRouter)
 app.use('/company', companyRouter)
 app.use('/chart', chartRouter)
 
+// if (process.env.NODE_ENV !== 'test') {
+//   //   console.log('### dirname', __dirname)
+//   app.use(express.static(path.join(__dirname, '../../client/build')))
+//   app.get('*', (req, res) =>
+//     res.sendFile(path.join(__dirname, '../../client/build/index.html'))
+//   )
+// }
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   logger.error(`error handler: ${err}`)
   res.send({

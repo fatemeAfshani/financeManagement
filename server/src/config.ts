@@ -4,4 +4,4 @@
 import dotenv from 'dotenv'
 import path from 'path'
 
-dotenv.config({ path: path.resolve(__dirname, './config/development.env') })
+dotenv.config({ path: path.resolve(__dirname, './config/conf.env') })
