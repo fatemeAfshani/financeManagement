@@ -1,0 +1,60 @@
+version: '3.3'
+
+services:
+  postgres:
+    image: postgres:alpine
+    environment:
+      POSTGRES_DB: finance
+      POSTGRES_PASSWORD: aztprsst
+      POSTGRES_USER: fateme
+    ports:
+      - 5435:5435
+    command: -p 5435
+
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - finance
+
+  redis:
+    image: redis
+    ports:
+      - 6380:6380
+    command: --port 6380
+    networks:
+      - finance
+    volumes:
+      - redisdata:/data
+  client:
+    build:
+      context:
+        ./client
+        # Name of the dockerfile
+      dockerfile: Dockerfile
+    ports:
+      - '3001:80'
+
+    restart: on-failure
+
+  server:
+    image: server:1.0
+    depends_on:
+      - postgres
+      - redis
+    ports:
+      - '3000:3000'
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5435
+      REDIS_URL: redis://redis:6380
+    networks:
+      - finance
+    restart: on-failure
+
+volumes:
+  redisdata:
+    driver: local
+  pgdata:
+networks:
+  finance:
+    driver: bridge
