@@ -4,6 +4,8 @@ development.env
 personalReadMe.md
 coverage
 doc
+**/.vscode
+
 
 # client
 build
