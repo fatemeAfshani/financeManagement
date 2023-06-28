@@ -4,9 +4,9 @@ services:
   postgres:
     image: postgres:alpine
     environment:
-      POSTGRES_DB: finance
-      POSTGRES_PASSWORD: aztprsst
-      POSTGRES_USER: fateme
+      POSTGRES_DB: '${DB_NAME}'
+      POSTGRES_PASSWORD: '${DB_USER}'
+      POSTGRES_USER: '${DB_PASSWORD}'
     ports:
       - 5435:5435
     command: -p 5435

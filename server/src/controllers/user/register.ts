@@ -35,7 +35,7 @@ const register = async (req: Request, res: Response) => {
       )
     } else if (code) {
       const company = (await companyDB.get({ uuid: code }))?.[0]
-      if (!company || company.uuid !== code) {
+      if (!company) {
         return res.status(400).send({
           error: translateErrorMessage(
             req.cookies?.language,
