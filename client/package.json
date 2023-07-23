@@ -9,7 +9,7 @@
     "build": "react-scripts build",
     "eject": "react-scripts eject",
     "lint": "eslint \"src/**/*.js\"",
-    "dev": "eslint --fix ./src  & env-cmd -f .env.develop react-scripts start",
+    "dev": "eslint --fix ./src  & env-cmd -f .env react-scripts start",
     "start": "react-scripts start"
   },
   "proxy": "http://localhost:3000",

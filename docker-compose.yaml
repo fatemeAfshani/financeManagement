@@ -5,8 +5,8 @@ services:
     image: postgres:alpine
     environment:
       POSTGRES_DB: '${DB_NAME}'
-      POSTGRES_PASSWORD: '${DB_USER}'
-      POSTGRES_USER: '${DB_PASSWORD}'
+      POSTGRES_PASSWORD: '${DB_PASSWORD}'
+      POSTGRES_USER: '${DB_USER}'
     ports:
       - 5435:5435
     command: -p 5435
@@ -26,14 +26,18 @@ services:
     volumes:
       - redisdata:/data
   client:
-    image: client:1.0
+    build:
+      context: ./client
+      dockerfile: ./Dockerfile
     ports:
       - '3001:80'
 
     restart: on-failure
 
   server:
-    image: server:1.0
+    build:
+      context: ./server
+      dockerfile: ./Dockerfile
     depends_on:
       - postgres
       - redis
