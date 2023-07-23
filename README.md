@@ -54,6 +54,7 @@ After running the app, you can access the documentation by navigating to **http:
 * [express.js](https://expressjs.com/) - Fast, unopinionated, minimalist web framework for Node.js
 * [postgresql](https://www.postgresql.org/) - Relational database
 * [knex](https://knexjs.org/) - SQL query builder
+* [redis](https://redis.io/) -  In-memory data structure store
 * [reactjs](https://react.dev/) - The library for web and native user interfaces
 
 
