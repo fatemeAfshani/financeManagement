@@ -148,29 +148,58 @@ const add = (
             productId: product.productId,
           })
           .andWhere('amount', '>', 0)
-        const invoice = res?.[0]
 
-        if (invoice && invoice.amount >= product.amount) {
-          totalProfit += (product.sellPrice - invoice.buyPrice) * product.amount
-          await trx.table<OrderProduct>('order_product').insert({
-            orderId,
-            productId: product.productId,
-            sellPrice: product.sellPrice,
-            buyPrice: invoice.buyPrice,
-            amount: product.amount,
-          })
-          await trx
-            .table<ProductStock>('product_stock')
-            .update({
-              amount: invoice.amount - product.amount,
+        let stocksLeft = res.length
+        let remainedAmaount = product.amount
+
+        while (remainedAmaount > 0 && stocksLeft > -1) {
+          const stock = res?.[stocksLeft - 1]
+          if (stock.amount >= remainedAmaount) {
+            totalProfit +=
+              (product.sellPrice - stock.buyPrice) * remainedAmaount
+
+            await trx.table<OrderProduct>('order_product').insert({
+              orderId,
+              productId: product.productId,
+              sellPrice: product.sellPrice,
+              buyPrice: stock.buyPrice,
+              amount: remainedAmaount,
             })
-            .where({ id: invoice.id })
+            await trx
+              .table<ProductStock>('product_stock')
+              .update({
+                amount: stock.amount - remainedAmaount,
+              })
+              .where({ id: stock.id })
+            return
+          } else {
+            totalProfit += (product.sellPrice - stock.buyPrice) * stock.amount
 
-          return
+            await trx.table<OrderProduct>('order_product').insert({
+              orderId,
+              productId: product.productId,
+              sellPrice: product.sellPrice,
+              buyPrice: stock.buyPrice,
+              amount: stock.amount,
+            })
+            await trx
+              .table<ProductStock>('product_stock')
+              .update({
+                amount: 0,
+              })
+              .where({ id: stock.id })
+
+            stocksLeft -= 1
+            remainedAmaount -= stock.amount
+          }
         }
-        throw new Error(
-          `there is no enough product in stock for ${product.name}`
-        )
+
+        if (remainedAmaount > 0) {
+          throw new Error(
+            `there is no enough product in stock for ${product.name}`
+          )
+        }
+        return
       })
     )
     const shippingPriceDifference =
