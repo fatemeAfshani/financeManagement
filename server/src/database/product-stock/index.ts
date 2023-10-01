@@ -45,6 +45,7 @@ const getAllForOneProduct = (data: StockInput): Promise<ProductStock[]> =>
     )
     .join('product', 'product.id', 'product_stock.productId')
     .where(data)
+    .andWhere('amount', '>', 0)
 
 const count = (companyId: number): Promise<Count[]> =>
   db
